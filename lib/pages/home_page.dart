@@ -27,7 +27,22 @@ class _HomePageState extends State<HomePage> {
             Expanded(
                 child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [],
+              children: [
+                ImageButton(
+                  width: 425,
+                  height: 220,
+                  image: const AssetImage('assets/images/rover.png'),
+                  text: 'MARS 2020\nMISSION',
+                  onPressed: () {},
+                ),
+                ImageButton(
+                  width: 425,
+                  height: 220,
+                  image: const AssetImage('assets/images/earth.png'),
+                  text: 'SATELLITE\nEARTH ORBITS',
+                  onPressed: () {},
+                ),
+              ],
             ))
           ],
         ))
