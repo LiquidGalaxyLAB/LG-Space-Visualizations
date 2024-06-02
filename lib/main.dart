@@ -35,7 +35,7 @@ class Launcher extends StatelessWidget {
           title: 'SpaceVisualizations',
           theme: ThemeData(fontFamily: 'Forgotten Futurist'),
           onGenerateRoute: makeRoute,
-          initialRoute: '/',
+          initialRoute: '/splash',
         ));
   }
 }
