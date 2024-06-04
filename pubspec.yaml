@@ -61,7 +61,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-
+    - assets/images/logos/
   fonts:
     - family: Forgotten Futurist
       fonts:
