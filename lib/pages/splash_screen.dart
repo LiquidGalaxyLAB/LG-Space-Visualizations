@@ -30,83 +30,11 @@ class _SplashPageState extends State<SplashPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Spacer(),
+                const SizedBox(height: 20),
                 const Logo(),
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Image.asset('assets/images/logos/liquidGalaxy.png',
-                      fit: BoxFit.contain, scale: 3),
-                  Image.asset(
-                    'assets/images/logos/GSoC.png',
-                    fit: BoxFit.contain,
-                    scale: 2.5,
-                  ),
-                  Image.asset(
-                    'assets/images/logos/anniversary.png',
-                    fit: BoxFit.contain,
-                    scale: 3.2,
-                  ),
-                  const SizedBox(width: 70),
-                ]),
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Image.asset(
-                    'assets/images/logos/lgEu.png',
-                    fit: BoxFit.contain,
-                    scale: 13,
-                  ),
-                  Image.asset(
-                    'assets/images/logos/lgLab.png',
-                    fit: BoxFit.contain,
-                    scale: 3,
-                  ),
-                  Image.asset(
-                    'assets/images/logos/GDGLleida.png',
-                    fit: BoxFit.contain,
-                    scale: 1.8,
-                  ),
-                  Image.asset(
-                    'assets/images/logos/flutterLleida.png',
-                    fit: BoxFit.contain,
-                    scale: 4,
-                  ),
-                  const SizedBox(width: 10),
-                  Image.asset(
-                    'assets/images/logos/labTIC.png',
-                    fit: BoxFit.contain,
-                    scale: 4,
-                  ),
-                  const SizedBox(width: 10),
-                  Image.asset(
-                    'assets/images/logos/AgrobioTechLleida.png',
-                    fit: BoxFit.contain,
-                    scale: 4,
-                  ),
-                ]),
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Image.asset(
-                    'assets/images/logos/uni.png',
-                    fit: BoxFit.contain,
-                    scale: 1.8,
-                  ),
-                  const SizedBox(width: 10),
-                  Image.asset(
-                    'assets/images/logos/PERA.png',
-                    fit: BoxFit.contain,
-                    scale: 4,
-                  ),
-                  const SizedBox(width: 10),
-                  Image.asset(
-                    'assets/images/logos/flutter.png',
-                    fit: BoxFit.contain,
-                    scale: 13,
-                  ),
-                  const SizedBox(width: 20),
-                  Image.asset(
-                    'assets/images/logos/android.png',
-                    fit: BoxFit.contain,
-                    scale: 25,
-                  ),
-                ]),
-                const SizedBox(height: 2),
+                Expanded(
+                  child: Image.asset('assets/images/logos.png', fit: BoxFit.contain),
+                ),
                 SizedBox(
                     height: 4,
                     child: LinearProgressIndicator(
