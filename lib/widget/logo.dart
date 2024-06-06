@@ -11,8 +11,7 @@ class Logo extends StatelessWidget {
   final AssetImage image;
 
   const Logo(
-      {Key? key, this.image = const AssetImage('assets/images/logo.png')})
-      : super(key: key);
+      {super.key, this.image = const AssetImage('assets/images/logo.png')});
 
   @override
   Widget build(BuildContext context) {

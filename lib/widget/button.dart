@@ -34,7 +34,7 @@ class Button extends StatelessWidget {
   final bool multiLine;
 
   const Button({
-    Key? key,
+    super.key,
     required this.icon,
     this.color = Colors.transparent,
     this.borderRadius = BorderRadius.zero,
@@ -43,7 +43,7 @@ class Button extends StatelessWidget {
     this.padding = EdgeInsets.zero,
     this.bold = false,
     this.multiLine = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

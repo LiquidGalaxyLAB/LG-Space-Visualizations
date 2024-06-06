@@ -13,10 +13,10 @@ class LedStatus extends StatelessWidget {
   final double size;
 
   const LedStatus({
-    Key? key,
+    super.key,
     required this.status,
     required this.size,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

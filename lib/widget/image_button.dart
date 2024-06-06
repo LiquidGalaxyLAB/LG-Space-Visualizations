@@ -22,13 +22,13 @@ class ImageButton extends StatelessWidget {
   final String text;
 
   const ImageButton({
-    Key? key,
+    super.key,
     required this.image,
     required this.width,
     required this.height,
     required this.onPressed,
     required this.text,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

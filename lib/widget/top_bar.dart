@@ -15,7 +15,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
   /// The height of the top bar.
   final double height = barHeight + spaceBetweenWidgets;
 
-  TopBar({Key? key, required this.title}) : super(key: key);
+  TopBar({super.key, required this.title});
 
   @override
   Size get preferredSize => Size.fromHeight(height);

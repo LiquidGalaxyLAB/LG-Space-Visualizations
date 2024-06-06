@@ -9,7 +9,7 @@ import 'package:lg_space_visualizations/widget/led_status.dart';
 /// The [BottomBar] contains buttons for navigating to the home, settings, service, and info pages,
 /// with a LED status indicator. It provides a common bottom navigation interface across the application.
 class BottomBar extends StatelessWidget {
-  const BottomBar({Key? key}) : super(key: key);
+  const BottomBar({super.key});
 
   @override
   Widget build(BuildContext context) {

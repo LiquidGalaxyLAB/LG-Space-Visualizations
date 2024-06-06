@@ -7,7 +7,7 @@ import 'package:lg_space_visualizations/widget/logo.dart';
 
 /// The home page of the application, displayed using the [TemplatePage] widget.
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   _HomePageState createState() => _HomePageState();

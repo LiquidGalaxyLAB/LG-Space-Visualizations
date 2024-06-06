@@ -18,12 +18,12 @@ class CustomIcon extends StatelessWidget {
   final Color color;
 
   const CustomIcon({
-    Key? key,
+    super.key,
     required this.name,
     required this.width,
     required this.height,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

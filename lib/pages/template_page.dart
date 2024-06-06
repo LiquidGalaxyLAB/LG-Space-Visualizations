@@ -18,11 +18,11 @@ class TemplatePage extends StatefulWidget {
   final bool showTopBar;
 
   const TemplatePage({
-    Key? key,
+    super.key,
     required this.title,
     this.showTopBar = true,
     required this.children,
-  }) : super(key: key);
+  });
 
   @override
   _TemplatePageState createState() => _TemplatePageState();
