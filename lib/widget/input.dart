@@ -69,8 +69,7 @@ class _InputState extends State<Input> {
           suffixIcon: widget.secure
               ? Button(
             icon: CustomIcon(
-              width: 10,
-              height: 10,
+              size: 10,
               name: hide ? "see" : "hide",
               color: secondaryColor,
             ),

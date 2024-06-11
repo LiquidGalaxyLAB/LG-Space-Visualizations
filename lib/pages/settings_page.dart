@@ -181,7 +181,7 @@ class _SettingsPageState extends State<SettingsPage> {
       required String dialogContent}) {
     return Row(
       children: [
-        CustomIcon(name: icon, width: 50, height: 50, color: secondaryColor),
+        CustomIcon(name: icon, size: 50, color: secondaryColor),
         SizedBox(width: spaceBetweenWidgets),
         SizedBox(
           width: 160,
@@ -197,7 +197,7 @@ class _SettingsPageState extends State<SettingsPage> {
         SizedBox(width: spaceBetweenWidgets),
         Button(
           icon: CustomIcon(
-              name: 'info', width: 40, height: 40, color: secondaryColor),
+              name: 'info', size: 40, color: secondaryColor),
           onPressed: () {
             showDialog(
               context: context,
@@ -224,8 +224,7 @@ class _SettingsPageState extends State<SettingsPage> {
           child: Button(
             icon: CustomIcon(
               name: 'connect',
-              width: 40,
-              height: 40,
+              size: 40,
               color: backgroundColor,
             ),
             text: 'Connect',
@@ -299,8 +298,7 @@ class _SettingsPageState extends State<SettingsPage> {
           child: Button(
             icon: CustomIcon(
               name: 'disconnect',
-              width: 40,
-              height: 40,
+              size: 40,
               color: backgroundColor,
             ),
             text: 'Disconnect',

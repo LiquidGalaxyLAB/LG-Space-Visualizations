@@ -30,8 +30,7 @@ class CustomDialog extends StatelessWidget {
         children: [
           CustomIcon(
             name: iconName,
-            width: 30,
-            height: 30,
+            size: 30,
             color: secondaryColor,
           ),
           const SizedBox(width: 10),
@@ -45,8 +44,7 @@ class CustomDialog extends StatelessWidget {
           child: Button(
             icon: CustomIcon(
               name: 'back',
-              width: 30,
-              height: 30,
+              size: 30,
               color: backgroundColor,
             ),
             text: 'Back',

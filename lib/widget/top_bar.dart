@@ -42,8 +42,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                   color: backgroundColor,
                   icon: CustomIcon(
                     name: 'back',
-                    width: 50,
-                    height: 50,
+                    size: 50,
                     color: primaryColor,
                   ),
                   onPressed: () {

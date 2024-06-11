@@ -3,16 +3,13 @@ import 'package:flutter/material.dart';
 /// A widget that displays a custom icon from the asset folder.
 ///
 /// The [CustomIcon] widget allows you to display a custom icon by providing the
-/// [name] of the icon file with its [width], [height], and [color].
+/// [name] of the icon file with its [size], and [color].
 class CustomIcon extends StatelessWidget {
   /// The name of the icon file (without extension) to be displayed.
   final String name;
 
-  /// The width of the icon.
-  final double width;
-
-  /// The height of the icon.
-  final double height;
+  /// The size of the icon.
+  final double size;
 
   /// The color to apply to the icon.
   final Color color;
@@ -20,8 +17,7 @@ class CustomIcon extends StatelessWidget {
   const CustomIcon({
     super.key,
     required this.name,
-    required this.width,
-    required this.height,
+    required this.size,
     required this.color,
   });
 
@@ -29,8 +25,7 @@ class CustomIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       'assets/icons/$name.png',
-      width: width,
-      height: height,
+      height: size,
       color: color,
     );
   }

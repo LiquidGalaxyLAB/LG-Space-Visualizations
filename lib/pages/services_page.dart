@@ -217,8 +217,7 @@ class _ServicesPageState extends State<ServicesPage> {
       child: Button(
         icon: CustomIcon(
           name: icon,
-          width: 90,
-          height: 90,
+          size: 90,
           color: backgroundColor,
         ),
         text: text,

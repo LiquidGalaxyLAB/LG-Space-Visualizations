@@ -33,7 +33,7 @@ class _BottomBarState extends State<BottomBar> {
       ),
       child: Padding(
           padding:
-          const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
+              const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -42,8 +42,7 @@ class _BottomBarState extends State<BottomBar> {
                   color: secondaryColor,
                   icon: CustomIcon(
                     name: 'home',
-                    width: 35,
-                    height: 35,
+                    size: 35,
                     color: backgroundColor,
                   ),
                   padding: const EdgeInsets.only(
@@ -61,8 +60,7 @@ class _BottomBarState extends State<BottomBar> {
                   icon: CustomIcon(
                     name: "settings",
                     color: secondaryColor,
-                    width: 40,
-                    height: 40,
+                    size: 40,
                   ),
                   onPressed: () {
                     // Navigate to settings only if the current route is not settings ('/settings')
@@ -77,8 +75,7 @@ class _BottomBarState extends State<BottomBar> {
                   icon: CustomIcon(
                     name: "services",
                     color: secondaryColor,
-                    width: 40,
-                    height: 40,
+                    size: 40,
                   ),
                   onPressed: () {
                     // Navigate to service only if the current route is not service ('/service')
@@ -93,8 +90,7 @@ class _BottomBarState extends State<BottomBar> {
                   icon: CustomIcon(
                     name: "info",
                     color: secondaryColor,
-                    width: 40,
-                    height: 40,
+                    size: 40,
                   ),
                   onPressed: () {
                     // Navigate to info only if the current route is not info ('/info')
