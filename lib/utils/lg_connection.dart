@@ -56,7 +56,8 @@ class LGConnection {
       final connectionResult =
           await client!.connect().timeout(const Duration(seconds: 8));
       if (connectionResult == 'session_connected') {
-        screenAmount = await getScreenAmount() ?? 1;
+        screenAmount = await getScreenAmount();
+        await showLogos();
         return true;
       } else {
         return false;
@@ -68,20 +69,17 @@ class LGConnection {
 
   /// Retrieves the number of screens in the Liquid Galaxy system.
   ///
-  /// Returns the number of screens or `null` if not connected or on failure.
-  Future<int?> getScreenAmount() async {
+  /// Returns the number of screens, or default value 1 if not connected or on failure
+  Future<int> getScreenAmount() async {
     if (await isConnected() == false) {
-      return null;
+      return 1;
     }
 
-    String? screenAmount = await client!
-        .execute("grep -oP '(?<=DHCP_LG_FRAMES_MAX=).*' personavars.txt");
+    String screenAmount = await client!
+            .execute("grep -oP '(?<=DHCP_LG_FRAMES_MAX=).*' personavars.txt") ??
+        '1';
 
-    if (screenAmount != null) {
-      return int.parse(screenAmount);
-    } else {
-      return null;
-    }
+    return int.parse(screenAmount);
   }
 
   /// Sends a KML file to the Liquid Galaxy system.
@@ -126,20 +124,20 @@ class LGConnection {
     }
   }
 
-  /// Gets the first screen number.
-  int get firstScreen {
+  /// Gets the left screen number.
+  int get leftScreen {
     if (screenAmount == 1) {
       return 1;
     }
-    return (screenAmount ?? 5 / 2).floor() + 2;
+    return screenAmount ?? 5;
   }
 
-  /// Gets the last screen number.
-  int get lastScreen {
+  /// Gets the right screen number.
+  int get rightScreen {
     if (screenAmount == 1) {
       return 1;
     }
-    return (screenAmount ?? 5 / 2).floor();
+    return (screenAmount ?? 4) - 1;
   }
 
   /// Relaunches the Liquid Galaxy services.
@@ -194,12 +192,20 @@ fi
     await client!.execute(query);
 
     if (keepLogos) {
-      sendKMLToSlave(
-          lastScreen,
-          //TODO: Change the path to the correct one and fix ratio
-          KMLMakers.screenOverlayImage(
-              "https://i.ibb.co/tpFntyt/logos.png", 2864 / 3000));
+      await showLogos();
     }
+  }
+
+  /// Display the logos on the last screen of the Liquid Galaxy.
+  Future<void> showLogos() async {
+    if (await isConnected() == false) {
+      return;
+    }
+
+    await sendKMLToSlave(
+        leftScreen,
+        KMLMakers.screenOverlayImage(
+            "https://i.ibb.co/k8XBHB7/logos.png", 4032 / 4024));
   }
 
   /// Reboots the Liquid Galaxy system.
