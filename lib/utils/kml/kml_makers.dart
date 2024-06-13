@@ -12,14 +12,14 @@ class KMLMakers {
     <Document id ="logo">
          <name>Space Visualizations</name>
              <Folder>
-                  <name>Logos</name>
+                  <name>Splash Screen</name>
                   <ScreenOverlay>
                       <name>Logo</name>
                       <Icon><href>$imageUrl</href> </Icon>                    
-                      <overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>
-                      <screenXY x="0.60" y="0.95" xunits="fraction" yunits="fraction"/>
+                      <overlayXY x="0" y="0.5" xunits="fraction" yunits="fraction"/>
+                      <screenXY x="0" y="0.5" xunits="fraction" yunits="fraction"/>
                       <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
-                      <size x="300" y="${300 * factor}" xunits="pixels" yunits="pixels"/>
+                      <size x="400" y="${400 * factor}" xunits="pixels" yunits="pixels"/>
                   </ScreenOverlay>
              </Folder>
     </Document>
@@ -74,8 +74,7 @@ class KMLMakers {
   /// [bearing] is the bearing angle.
   ///
   /// Returns a string containing the KML code for the LookAt element.
-  static String lookAtLinear(double latitude, double longitude, double zoom,
-          double tilt, double bearing) =>
+  static String lookAtLinear(double latitude, double longitude, double zoom, double tilt, double bearing) =>
       '<LookAt><longitude>$longitude</longitude><latitude>$latitude</latitude><range>$zoom</range><tilt>$tilt</tilt><heading>$bearing</heading><gx:altitudeMode>relativeToGround</gx:altitudeMode></LookAt>';
 
   /// Generates KML code for an orbiting LookAt element with linear motion.
@@ -87,8 +86,7 @@ class KMLMakers {
   /// [bearing] is the bearing angle.
   ///
   /// Returns a string containing the KML code for the orbiting LookAt element.
-  static String orbitLookAtLinear(double latitude, double longitude,
-          double zoom, double tilt, double bearing) =>
+  static String orbitLookAtLinear(double latitude, double longitude, double zoom, double tilt, double bearing) =>
       '<gx:duration>60</gx:duration><gx:flyToMode>smooth</gx:flyToMode><LookAt><longitude>$longitude</longitude><latitude>$latitude</latitude><range>$zoom</range><tilt>$tilt</tilt><heading>$bearing</heading><gx:altitudeMode>relativeToGround</gx:altitudeMode></LookAt>';
 
   /// Generates KML code for an instant LookAt element with linear motion.
@@ -100,7 +98,6 @@ class KMLMakers {
   /// [bearing] is the bearing angle.
   ///
   /// Returns a string containing the KML code for the instant LookAt element.
-  static String lookAtLinearInstant(double latitude, double longitude,
-          double zoom, double tilt, double bearing) =>
+  static String lookAtLinearInstant(double latitude, double longitude, double zoom, double tilt, double bearing) =>
       '<gx:duration>0.5</gx:duration><gx:flyToMode>smooth</gx:flyToMode><LookAt><longitude>$longitude</longitude><latitude>$latitude</latitude><range>$zoom</range><tilt>$tilt</tilt><heading>$bearing</heading><gx:altitudeMode>relativeToGround</gx:altitudeMode></LookAt>';
 }
