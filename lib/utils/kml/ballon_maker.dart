@@ -9,6 +9,7 @@ class BalloonMaker {
   ///
   /// Returns a string containing the KML balloon.
   static String generatePerseveranceRoverBalloon() {
+    // TODO: change the image and description
     return KMLMakers.screenOverlayBalloon(
         '''<div style="width: 400px; color: white; padding-left: 20px; padding-right: 20px;">
       <center>
@@ -31,6 +32,7 @@ class BalloonMaker {
   ///
   /// Returns a string containing the KML balloon.
   static String generateIngenuityHelicopterBalloon() {
+    // TODO: change the image and description
     return KMLMakers.screenOverlayBalloon(
         '''<div style="width: 400px; color: white; padding-left: 20px; padding-right: 20px;">
       <center>
