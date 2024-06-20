@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lg_space_visualizations/pages/home_page.dart';
 import 'package:lg_space_visualizations/pages/splash_screen.dart';
+import 'package:lg_space_visualizations/pages/services_page.dart';
+import 'package:lg_space_visualizations/pages/settings_page.dart';
+import 'package:lg_space_visualizations/pages/info_page.dart';
 
 /// Generates a [Route] for the application based on the provided [RouteSettings].
 ///
@@ -17,6 +20,18 @@ Route<dynamic> makeRoute(RouteSettings settings) {
     case '/splash':
       // Route for the splash screen.
       builder = (BuildContext context) => const SplashPage();
+      break;
+    case '/settings':
+      // Route for the settings page.
+      builder = (BuildContext context) => const SettingsPage();
+      break;
+    case '/services':
+      // Route for the services page.
+      builder = (BuildContext context) => const ServicesPage();
+      break;
+    case '/info':
+      // Route for the info screen.
+      builder = (BuildContext context) => const InfoPage();
       break;
     default:
       // Default route if no match is found, redirects to the home page.
