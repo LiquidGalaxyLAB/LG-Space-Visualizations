@@ -15,7 +15,7 @@ class KMLMakers {
                   <name>Splash Screen</name>
                   <ScreenOverlay>
                       <name>Logo</name>
-                      <Icon><href>$imageUrl</href> </Icon>                    
+                      <Icon><href>$imageUrl</href></Icon>                    
                       <overlayXY x="0" y="0.5" xunits="fraction" yunits="fraction"/>
                       <screenXY x="0" y="0.5" xunits="fraction" yunits="fraction"/>
                       <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>

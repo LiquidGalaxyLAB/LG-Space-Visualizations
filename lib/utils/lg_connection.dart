@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:lg_space_visualizations/utils/costants.dart';
 import 'package:ssh2/ssh2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
@@ -99,12 +100,9 @@ class LGConnection {
     await client!.connectSFTP();
     await client!.sftpUpload(
         path: file.path,
-        toPath: '/var/www/html',
-        callback: (progress) {
-          print('Sent $progress');
-        });
+        toPath: '/var/www/html');
     await client!
-        .execute('echo "http://lg1:81/$fileName" > /var/www/html/kmls.txt');
+        .execute('echo "http://{$lgUrl}/$fileName" > /var/www/html/kmls.txt');
   }
 
   /// Sends a KML file to a specific slave screen.
@@ -205,7 +203,7 @@ fi
     await sendKMLToSlave(
         leftScreen,
         KMLMakers.screenOverlayImage(
-            "https://i.ibb.co/k8XBHB7/logos.png", 4032 / 4024));
+            logosUrl, 4032 / 4024));
   }
 
   /// Reboots the Liquid Galaxy system.

@@ -1,4 +1,5 @@
 import 'kml_makers.dart';
+import 'package:lg_space_visualizations/utils/costants.dart';
 
 /// Class responsible for generating KML balloons for various visualizations.
 class BalloonMaker {
@@ -14,7 +15,7 @@ class BalloonMaker {
         '''<div style="width: 400px; color: white; padding-left: 20px; padding-right: 20px;">
       <center>
         <div>
-          <img width="100%" height="auto" src="https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcTvdQAY_NIVrMDAuAWvJUiwKvLxGvHWOohsvr0Li7ZOeHljWh3622TaT4NNBiUn6zA0">
+          <img width="100%" height="auto" src="$droneImageUrl">
         </div>
         <h1 style="color:white;">Perseverance Rover</h1>
         <p style="color:white;">
@@ -37,7 +38,7 @@ class BalloonMaker {
         '''<div style="width: 400px; color: white; padding-left: 20px; padding-right: 20px;">
       <center>
         <div>
-          <img width="100%" height="auto" src="https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcTvdQAY_NIVrMDAuAWvJUiwKvLxGvHWOohsvr0Li7ZOeHljWh3622TaT4NNBiUn6zA0">
+          <img width="100%" height="auto" src="$droneImageUrl">
         </div>
         <h1 style="color:white;">Ingenuity Drone</h1>
         <p style="color:white;">
