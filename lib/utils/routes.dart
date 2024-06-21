@@ -4,6 +4,7 @@ import 'package:lg_space_visualizations/pages/splash_screen.dart';
 import 'package:lg_space_visualizations/pages/services_page.dart';
 import 'package:lg_space_visualizations/pages/settings_page.dart';
 import 'package:lg_space_visualizations/pages/info_page.dart';
+import 'package:lg_space_visualizations/pages/mars_page.dart';
 
 /// Generates a [Route] for the application based on the provided [RouteSettings].
 ///
@@ -32,6 +33,10 @@ Route<dynamic> makeRoute(RouteSettings settings) {
     case '/info':
       // Route for the info screen.
       builder = (BuildContext context) => const InfoPage();
+      break;
+    case '/mars':
+      // Route for the mars screen.
+      builder = (BuildContext context) => const MarsPage();
       break;
     default:
       // Default route if no match is found, redirects to the home page.

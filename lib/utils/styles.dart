@@ -43,6 +43,11 @@ TextStyle middleText = TextStyle(
   fontSize: 20,
 );
 
+TextStyle smallText = TextStyle(
+  color: primaryColor,
+  fontSize: 15,
+);
+
 TextStyle buttonText = TextStyle(
   color: backgroundColor,
   fontSize: 20,
