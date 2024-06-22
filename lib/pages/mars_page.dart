@@ -70,6 +70,7 @@ class _MarsPageState extends State<MarsPage> {
                   SizedBox(height: spaceBetweenWidgets),
                   Button(
                     color: secondaryColor,
+                    center: false,
                     text: 'Read more about the mission',
                     padding: const EdgeInsets.only(left: 15),
                     borderRadius: BorderRadius.circular(borderRadius),
@@ -87,21 +88,31 @@ class _MarsPageState extends State<MarsPage> {
                   SizedBox(height: spaceBetweenWidgets / 2),
                   Button(
                       color: secondaryColor,
+                      center: false,
                       text: 'Meet Perseverance Rover',
                       padding: const EdgeInsets.only(left: 15),
                       borderRadius: BorderRadius.circular(borderRadius),
                       icon: CustomIcon(
                           name: 'rover', size: 50, color: backgroundColor),
-                      onPressed: () {}),
+                      onPressed: () {
+                        setState(() {
+                          Navigator.pushNamed(context, '/rover');
+                        });
+                      }),
                   SizedBox(height: spaceBetweenWidgets / 2),
                   Button(
                     color: secondaryColor,
+                    center: false,
                     text: 'Meet Ingenuity Drone',
                     padding: const EdgeInsets.only(left: 15),
                     borderRadius: BorderRadius.circular(borderRadius),
                     icon: CustomIcon(
                         name: 'drone', size: 50, color: backgroundColor),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pushNamed(context, '/drone');
+                      });
+                    },
                   )
                 ],
               )),

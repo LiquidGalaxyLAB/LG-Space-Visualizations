@@ -6,11 +6,14 @@ import 'package:lg_space_visualizations/utils/styles.dart';
 ///
 /// The [Button] widget allows for flexible customization of its appearance and behavior.
 /// It supports displaying an icon with optional text, which can be arranged either in a single line or across multiple lines.
-///  The [icon] and [onPressed] parameters are required. The [color], [borderRadius], [text],
+///  The [icon] and [onPressed] parameters are required. The [color], [center], [borderRadius], [text],
 /// [padding], [bold], and [multiLine] parameters are optional and have default values.
 class Button extends StatelessWidget {
   /// The icon to be displayed inside the button.
   final CustomIcon icon;
+
+  /// Center the icon and text.
+  final bool center;
 
   /// The background color of the button.
   final Color color;
@@ -36,6 +39,7 @@ class Button extends StatelessWidget {
   const Button({
     super.key,
     required this.icon,
+    this.center = true,
     this.color = Colors.transparent,
     this.borderRadius = BorderRadius.zero,
     required this.onPressed,
@@ -56,32 +60,35 @@ class Button extends StatelessWidget {
         ),
         child: text != null
             ? !multiLine
-                ? Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      icon,
-                      SizedBox(width: spaceBetweenWidgets),
-                      Text(text!, style: buttonText),
-                    ],
-                  )
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: spaceBetweenWidgets),
-                      icon,
-                      SizedBox(height: spaceBetweenWidgets),
-                      Text(
-                        text!,
-                        textAlign: TextAlign.center,
-                        style: bold ? buttonTextBold : buttonText,
-                      ),
-                    ],
-                  )
+            ? Padding(
+            padding: padding,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: center ? MainAxisAlignment.center:  MainAxisAlignment.start,
+              children: [
+                icon,
+                SizedBox(width: spaceBetweenWidgets),
+                Text(text!, style: buttonText),
+              ],
+            ))
+            : Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(height: spaceBetweenWidgets),
+            icon,
+            const Spacer(),
+            Text(
+              text!,
+              textAlign: TextAlign.center,
+              style: bold ? buttonTextBold : buttonText,
+            ),
+            SizedBox(height: spaceBetweenWidgets),
+          ],
+        )
             : Padding(
-                padding: padding,
-                child: icon,
-              ),
+          padding: padding,
+          child: icon,
+        ),
       ),
     );
   }
