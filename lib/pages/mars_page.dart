@@ -5,6 +5,7 @@ import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/info_box.dart';
 
+/// [MarsPage] is a widget that represents the overview page for the Mars 2020 mission.
 class MarsPage extends StatefulWidget {
   const MarsPage({super.key});
 
