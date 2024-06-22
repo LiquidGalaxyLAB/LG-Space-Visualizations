@@ -41,13 +41,19 @@ Route<dynamic> makeRoute(RouteSettings settings) {
       break;
     case '/web':
       // Route for the web screen.
+
+      // Retrieve the arguments passed to the route.
       final arguments = settings.arguments;
+
+      // Check if the arguments are a map containing 'url' and 'title' keys.
       if (arguments is Map<String, String> &&
           arguments.containsKey('url') &&
           arguments.containsKey('title')) {
+        // If valid arguments are provided, set the builder to route to WebPage.
         builder = (BuildContext context) =>
             WebPage(url: arguments['url']!, title: arguments['title']!);
       } else {
+        // If arguments are invalid, set the builder to route to HomePage (default).
         builder = (BuildContext context) => const HomePage();
       }
       break;

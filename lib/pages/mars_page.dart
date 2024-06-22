@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
+import 'package:lg_space_visualizations/utils/costants.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
@@ -74,7 +75,14 @@ class _MarsPageState extends State<MarsPage> {
                     borderRadius: BorderRadius.circular(borderRadius),
                     icon: CustomIcon(
                         name: 'read', size: 50, color: backgroundColor),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pushNamed(context, '/web', arguments: {
+                          'url': missionOverviewUrl,
+                          'title': 'Mars 2020'
+                        });
+                      });
+                    },
                   ),
                   SizedBox(height: spaceBetweenWidgets / 2),
                   Button(
