@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lg_space_visualizations/pages/home_page.dart';
+import 'package:lg_space_visualizations/pages/rover_page.dart';
 import 'package:lg_space_visualizations/pages/splash_screen.dart';
 import 'package:lg_space_visualizations/pages/services_page.dart';
 import 'package:lg_space_visualizations/pages/settings_page.dart';
@@ -38,6 +39,10 @@ Route<dynamic> makeRoute(RouteSettings settings) {
     case '/mars':
       // Route for the mars screen.
       builder = (BuildContext context) => const MarsPage();
+      break;
+    case '/rover':
+      // Route for the rover screen.
+      builder = (BuildContext context) => const RoverPage();
       break;
     case '/web':
       // Route for the web screen.
