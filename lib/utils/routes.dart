@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lg_space_visualizations/pages/drone_page.dart';
 import 'package:lg_space_visualizations/pages/home_page.dart';
 import 'package:lg_space_visualizations/pages/rover_page.dart';
 import 'package:lg_space_visualizations/pages/splash_screen.dart';
@@ -43,6 +44,10 @@ Route<dynamic> makeRoute(RouteSettings settings) {
     case '/rover':
       // Route for the rover screen.
       builder = (BuildContext context) => const RoverPage();
+      break;
+    case '/drone':
+      // Route for the drone screen.
+      builder = (BuildContext context) => const DronePage();
       break;
     case '/web':
       // Route for the web screen.

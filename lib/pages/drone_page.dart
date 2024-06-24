@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
 import 'package:lg_space_visualizations/utils/costants.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/widget/info_box.dart';
 import 'package:lg_space_visualizations/widget/view_model.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
-import 'package:lg_space_visualizations/widget/info_box.dart';
 
-/// [RoverPage] is a stateful widget that displays information about the Perseverance Rover.
+/// [DronePage] is a widget that displays information about the Ingenuity Drone.
 ///
-/// It includes a 3D model of the rover, buttons to inspect the rover and see its cameras.
-class RoverPage extends StatefulWidget {
-  const RoverPage({super.key});
+/// It includes a 3D model of the rover, information about the drone, its flights, and specifications.
+class DronePage extends StatefulWidget {
+  const DronePage({super.key});
 
   @override
-  _RoverPageState createState() => _RoverPageState();
+  _DronePageState createState() => _DronePageState();
 }
 
-class _RoverPageState extends State<RoverPage> {
+class _DronePageState extends State<DronePage> {
   @override
   Widget build(BuildContext context) {
-    return TemplatePage(title: "Perseverance Rover", children: [
+    return TemplatePage(title: "Ingenuity Drone", children: [
       Expanded(
         flex: 3,
         child: Container(
@@ -33,47 +33,45 @@ class _RoverPageState extends State<RoverPage> {
             child: Column(
               children: <Widget>[
                 const ViewModel(
-                  model: 'assets/models/perseverance_rover.glb',
+                  model: 'assets/models/ingenuity_drone.glb',
                   backgroundImage: 'assets/images/model_background.png',
-                  alt: 'perseverance rover',
-                  cameraOrbit: '-10deg 78deg 5.5m',
+                  alt: 'ingenuity drone',
+                  cameraOrbit: '-10deg 78deg 2m',
                 ),
                 SizedBox(height: spaceBetweenWidgets - 5),
                 Button(
                   color: secondaryColor,
                   center: false,
-                  text: 'Inspect Rover',
-                  padding: const EdgeInsets.only(left: 15),
-                  borderRadius: BorderRadius.circular(borderRadius),
-                  icon: CustomIcon(
-                      name: 'mechanic', size: 50, color: backgroundColor),
-                  onPressed: () {
-                    setState(() {
-                      Navigator.pushNamed(context, '/web', arguments: {
-                        'url': inspectRoverUrl,
-                        'title': 'Inspect Perseverance Rover'
-                      });
-                    });
-                  },
-                ),
-                SizedBox(height: spaceBetweenWidgets / 2),
-                Button(
-                  center: false,
-                  color: secondaryColor,
-                  text: 'Learn more about the rover',
+                  text: 'Learn more about the drone',
                   padding: const EdgeInsets.only(left: 15),
                   borderRadius: BorderRadius.circular(borderRadius),
                   icon: CustomIcon(
                       name: 'read', size: 50, color: backgroundColor),
                   onPressed: () {
                     setState(() {
-                      Navigator.pushNamed(context, '/web', arguments: {
-                        'url': roverUrl,
-                        'title': 'Perseverance Rover'
+                      setState(() {
+                        Navigator.pushNamed(context, '/web', arguments: {
+                          'url': droneUrl,
+                          'title': 'Ingenuity Drone'
+                        });
                       });
                     });
                   },
                 ),
+                SizedBox(height: spaceBetweenWidgets / 2),
+                Button(
+                    color: secondaryColor,
+                    center: false,
+                    text: 'Meet Perseverance Rover',
+                    padding: const EdgeInsets.only(left: 15),
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    icon: CustomIcon(
+                        name: 'rover', size: 50, color: backgroundColor),
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pushNamed(context, '/rover');
+                      });
+                    }),
               ],
             ),
           ),
@@ -101,12 +99,11 @@ class _RoverPageState extends State<RoverPage> {
                   style: middleTitle,
                   textAlign: TextAlign.left,
                 ),
+                Text(droneIntroText, style: smallText),
+                SizedBox(height: spaceBetweenWidgets / 2),
+                Text(droneDescriptionText, style: smallText),
                 Text(
-                  roverText,
-                  style: smallText,
-                ),
-                Text(
-                  "Path",
+                  "Flights",
                   style: middleTitle,
                   textAlign: TextAlign.left,
                 ),
@@ -122,23 +119,13 @@ class _RoverPageState extends State<RoverPage> {
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    InfoBox(text: '1025 kg', subText: 'Mass'),
-                    InfoBox(text: '10x9x7 m', subText: 'Dimensions'),
-                    InfoBox(text: '2 GB', subText: 'Flash Memory'),
-                    InfoBox(text: '200 MHz', subText: 'Processor Speed'),
-                    InfoBox(text: '4.8 kg', subText: 'Plutonium Dioxide Fuel'),
-                    InfoBox(text: '152 m/h', subText: 'Top Speed')
+                    InfoBox(text: '1.8 Kg', subText: 'Mass'),
+                    InfoBox(text: '300 m', subText: 'Flight Range'),
+                    InfoBox(text: '5 m', subText: 'Flight Altitude'),
+                    InfoBox(text: '1.2 m', subText: 'Blade Span'),
+                    InfoBox(text: '350 W', subText: 'Average Flight Power'),
+                    InfoBox(text: '10 m/s', subText: 'Top Speed'),
                   ],
-                ),
-                const Spacer(),
-                Button(
-                  color: secondaryColor,
-                  text: 'See rover cameras',
-                  padding: const EdgeInsets.only(left: 15, top: 5, bottom: 5),
-                  borderRadius: BorderRadius.circular(borderRadius),
-                  icon: CustomIcon(
-                      name: 'cameras', size: 40, color: backgroundColor),
-                  onPressed: () {},
                 ),
               ],
             ),
