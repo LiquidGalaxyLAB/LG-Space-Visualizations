@@ -50,7 +50,7 @@ class _MarsPageState extends State<MarsPage> {
                     textAlign: TextAlign.left,
                   ),
                   Text(
-                    'The Mars 2020 Perseverance Rover searches for signs of ancient microbial life, to advance NASA\'s quest to explore the past habitability of Mars. The rover is collecting core samples of Martian rock and soil, for potential pickup by a future mission that would bring them to Earth for detailed study.  Perseverance also tests technologies needed for the future human and robotic exploration of Mars.',
+                    missionOverviewIntroText,
                     style: smallText,
                   ),
                   const SizedBox(height: 15),
@@ -64,7 +64,7 @@ class _MarsPageState extends State<MarsPage> {
                   ),
                   const SizedBox(height: 15),
                   Text(
-                    'NASA chose Jezero Crater as the landing site for the Perseverance rover. Scientists believe the area was once flooded with water and was home to an ancient river delta. The process of landing site selection involved a combination of mission team members and scientists from around the world, who carefully examined more than 60 candidate locations on the Red Planet. After the exhaustive five-year study of potential sites, each with its own unique characteristics and appeal, Jezero rose to the top.',
+                    missionOverviewDescriptionText,
                     style: smallText,
                   ),
                   SizedBox(height: spaceBetweenWidgets),
