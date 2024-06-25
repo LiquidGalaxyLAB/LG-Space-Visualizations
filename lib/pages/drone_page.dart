@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
 import 'package:lg_space_visualizations/utils/costants.dart';
+import 'package:lg_space_visualizations/utils/kml/ballon_maker.dart';
+import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/widget/info_box.dart';
 import 'package:lg_space_visualizations/widget/view_model.dart';
@@ -18,6 +20,25 @@ class DronePage extends StatefulWidget {
 }
 
 class _DronePageState extends State<DronePage> {
+  @override
+  void initState() {
+    super.initState();
+    displayBalloon();
+  }
+
+  @override
+  void dispose() {
+    /// Clear the KML when the page is disposed keeping the logos.
+    lgConnection.clearKml(keepLogos: true);
+    super.dispose();
+  }
+
+  /// Display a balloon with information about the Ingenuity Drone.
+  void displayBalloon() async {
+    await lgConnection.sendKMLToSlave(lgConnection.rightScreen,
+        BalloonMaker.generateIngenuityHelicopterBalloon());
+  }
+
   @override
   Widget build(BuildContext context) {
     return TemplatePage(title: "Ingenuity Drone", children: [

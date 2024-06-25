@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
 import 'package:lg_space_visualizations/utils/costants.dart';
+import 'package:lg_space_visualizations/utils/kml/ballon_maker.dart';
+import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/widget/view_model.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
@@ -18,6 +20,25 @@ class RoverPage extends StatefulWidget {
 }
 
 class _RoverPageState extends State<RoverPage> {
+  @override
+  void initState() {
+    super.initState();
+    displayBalloon();
+  }
+
+  @override
+  void dispose() {
+    /// Clear the KML when the page is disposed keeping the logos.
+    lgConnection.clearKml(keepLogos: true);
+    super.dispose();
+  }
+
+  /// Display a balloon with information about the Perseverance Rover.
+  void displayBalloon() async {
+    await lgConnection.sendKMLToSlave(lgConnection.rightScreen,
+        BalloonMaker.generatePerseveranceRoverBalloon());
+  }
+
   @override
   Widget build(BuildContext context) {
     return TemplatePage(title: "Perseverance Rover", children: [
@@ -102,7 +123,7 @@ class _RoverPageState extends State<RoverPage> {
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  roverText,
+                  roverIntroText + roverDescriptionText,
                   style: smallText,
                 ),
                 Text(

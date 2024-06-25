@@ -15,13 +15,12 @@ class BalloonMaker {
         '''<div style="width: 400px; color: white; padding-left: 20px; padding-right: 20px;">
       <center>
         <div>
-          <img width="100%" height="auto" src="$droneImageUrl">
+          <img width="90%" height="auto" src="$roverImageUrl">
         </div>
         <h1 style="color:white;">Perseverance Rover</h1>
         <p style="color:white;">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam risus leo, rutrum nec sollicitudin porta, fermentum ac dolor. Sed sed egestas nibh. Morbi augue justo, malesuada finibus felis ac, molestie pharetra sem. Vivamus interdum mi magna, ut auctor nequeì maximus non. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.
+        $roverIntroText
         </p>
-        <br><br>
         <p style="color:white;">Space Visualizations | Liquid Galaxy | GSoC 2024</p>
       </center>
       </div>''');
@@ -42,7 +41,7 @@ class BalloonMaker {
         </div>
         <h1 style="color:white;">Ingenuity Drone</h1>
         <p style="color:white;">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam risus leo, rutrum nec sollicitudin porta, fermentum ac dolor. Sed sed egestas nibh. Morbi augue justo, malesuada finibus felis ac, molestie pharetra sem. Vivamus interdum mi magna, ut auctor nequeì maximus non. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.
+        $droneIntroText
         </p>
         <br><br>
         <p style="color:white;">Space Visualizations | Liquid Galaxy | GSoC 2024</p>
