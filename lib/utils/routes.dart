@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lg_space_visualizations/pages/drone_page.dart';
 import 'package:lg_space_visualizations/pages/home_page.dart';
+import 'package:lg_space_visualizations/pages/rover_page.dart';
 import 'package:lg_space_visualizations/pages/splash_screen.dart';
 import 'package:lg_space_visualizations/pages/services_page.dart';
 import 'package:lg_space_visualizations/pages/settings_page.dart';
 import 'package:lg_space_visualizations/pages/info_page.dart';
+import 'package:lg_space_visualizations/pages/mars_page.dart';
+import 'package:lg_space_visualizations/pages/web_page.dart';
 
 /// Generates a [Route] for the application based on the provided [RouteSettings].
 ///
@@ -32,6 +36,36 @@ Route<dynamic> makeRoute(RouteSettings settings) {
     case '/info':
       // Route for the info screen.
       builder = (BuildContext context) => const InfoPage();
+      break;
+    case '/mars':
+      // Route for the mars screen.
+      builder = (BuildContext context) => const MarsPage();
+      break;
+    case '/rover':
+      // Route for the rover screen.
+      builder = (BuildContext context) => const RoverPage();
+      break;
+    case '/drone':
+      // Route for the drone screen.
+      builder = (BuildContext context) => const DronePage();
+      break;
+    case '/web':
+      // Route for the web screen.
+
+      // Retrieve the arguments passed to the route.
+      final arguments = settings.arguments;
+
+      // Check if the arguments are a map containing 'url' and 'title' keys.
+      if (arguments is Map<String, String> &&
+          arguments.containsKey('url') &&
+          arguments.containsKey('title')) {
+        // If valid arguments are provided, set the builder to route to WebPage.
+        builder = (BuildContext context) =>
+            WebPage(url: arguments['url']!, title: arguments['title']!);
+      } else {
+        // If arguments are invalid, set the builder to route to HomePage (default).
+        builder = (BuildContext context) => const HomePage();
+      }
       break;
     default:
       // Default route if no match is found, redirects to the home page.

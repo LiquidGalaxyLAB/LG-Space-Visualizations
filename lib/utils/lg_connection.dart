@@ -13,8 +13,8 @@ class LGConnection {
   /// SSH client for managing the connection.
   SSHClient? client;
 
-  /// Number of screens in the Liquid Galaxy system.
-  int? screenAmount;
+  /// Number of screens in the Liquid Galaxy system, default is 5.
+  int screenAmount = 5;
 
   /// Creates an [LGConnection] instance.
   LGConnection();
@@ -98,9 +98,7 @@ class LGConnection {
     file.writeAsStringSync(kml);
 
     await client!.connectSFTP();
-    await client!.sftpUpload(
-        path: file.path,
-        toPath: '/var/www/html');
+    await client!.sftpUpload(path: file.path, toPath: '/var/www/html');
     await client!
         .execute('echo "http://{$lgUrl}/$fileName" > /var/www/html/kmls.txt');
   }
@@ -124,18 +122,12 @@ class LGConnection {
 
   /// Gets the left screen number.
   int get leftScreen {
-    if (screenAmount == 1) {
-      return 1;
-    }
-    return screenAmount ?? 5;
+    return screenAmount ~/ 2 + 2;
   }
 
   /// Gets the right screen number.
   int get rightScreen {
-    if (screenAmount == 1) {
-      return 1;
-    }
-    return (screenAmount ?? 4) - 1;
+    return screenAmount ~/ 2 + 1;
   }
 
   /// Relaunches the Liquid Galaxy services.
@@ -147,7 +139,7 @@ class LGConnection {
     final pw = client!.passwordOrKey;
     final user = client!.username;
 
-    for (var i = screenAmount ?? 5; i >= 1; i--) {
+    for (var i = screenAmount; i >= 1; i--) {
       try {
         final relaunchCommand = """RELAUNCH_CMD="\\
 if [ -f /etc/init/lxdm.conf ]; then
@@ -182,7 +174,7 @@ fi
     String query =
         'echo "exittour=true" > /tmp/query.txt && > /var/www/html/kmls.txt';
 
-    for (var i = 2; i <= (screenAmount ?? 5); i++) {
+    for (var i = 2; i <= screenAmount; i++) {
       String blankKml = KMLMakers.generateBlank('slave_$i');
       query += " && echo '$blankKml' > /var/www/html/kml/slave_$i.kml";
     }
@@ -201,9 +193,7 @@ fi
     }
 
     await sendKMLToSlave(
-        leftScreen,
-        KMLMakers.screenOverlayImage(
-            logosUrl, 4032 / 4024));
+        leftScreen, KMLMakers.screenOverlayImage(logosUrl, 4032 / 4024));
   }
 
   /// Reboots the Liquid Galaxy system.
@@ -214,7 +204,7 @@ fi
 
     final pw = client!.passwordOrKey;
 
-    for (var i = (screenAmount ?? 5); i >= 1; i--) {
+    for (var i = screenAmount; i >= 1; i--) {
       try {
         await client!
             .execute('sshpass -p $pw ssh -t lg$i "echo $pw | sudo -S reboot"');
@@ -242,7 +232,7 @@ fi
     final clear =
         'echo $pw | sudo -S sed -i "s/$replace/$search/" ~/earth/kml/slave/myplaces.kml';
 
-    for (var i = 2; i <= (screenAmount ?? 5); i++) {
+    for (var i = 2; i <= screenAmount; i++) {
       final clearCmd = clear.replaceAll('{{slave}}', i.toString());
       final cmd = command.replaceAll('{{slave}}', i.toString());
       String query = 'sshpass -p $pw ssh -t lg$i \'{{cmd}}\'';
@@ -274,7 +264,7 @@ fi
     final clear =
         'echo $pw | sudo -S sed -i "s/$search/$replace/" ~/earth/kml/slave/myplaces.kml';
 
-    for (var i = 2; i <= (screenAmount ?? 5); i++) {
+    for (var i = 2; i <= screenAmount; i++) {
       final cmd = clear.replaceAll('{{slave}}', i.toString());
       String query = 'sshpass -p $pw ssh -t lg$i \'$cmd\'';
 
@@ -297,7 +287,7 @@ fi
 
     final pw = client!.passwordOrKey;
 
-    for (var i = screenAmount ?? 5; i >= 1; i--) {
+    for (var i = screenAmount; i >= 1; i--) {
       try {
         await client!.execute(
             'sshpass -p $pw ssh -t lg$i "echo $pw | sudo -S poweroff"');

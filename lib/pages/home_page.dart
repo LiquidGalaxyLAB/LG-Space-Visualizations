@@ -34,7 +34,11 @@ class _HomePageState extends State<HomePage> {
                       height: 220,
                       image: const AssetImage('assets/images/rover.png'),
                       text: 'MARS 2020\nMISSION',
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          Navigator.pushNamed(context, '/mars');
+                        });
+                      },
                     ),
                     ImageButton(
                       width: 425,
