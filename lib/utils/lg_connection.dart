@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:lg_space_visualizations/utils/costants.dart';
 import 'package:ssh2/ssh2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -101,6 +102,25 @@ class LGConnection {
     await client!.sftpUpload(path: file.path, toPath: '/var/www/html');
     await client!
         .execute('echo "http://{$lgUrl}/$fileName" > /var/www/html/kmls.txt');
+  }
+
+  /// Sends a KML file from the assets folder to the Liquid Galaxy system.
+  ///
+  /// [assetPath] is the path to the KML file in the assets folder.
+  Future<void> sendKmlFromAssets(String assetPath) async {
+    if (await isConnected() == false) {
+      return;
+    }
+
+    try {
+      // Load the KML file content from the assets folder
+      String kmlContent = await rootBundle.loadString(assetPath);
+
+      // Send the KML content to the master
+      await sendKml(kmlContent);
+    } catch (e) {
+      print(e);
+    }
   }
 
   /// Sends a KML file to a specific slave screen.
@@ -310,5 +330,15 @@ fi
     } catch (e) {
       print(e);
     }
+  }
+
+  /// Flies to a specific location on the Liquid Galaxy.
+  ///
+  /// the [latitude] and [longitude] are the coordinates of the location.
+  /// [zoom] is the zoom level and [tilt] and [bearing] are the angles.
+  Future<void> flyTo(double latitude, double longitude, double zoom,
+      double tilt, double bearing) async {
+    await client!.execute(
+        'echo "flytoview=${KMLMakers.lookAtLinear(latitude, longitude, zoom, tilt, bearing)}" > /tmp/query.txt');
   }
 }
