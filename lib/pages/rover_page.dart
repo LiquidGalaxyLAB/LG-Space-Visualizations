@@ -35,6 +35,7 @@ class _RoverPageState extends State<RoverPage> {
 
   /// Display a balloon with information about the Perseverance Rover.
   void displayBalloon() async {
+    await lgConnection.setPlanet('mars');
     await lgConnection.sendKMLToSlave(lgConnection.rightScreen,
         BalloonMaker.generatePerseveranceRoverBalloon());
   }

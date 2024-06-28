@@ -296,4 +296,19 @@ fi
       }
     }
   }
+
+  /// Sets the planet to display on the Liquid Galaxy.
+  ///
+  /// The [planet] can be 'earth', 'mars', or 'moon'.
+  Future<void> setPlanet(String planet) async {
+    if (await isConnected() == false || planet.isEmpty || (planet != 'earth' && planet != 'mars' && planet != 'moon')) {
+      return;
+    }
+
+    try {
+      await client!.execute('echo \'planet=$planet\' > /tmp/query.txt');
+    } catch (e) {
+      print(e);
+    }
+  }
 }

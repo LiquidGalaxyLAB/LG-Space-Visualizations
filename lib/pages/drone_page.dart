@@ -35,6 +35,7 @@ class _DronePageState extends State<DronePage> {
 
   /// Display a balloon with information about the Ingenuity Drone.
   void displayBalloon() async {
+    await lgConnection.setPlanet('mars');
     await lgConnection.sendKMLToSlave(lgConnection.rightScreen,
         BalloonMaker.generateIngenuityHelicopterBalloon());
   }
