@@ -67,6 +67,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/models/
+    - assets/kmls/
 
   fonts:
     - family: Forgotten Futurist
