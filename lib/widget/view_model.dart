@@ -29,7 +29,7 @@ class ViewModel extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             color: secondaryColor,
-            width: 10,
+            width: 5,
           ),
           borderRadius: BorderRadius.circular(borderRadius),
         ),
