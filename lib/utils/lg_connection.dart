@@ -145,7 +145,8 @@ class LGConnection {
   /// Sends a KML file from the assets folder to the Liquid Galaxy system.
   ///
   /// [assetPath] is the path to the KML file in the assets folder.
-  Future<void> sendKmlFromAssets(String assetPath, {List<String> images = const []}) async {
+  Future<void> sendKmlFromAssets(String assetPath,
+      {List<String> images = const []}) async {
     if (await isConnected() == false) {
       return;
     }
@@ -378,6 +379,9 @@ fi
   /// [zoom] is the zoom level and [tilt] and [bearing] are the angles.
   Future<void> flyTo(double latitude, double longitude, double zoom,
       double tilt, double bearing) async {
+    if (await isConnected() == false) {
+      return;
+    }
     await client!.execute(
         'echo "flytoview=${KMLMakers.lookAtLinear(latitude, longitude, zoom, tilt, bearing)}" > /tmp/query.txt');
   }
