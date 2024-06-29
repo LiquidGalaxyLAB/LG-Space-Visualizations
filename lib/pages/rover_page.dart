@@ -23,7 +23,7 @@ class _RoverPageState extends State<RoverPage> {
   @override
   void initState() {
     super.initState();
-    displayBalloon();
+    showVisualizations();
   }
 
   @override
@@ -33,11 +33,21 @@ class _RoverPageState extends State<RoverPage> {
     super.dispose();
   }
 
-  /// Display a balloon with information about the Perseverance Rover.
-  void displayBalloon() async {
+  /// Display the KML visualizations of the rover.
+  void showVisualizations() async {
+    // Set the planet to Mars
     await lgConnection.setPlanet('mars');
+
+    // Display a balloon with information about the Perseverance rover
     await lgConnection.sendKMLToSlave(lgConnection.rightScreen,
         BalloonMaker.generatePerseveranceRoverBalloon());
+
+    // Send the KML file of the rover's path to the LG
+    lgConnection.sendKmlFromAssets('assets/kmls/rover_path.kml',
+        images: ['assets/images/rover_icon.png']);
+
+    // Fly to the drone's location.
+    await lgConnection.flyTo(18.476717, 77.382319, 25000, 0, 0);
   }
 
   @override
