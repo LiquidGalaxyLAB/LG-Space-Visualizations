@@ -110,6 +110,7 @@
 	</StyleMap>
 	<GroundOverlay>
 		<name>background</name>
+		<drawOrder>-1</drawOrder>
 		<Icon>
 			<href>https://i.imghippo.com/files/aPDHh1719476035.png</href>
 			<viewBoundScale>0.75</viewBoundScale>
