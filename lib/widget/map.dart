@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lg_space_visualizations/utils/costants.dart';
 import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
 
@@ -42,24 +43,11 @@ class Map extends StatefulWidget {
 class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   late GoogleMapController mapController; // Controller for Google Map
 
-  // Define the bounds for the Mars Perseverance Rover landing site
-  final LatLngBounds bounds = LatLngBounds(
-    southwest: const LatLng(17.98275998805969, 76.52780706979584),
-    northeast: const LatLng(18.88553559552019, 78.14596461992367),
-  );
+
 
   /// Converts a zoom level to an altitude for Google Earth visualization.
   double zoomToGoogleEarthAltitude(int zoom) {
-    var zoomToRange = {
-      11: 43,
-      12: 25,
-      13: 13,
-      14: 8,
-      15: 4,
-      16: 2,
-    };
-
-    return (zoomToRange[zoom] ?? 43) * 1000;
+    return (zoomToAltitude[zoom] ?? 43) * 1000;
   }
 
   /// Initializes the map controller and loads a KML layer.
@@ -83,25 +71,25 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
 
     // Constrain the latitude:
     // If the camera's southern boundary is below the allowed minimum, adjust latitude upwards
-    if (visibleRegion.southwest.latitude < bounds.southwest.latitude) {
-      constrainedLat = bounds.southwest.latitude +
+    if (visibleRegion.southwest.latitude < landingBounds.southwest.latitude) {
+      constrainedLat = landingBounds.southwest.latitude +
           (visibleRegion.northeast.latitude - target.latitude);
     }
     // If the camera's northern boundary exceeds the allowed maximum, adjust latitude downwards
-    else if (visibleRegion.northeast.latitude > bounds.northeast.latitude) {
-      constrainedLat = bounds.northeast.latitude -
+    else if (visibleRegion.northeast.latitude > landingBounds.northeast.latitude) {
+      constrainedLat = landingBounds.northeast.latitude -
           (target.latitude - visibleRegion.southwest.latitude);
     }
 
     // Constrain the longitude:
     // If the camera's western boundary is left of the allowed minimum, adjust longitude to the right
-    if (visibleRegion.southwest.longitude < bounds.southwest.longitude) {
-      constrainedLng = bounds.southwest.longitude +
+    if (visibleRegion.southwest.longitude < landingBounds.southwest.longitude) {
+      constrainedLng = landingBounds.southwest.longitude +
           (visibleRegion.northeast.longitude - target.longitude);
     }
     // If the camera's eastern boundary exceeds the allowed maximum, adjust longitude to the left
-    else if (visibleRegion.northeast.longitude > bounds.northeast.longitude) {
-      constrainedLng = bounds.northeast.longitude -
+    else if (visibleRegion.northeast.longitude > landingBounds.northeast.longitude) {
+      constrainedLng = landingBounds.northeast.longitude -
           (target.longitude - visibleRegion.southwest.longitude);
     }
 
