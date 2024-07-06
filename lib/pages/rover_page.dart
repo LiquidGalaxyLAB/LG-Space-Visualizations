@@ -146,7 +146,7 @@ class _RoverPageState extends State<RoverPage> {
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  roverIntroText + roverDescriptionText,
+                  '$roverIntroText $roverDescriptionText',
                   style: smallText,
                 ),
                 SizedBox(height: spaceBetweenWidgets / 4),
@@ -162,7 +162,12 @@ class _RoverPageState extends State<RoverPage> {
                   ],
                 ),
                 SizedBox(height: spaceBetweenWidgets / 4),
-                Expanded(child: Map(latitude: 18.472805, longitude: 77.382319, zoom: 12, kmlName: 'Rover')),
+                Expanded(
+                    child: Map(
+                        latitude: 18.472805,
+                        longitude: 77.382319,
+                        zoom: 12,
+                        kmlName: 'Rover')),
               ],
             ),
           ),
