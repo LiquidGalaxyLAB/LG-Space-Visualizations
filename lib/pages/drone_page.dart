@@ -150,9 +150,9 @@ class _DronePageState extends State<DronePage> {
                 SizedBox(height: spaceBetweenWidgets / 4),
                 Expanded(
                     child: Map(
-                        latitude: 18.472805,
-                        longitude: 77.382319,
-                        zoom: 12,
+                        latitude: mapCenterLat,
+                        longitude: mapCenterLong,
+                        zoom: defaultMapZoom,
                         kmlName: 'Drone')),
               ],
             ),

@@ -40,8 +40,13 @@ const Map<int, int> zoomToAltitude = {
   16: 2,
 };
 
-// Bounds for the Mars Perseverance Rover landing site.
+/// Bounds for the Mars Perseverance Rover landing site.
 final LatLngBounds landingBounds = LatLngBounds(
   southwest: const LatLng(17.98275998805969, 76.52780706979584),
   northeast: const LatLng(18.88553559552019, 78.14596461992367),
 );
+
+/// Default map center and zoom level
+double mapCenterLat = 18.472805;
+double mapCenterLong = 77.382319;
+double defaultMapZoom = 12;
