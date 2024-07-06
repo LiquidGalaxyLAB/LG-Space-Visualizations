@@ -7,10 +7,10 @@
         android:requiresSmallestWidthDp="600"/>
 
     <application
-        android:label="lg_space_visualizations"
+        android:label="LG Space Visualizations"
         android:name="${applicationName}"
-        android:usesCleartextTraffic="true">
-    android:icon="@mipmap/ic_launcher">
+        android:usesCleartextTraffic="true"
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"
