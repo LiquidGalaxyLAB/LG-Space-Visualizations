@@ -51,5 +51,44 @@ double mapCenterLat = 18.472805;
 double mapCenterLong = 77.382319;
 double defaultMapZoom = 12;
 
+/// List of months
+List<String> months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'June',
+  'July',
+  'Aug',
+  'Sept',
+  'Oct',
+  'Nov',
+  'Dec'
+];
+
 /// Default NASA API key
 String defaultNasaApiKey = 'DEMO_KEY';
+
+/// The first day of the mission photos
+DateTime defaultDate = DateTime(2021, 2, 18);
+
+/// Mapping of rover camera short names to full names
+Map<String, String> cameras = {
+  'EDL_PUCAM1': 'Parachute Up-Look Camera A',
+  'EDL_PUCAM2': 'Parachute Up-Look Camera B',
+  'EDL_DDCAM': 'Descent Stage Down Camera',
+  'EDL_RUCAM': 'Rover Up-Look Camera',
+  'EDL_RDCAM': 'Rover Down-Look Camera',
+  'REAR_HAZCAM_LEFT': 'Rear Hazard Camera - Left',
+  'REAR_HAZCAM_RIGHT': 'Rear Hazard Camera - Right',
+  'FRONT_HAZCAM_LEFT_A': 'Front Hazard Camera - Left',
+  'FRONT_HAZCAM_RIGHT_A': 'Front Hazard Camera - Right',
+  'NAVCAM_LEFT': 'Navigation Camera - Left',
+  'NAVCAM_RIGHT': 'Navigation Camera - Right',
+  'MCZ_LEFT': 'Mast Camera Zoom - Left',
+  'MCZ_RIGHT': 'Mast Camera Zoom - Right',
+  'SUPERCAM_RMI': 'SuperCam Micro Imager',
+  'SHERLOC_WATSON': 'Sherloc Watson Camera',
+  'SKYCAM': 'MEDA Skycam',
+};
