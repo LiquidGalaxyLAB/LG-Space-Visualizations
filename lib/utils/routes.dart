@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:lg_space_visualizations/pages/cameras_images_page.dart';
+import 'package:lg_space_visualizations/pages/cameras_page.dart';
 import 'package:lg_space_visualizations/pages/drone_page.dart';
 import 'package:lg_space_visualizations/pages/home_page.dart';
-import 'package:lg_space_visualizations/pages/rover_page.dart';
-import 'package:lg_space_visualizations/pages/splash_screen.dart';
-import 'package:lg_space_visualizations/pages/services_page.dart';
-import 'package:lg_space_visualizations/pages/settings_page.dart';
 import 'package:lg_space_visualizations/pages/info_page.dart';
 import 'package:lg_space_visualizations/pages/mars_page.dart';
+import 'package:lg_space_visualizations/pages/rover_page.dart';
+import 'package:lg_space_visualizations/pages/services_page.dart';
+import 'package:lg_space_visualizations/pages/settings_page.dart';
+import 'package:lg_space_visualizations/pages/splash_screen.dart';
 import 'package:lg_space_visualizations/pages/web_page.dart';
+import 'package:lg_space_visualizations/utils/sol_day.dart';
 
 /// Generates a [Route] for the application based on the provided [RouteSettings].
 ///
@@ -48,6 +51,28 @@ Route<dynamic> makeRoute(RouteSettings settings) {
     case '/drone':
       // Route for the drone screen.
       builder = (BuildContext context) => const DronePage();
+      break;
+    case '/cameras':
+      // Route for the cameras screen.
+      builder = (BuildContext context) => const CamerasPage();
+      break;
+    case '/cameras_images':
+      // Route for the cameras images screen.
+
+      // Retrieve the arguments passed to the route.
+      final arguments = settings.arguments;
+
+      // Check if the arguments are a SolDay and a list of strings.
+      if (arguments is List<Object> &&
+          arguments[0] is SolDay &&
+          arguments[1] is List<String>) {
+        builder = (BuildContext context) => CamerasImagesPage(
+            day: arguments[0] as SolDay,
+            camerasSelected: arguments[1] as List<String>);
+      } else {
+        // If arguments are invalid, set the builder to route to HomePage (default).
+        builder = (BuildContext context) => const HomePage();
+      }
       break;
     case '/web':
       // Route for the web screen.
