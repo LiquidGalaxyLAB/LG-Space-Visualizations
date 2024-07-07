@@ -32,24 +32,20 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Expanded(
             flex: 1, // 8.3% of space
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(borderRadius),
-                color: backgroundColor,
+            child: Button(
+              padding: EdgeInsets.only(
+                  top: spaceBetweenWidgets / 4,
+                  bottom: spaceBetweenWidgets / 4),
+              borderRadius: BorderRadius.circular(borderRadius),
+              color: backgroundColor,
+              icon: CustomIcon(
+                name: 'back',
+                size: 50,
+                color: primaryColor,
               ),
-              child: Center(
-                child: Button(
-                  color: backgroundColor,
-                  icon: CustomIcon(
-                    name: 'back',
-                    size: 50,
-                    color: primaryColor,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
           ),
           SizedBox(width: spaceBetweenWidgets),

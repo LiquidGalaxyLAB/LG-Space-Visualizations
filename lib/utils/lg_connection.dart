@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:lg_space_visualizations/utils/costants.dart';
 import 'package:ssh2/ssh2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -86,9 +87,12 @@ class LGConnection {
   /// Sends a KML file to the Liquid Galaxy system.
   ///
   /// [kml] is the KML content to send.
-  Future<void> sendKml(String kml) async {
+  Future<void> sendKml(String kml, {List<String> images = const []}) async {
     if (await isConnected() == false) {
       return;
+    }
+    for (String image in images) {
+      await upload(image);
     }
 
     const fileName = 'upload.kml';
@@ -100,7 +104,62 @@ class LGConnection {
     await client!.connectSFTP();
     await client!.sftpUpload(path: file.path, toPath: '/var/www/html');
     await client!
-        .execute('echo "http://{$lgUrl}/$fileName" > /var/www/html/kmls.txt');
+        .execute('echo "http://$lgUrl/$fileName" > /var/www/html/kmls.txt');
+  }
+
+  /// Uploads a file to the Liquid Galaxy.
+  ///
+  /// requires the [filePath] of the file to upload.
+  Future<void> upload(String filePath) async {
+    if (await isConnected() == false) {
+      return;
+    }
+    try {
+      // Load file data from assets
+      final ByteData data = await rootBundle.load(filePath);
+
+      // Extract the file name from the provided filePath
+      final fileName = filePath.split('/').last;
+
+      // Get the temporary directory
+      final tempDir = await getTemporaryDirectory();
+      final tempFilePath = '${tempDir.path}/$fileName';
+
+      // Write data to a temporary file if it doesn't exist
+      final tempFile = File(tempFilePath);
+      if (!tempFile.existsSync()) {
+        await tempFile.writeAsBytes(data.buffer.asUint8List(), flush: true);
+      }
+
+      // Connect to SFTP and upload the temporary file
+      await client!.connectSFTP();
+      await client!.sftpUpload(path: tempFile.path, toPath: '/var/www/html');
+
+      // Clean up: delete the temporary file
+      await tempFile.delete();
+    } catch (e) {
+      print("Error uploading file: $e");
+    }
+  }
+
+  /// Sends a KML file from the assets folder to the Liquid Galaxy system.
+  ///
+  /// [assetPath] is the path to the KML file in the assets folder.
+  Future<void> sendKmlFromAssets(String assetPath,
+      {List<String> images = const []}) async {
+    if (await isConnected() == false) {
+      return;
+    }
+
+    try {
+      // Load the KML file content from the assets folder
+      String kmlContent = await rootBundle.loadString(assetPath);
+
+      // Send the KML content to the master
+      await sendKml(kmlContent, images: images);
+    } catch (e) {
+      print(e);
+    }
   }
 
   /// Sends a KML file to a specific slave screen.
@@ -295,5 +354,35 @@ fi
         print(e);
       }
     }
+  }
+
+  /// Sets the planet to display on the Liquid Galaxy.
+  ///
+  /// The [planet] can be 'earth', 'mars', or 'moon'.
+  Future<void> setPlanet(String planet) async {
+    if (await isConnected() == false ||
+        planet.isEmpty ||
+        (planet != 'earth' && planet != 'mars' && planet != 'moon')) {
+      return;
+    }
+
+    try {
+      await client!.execute('echo \'planet=$planet\' > /tmp/query.txt');
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  /// Flies to a specific location on the Liquid Galaxy.
+  ///
+  /// the [latitude] and [longitude] are the coordinates of the location.
+  /// [zoom] is the zoom level and [tilt] and [bearing] are the angles.
+  Future<void> flyTo(double latitude, double longitude, double zoom,
+      double tilt, double bearing) async {
+    if (await isConnected() == false) {
+      return;
+    }
+    await client!.execute(
+        'echo "flytoview=${KMLMakers.lookAtLinear(latitude, longitude, zoom, tilt, bearing)}" > /tmp/query.txt');
   }
 }

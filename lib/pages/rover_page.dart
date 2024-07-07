@@ -8,6 +8,7 @@ import 'package:lg_space_visualizations/widget/view_model.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/info_box.dart';
+import 'package:lg_space_visualizations/widget/map.dart';
 
 /// [RoverPage] is a stateful widget that displays information about the Perseverance Rover.
 ///
@@ -23,7 +24,7 @@ class _RoverPageState extends State<RoverPage> {
   @override
   void initState() {
     super.initState();
-    displayBalloon();
+    showVisualizations();
   }
 
   @override
@@ -33,10 +34,21 @@ class _RoverPageState extends State<RoverPage> {
     super.dispose();
   }
 
-  /// Display a balloon with information about the Perseverance Rover.
-  void displayBalloon() async {
+  /// Display the KML visualizations of the rover.
+  void showVisualizations() async {
+    // Set the planet to Mars
+    await lgConnection.setPlanet('mars');
+
+    // Display a balloon with information about the Perseverance rover
     await lgConnection.sendKMLToSlave(lgConnection.rightScreen,
         BalloonMaker.generatePerseveranceRoverBalloon());
+
+    // Send the KML file of the rover's path to the LG
+    lgConnection.sendKmlFromAssets('assets/kmls/rover_path.kml',
+        images: ['assets/images/rover_icon.png']);
+
+    // Fly to the drone's location.
+    await lgConnection.flyTo(18.476717, 77.382319, 25000, 0, 0);
   }
 
   @override
@@ -64,10 +76,10 @@ class _RoverPageState extends State<RoverPage> {
                   color: secondaryColor,
                   center: false,
                   text: 'Inspect Rover',
-                  padding: const EdgeInsets.only(left: 15),
+                  padding: const EdgeInsets.only(left: 25, top: 5, bottom: 5),
                   borderRadius: BorderRadius.circular(borderRadius),
                   icon: CustomIcon(
-                      name: 'mechanic', size: 50, color: backgroundColor),
+                      name: 'mechanic', size: 40, color: backgroundColor),
                   onPressed: () {
                     setState(() {
                       Navigator.pushNamed(context, '/web', arguments: {
@@ -76,6 +88,17 @@ class _RoverPageState extends State<RoverPage> {
                       });
                     });
                   },
+                ),
+                SizedBox(height: spaceBetweenWidgets / 2),
+                Button(
+                  color: secondaryColor,
+                  center: false,
+                  text: 'See rover cameras',
+                  padding: const EdgeInsets.only(left: 25, top: 5, bottom: 5),
+                  borderRadius: BorderRadius.circular(borderRadius),
+                  icon: CustomIcon(
+                      name: 'cameras', size: 40, color: backgroundColor),
+                  onPressed: () {},
                 ),
                 SizedBox(height: spaceBetweenWidgets / 2),
                 Button(
@@ -113,7 +136,7 @@ class _RoverPageState extends State<RoverPage> {
                 left: spaceBetweenWidgets,
                 right: spaceBetweenWidgets,
                 top: spaceBetweenWidgets / 2,
-                bottom: spaceBetweenWidgets / 2),
+                bottom: spaceBetweenWidgets),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -123,23 +146,10 @@ class _RoverPageState extends State<RoverPage> {
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  roverIntroText + roverDescriptionText,
+                  '$roverIntroText $roverDescriptionText',
                   style: smallText,
                 ),
-                Text(
-                  "Path",
-                  style: middleTitle,
-                  textAlign: TextAlign.left,
-                ),
-                // TODO: add interactive map
-                SizedBox(
-                    height: 200, child: Placeholder(color: secondaryColor)),
                 SizedBox(height: spaceBetweenWidgets / 4),
-                Text(
-                  "Specifications",
-                  style: middleTitle,
-                  textAlign: TextAlign.left,
-                ),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -151,16 +161,13 @@ class _RoverPageState extends State<RoverPage> {
                     InfoBox(text: '152 m/h', subText: 'Top Speed')
                   ],
                 ),
-                const Spacer(),
-                Button(
-                  color: secondaryColor,
-                  text: 'See rover cameras',
-                  padding: const EdgeInsets.only(left: 15, top: 5, bottom: 5),
-                  borderRadius: BorderRadius.circular(borderRadius),
-                  icon: CustomIcon(
-                      name: 'cameras', size: 40, color: backgroundColor),
-                  onPressed: () {},
-                ),
+                SizedBox(height: spaceBetweenWidgets / 4),
+                Expanded(
+                    child: Map(
+                        latitude: mapCenterLat,
+                        longitude: mapCenterLong,
+                        zoom: defaultMapZoom,
+                        kmlName: 'Rover')),
               ],
             ),
           ),

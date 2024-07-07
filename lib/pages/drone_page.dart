@@ -8,6 +8,7 @@ import 'package:lg_space_visualizations/widget/info_box.dart';
 import 'package:lg_space_visualizations/widget/view_model.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
+import 'package:lg_space_visualizations/widget/map.dart';
 
 /// [DronePage] is a widget that displays information about the Ingenuity Drone.
 ///
@@ -23,7 +24,7 @@ class _DronePageState extends State<DronePage> {
   @override
   void initState() {
     super.initState();
-    displayBalloon();
+    showVisualizations();
   }
 
   @override
@@ -33,10 +34,21 @@ class _DronePageState extends State<DronePage> {
     super.dispose();
   }
 
-  /// Display a balloon with information about the Ingenuity Drone.
-  void displayBalloon() async {
+  /// Display the KML visualizations of the drone.
+  void showVisualizations() async {
+    // Set the planet to Mars
+    await lgConnection.setPlanet('mars');
+
+    // Display a balloon with information about the Ingenuity Drone
     await lgConnection.sendKMLToSlave(lgConnection.rightScreen,
         BalloonMaker.generateIngenuityHelicopterBalloon());
+
+    // Send the KML file of the drone's path to the LG
+    await lgConnection.sendKmlFromAssets('assets/kmls/drone_path.kml',
+        images: ['assets/images/drone_icon.png']);
+
+    // Fly to the drone's location
+    await lgConnection.flyTo(18.476717, 77.382319, 25000, 0, 0);
   }
 
   @override
@@ -110,8 +122,8 @@ class _DronePageState extends State<DronePage> {
             padding: EdgeInsets.only(
                 left: spaceBetweenWidgets,
                 right: spaceBetweenWidgets,
-                top: spaceBetweenWidgets / 2,
-                bottom: spaceBetweenWidgets / 2),
+                top: spaceBetweenWidgets / 4,
+                bottom: spaceBetweenWidgets),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -121,22 +133,9 @@ class _DronePageState extends State<DronePage> {
                   textAlign: TextAlign.left,
                 ),
                 Text(droneIntroText, style: smallText),
-                SizedBox(height: spaceBetweenWidgets / 2),
-                Text(droneDescriptionText, style: smallText),
-                Text(
-                  "Flights",
-                  style: middleTitle,
-                  textAlign: TextAlign.left,
-                ),
-                // TODO: add interactive map
-                SizedBox(
-                    height: 200, child: Placeholder(color: secondaryColor)),
                 SizedBox(height: spaceBetweenWidgets / 4),
-                Text(
-                  "Specifications",
-                  style: middleTitle,
-                  textAlign: TextAlign.left,
-                ),
+                Text(droneDescriptionText, style: smallText),
+                SizedBox(height: spaceBetweenWidgets / 4),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -148,6 +147,13 @@ class _DronePageState extends State<DronePage> {
                     InfoBox(text: '10 m/s', subText: 'Top Speed'),
                   ],
                 ),
+                SizedBox(height: spaceBetweenWidgets / 4),
+                Expanded(
+                    child: Map(
+                        latitude: mapCenterLat,
+                        longitude: mapCenterLong,
+                        zoom: defaultMapZoom,
+                        kmlName: 'Drone')),
               ],
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
 import 'package:lg_space_visualizations/utils/costants.dart';
+import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
@@ -16,8 +17,14 @@ class MarsPage extends StatefulWidget {
 
 class _MarsPageState extends State<MarsPage> {
   @override
+  void initState() {
+    super.initState();
+    lgConnection.setPlanet('mars');
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return TemplatePage(title: "Mars 2020", children: [
+    return TemplatePage(title: 'Mars 2020', children: [
       Expanded(
         child: Container(
           decoration: BoxDecoration(
@@ -25,7 +32,7 @@ class _MarsPageState extends State<MarsPage> {
             color: backgroundColor,
             image: const DecorationImage(
               alignment: Alignment.topCenter,
-              image: AssetImage("assets/images/rover.png"),
+              image: AssetImage('assets/images/rover.png'),
               fit: BoxFit.cover,
             ),
           ),
