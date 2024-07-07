@@ -50,3 +50,6 @@ final LatLngBounds landingBounds = LatLngBounds(
 double mapCenterLat = 18.472805;
 double mapCenterLong = 77.382319;
 double defaultMapZoom = 12;
+
+/// Default NASA API key
+String defaultNasaApiKey = 'DEMO_KEY';
