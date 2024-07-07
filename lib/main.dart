@@ -41,7 +41,7 @@ class Launcher extends StatelessWidget {
         // Define the route generator function.
         onGenerateRoute: makeRoute,
         // Set the initial route to the splash screen.
-        initialRoute: '/cameras',
+        initialRoute: '/splash',
       ),
     );
   }
