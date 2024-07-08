@@ -98,11 +98,7 @@ class _RoverPageState extends State<RoverPage> {
                   borderRadius: BorderRadius.circular(borderRadius),
                   icon: CustomIcon(
                       name: 'cameras', size: 40, color: backgroundColor),
-                  onPressed: () {
-                    setState(() {
-                      Navigator.pushNamed(context, '/cameras');
-                    });
-                  },
+                  onPressed: () {},
                 ),
                 SizedBox(height: spaceBetweenWidgets / 2),
                 Button(
