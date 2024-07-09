@@ -4,11 +4,11 @@ import 'package:lg_space_visualizations/utils/costants.dart';
 import 'package:lg_space_visualizations/utils/kml/ballon_maker.dart';
 import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
-import 'package:lg_space_visualizations/widget/view_model.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/info_box.dart';
 import 'package:lg_space_visualizations/widget/map.dart';
+import 'package:lg_space_visualizations/widget/view_model.dart';
 
 /// [RoverPage] is a stateful widget that displays information about the Perseverance Rover.
 ///
@@ -98,7 +98,11 @@ class _RoverPageState extends State<RoverPage> {
                   borderRadius: BorderRadius.circular(borderRadius),
                   icon: CustomIcon(
                       name: 'cameras', size: 40, color: backgroundColor),
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pushNamed(context, '/cameras');
+                    });
+                  },
                 ),
                 SizedBox(height: spaceBetweenWidgets / 2),
                 Button(
