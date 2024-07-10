@@ -59,7 +59,7 @@ class _ServicesPageState extends State<ServicesPage> {
                       icon: 'relaunch',
                       text: 'LG\nRELAUNCH',
                       onPressed: () async {
-                        if (await lgConnection.isConnected()) {
+                        if (lgConnection.isConnected()) {
                           lgConnection.relaunch();
                           showDialog(
                             context: context,
@@ -81,7 +81,7 @@ class _ServicesPageState extends State<ServicesPage> {
                       icon: 'clear',
                       text: 'CLEAR\nKML',
                       onPressed: () async {
-                        if (await lgConnection.isConnected()) {
+                        if (lgConnection.isConnected()) {
                           lgConnection.clearKml();
                           showDialog(
                             context: context,
@@ -103,7 +103,7 @@ class _ServicesPageState extends State<ServicesPage> {
                       icon: 'reboot',
                       text: 'LG\nREBOOT',
                       onPressed: () async {
-                        if (await lgConnection.isConnected()) {
+                        if (lgConnection.isConnected()) {
                           lgConnection.reboot();
                           showDialog(
                             context: context,
@@ -130,7 +130,7 @@ class _ServicesPageState extends State<ServicesPage> {
                       icon: 'setrefresh',
                       text: 'SET\nREFRESH',
                       onPressed: () async {
-                        if (await lgConnection.isConnected()) {
+                        if (lgConnection.isConnected()) {
                           lgConnection.setRefresh();
                           showDialog(
                             context: context,
@@ -152,7 +152,7 @@ class _ServicesPageState extends State<ServicesPage> {
                       icon: 'resetrefresh',
                       text: 'RESET\nREFRESH',
                       onPressed: () async {
-                        if (await lgConnection.isConnected()) {
+                        if (lgConnection.isConnected()) {
                           lgConnection.resetRefresh();
                           showDialog(
                             context: context,
@@ -174,7 +174,7 @@ class _ServicesPageState extends State<ServicesPage> {
                       icon: 'shutdown',
                       text: 'LG\nSHUTDOWN',
                       onPressed: () async {
-                        if (await lgConnection.isConnected()) {
+                        if (lgConnection.isConnected()) {
                           lgConnection.shutdown();
                           showDialog(
                             context: context,

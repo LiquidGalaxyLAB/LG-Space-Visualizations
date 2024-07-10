@@ -196,8 +196,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         SizedBox(width: spaceBetweenWidgets),
         Button(
-          icon: CustomIcon(
-              name: 'info', size: 40, color: secondaryColor),
+          icon: CustomIcon(name: 'info', size: 40, color: secondaryColor),
           onPressed: () {
             showDialog(
               context: context,
@@ -261,7 +260,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         future: lgConnection.connect(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            if (snapshot.data!) {
+                            if (snapshot.data ?? false) {
                               return const CustomDialog(
                                 title: 'Connection successful',
                                 content:
@@ -305,8 +304,8 @@ class _SettingsPageState extends State<SettingsPage> {
             color: secondaryColor,
             borderRadius: BorderRadius.circular(borderRadius),
             onPressed: () async {
-              if (await lgConnection.isConnected()) {
-                await lgConnection.disconnect();
+              if (lgConnection.isConnected()) {
+                lgConnection.disconnect();
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {

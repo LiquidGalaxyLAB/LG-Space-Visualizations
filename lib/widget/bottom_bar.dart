@@ -99,15 +99,7 @@ class _BottomBarState extends State<BottomBar> {
                     }
                   }),
               Container(width: 40),
-              FutureBuilder(
-                  future: lgConnection.isConnected(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return LedStatus(status: snapshot.data!, size: 35);
-                    } else {
-                      return const LedStatus(status: false, size: 35);
-                    }
-                  })
+              LedStatus(status: lgConnection.isConnected(), size: 35)
             ],
           )),
     );
