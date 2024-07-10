@@ -1,4 +1,4 @@
-import 'package:lg_space_visualizations/utils/costants.dart';
+import 'package:lg_space_visualizations/utils/constants.dart';
 
 /// A class representing a Sol (Martian day) and its associated data
 class SolDay {

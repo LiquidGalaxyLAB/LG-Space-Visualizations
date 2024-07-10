@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lg_space_visualizations/utils/costants.dart';
+import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/filter.dart';
 import 'package:lg_space_visualizations/utils/sol_day.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:lg_space_visualizations/utils/costants.dart';
+import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// A class that interacts with NASA's API to fetch data related to the perseverance rover

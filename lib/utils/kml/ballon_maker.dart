@@ -1,5 +1,5 @@
 import 'kml_makers.dart';
-import 'package:lg_space_visualizations/utils/costants.dart';
+import 'package:lg_space_visualizations/utils/constants.dart';
 
 /// Class responsible for generating KML balloons for various visualizations.
 class BalloonMaker {

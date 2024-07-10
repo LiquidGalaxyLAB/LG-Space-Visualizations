@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
-import 'package:lg_space_visualizations/utils/costants.dart';
+import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
