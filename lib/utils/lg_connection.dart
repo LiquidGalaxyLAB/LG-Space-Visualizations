@@ -1,9 +1,10 @@
 import 'dart:convert';
+
+import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/services.dart';
 import 'package:lg_space_visualizations/utils/constants.dart';
-import 'package:dartssh2/dartssh2.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lg_space_visualizations/utils/kml/kml_makers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Global instance of [LGConnection].
 LGConnection lgConnection = LGConnection();
@@ -192,14 +193,20 @@ class LGConnection {
     return screenAmount ~/ 2 + 1;
   }
 
+  /// Gets the password from the shared preferences. Returns null if not found.
+  Future<String?> get password async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('lg_password');
+  }
+
   /// Relaunches the Liquid Galaxy services.
   Future<void> relaunch() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (isConnected() == false && !prefs.containsKey('lg_password')) {
+    final String? pw = await password;
+
+    if (isConnected() == false || pw == null) {
       return;
     }
 
-    final pw = prefs.getString('lg_password')!;
     final user = client!.username;
 
     for (var i = screenAmount; i >= 1; i--) {
@@ -261,12 +268,10 @@ fi
 
   /// Reboots the Liquid Galaxy system.
   Future<void> reboot() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (isConnected() == false && !prefs.containsKey('lg_password')) {
+    final String? pw = await password;
+    if (isConnected() == false || pw == null) {
       return;
     }
-
-    final pw = prefs.getString('lg_password')!;
 
     for (var i = screenAmount; i >= 1; i--) {
       try {
@@ -281,12 +286,10 @@ fi
 
   /// Sets the refresh interval
   Future<void> setRefresh() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (isConnected() == false && !prefs.containsKey('lg_password')) {
+    final String? pw = await password;
+    if (isConnected() == false || pw == null) {
       return;
     }
-
-    final pw = prefs.getString('lg_password')!;
 
     const search = '<href>##LG_PHPIFACE##kml\\/slave_{{slave}}.kml<\\/href>';
     const replace =
@@ -316,12 +319,10 @@ fi
 
   /// Resets the refresh interval
   Future<void> resetRefresh() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (isConnected() == false && !prefs.containsKey('lg_password')) {
+    final String? pw = await password;
+    if (isConnected() == false || pw == null) {
       return;
     }
-
-    final pw = prefs.getString('lg_password')!;
 
     const search =
         '<href>##LG_PHPIFACE##kml\\/slave_{{slave}}.kml<\\/href><refreshMode>onInterval<\\/refreshMode><refreshInterval>2<\\/refreshInterval>';
@@ -347,12 +348,10 @@ fi
 
   /// Shuts down the Liquid Galaxy system.
   Future<void> shutdown() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (isConnected() == false && !prefs.containsKey('lg_password')) {
+    final String? pw = await password;
+    if (isConnected() == false || pw == null) {
       return;
     }
-
-    final pw = prefs.getString('lg_password')!;
 
     for (var i = screenAmount; i >= 1; i--) {
       try {
