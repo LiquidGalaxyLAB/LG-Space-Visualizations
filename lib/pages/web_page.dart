@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
+import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 /// [WebPage] is a widget that displays a web page
 /// within a [WebView] inside a [TemplatePage].
@@ -25,10 +25,13 @@ class _WebPageState extends State<WebPage> {
   void initState() {
     super.initState();
     controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted) // Enables JavaScript.
-      ..setBackgroundColor(backgroundColor) // Sets the background color.
+      // Enables JavaScript.
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      // Sets the background color.
+      ..setBackgroundColor(backgroundColor)
+      // Loads the URL passed to the widget.
       ..loadRequest(
-        Uri.parse(widget.url), // Loads the URL passed to the widget.
+        Uri.parse(widget.url),
       );
   }
 
@@ -40,9 +43,11 @@ class _WebPageState extends State<WebPage> {
         Expanded(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(borderRadius),
-            child: WebViewWidget(
-              controller: controller,
-            ),
+            child: Container(
+                color: backgroundColor,
+                child: WebViewWidget(
+                  controller: controller,
+                )),
           ),
         ),
       ],
