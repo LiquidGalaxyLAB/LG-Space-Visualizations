@@ -1,0 +1,14 @@
+{
+  "name": "Display Images Service for LG Space Visualizations",
+  "version": "1.0.0",
+  "description": "A service application that displays Mars rover photos on multiple screens using the LG Space Visualizations application.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Mattia Baggini",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
