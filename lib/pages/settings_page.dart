@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lg_space_visualizations/utils/nasa_api.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
@@ -44,7 +45,7 @@ class _SettingsPageState extends State<SettingsPage> {
     portController.text =
         prefs.containsKey('lg_port') ? prefs.getInt('lg_port').toString() : '';
     passwordController.text = prefs.getString('lg_password') ?? '';
-    apiKeyController.text = prefs.getString('nasa_key') ?? '';
+    apiKeyController.text = prefs.getString('nasa_api_key_unchecked') ?? '';
 
     loaded = true;
   }
@@ -142,19 +143,62 @@ class _SettingsPageState extends State<SettingsPage> {
                               'Enter the password of the Liquid Galaxy. This is the password\nof the master computer running Liquid Galaxy.',
                         ),
                         SizedBox(height: spaceBetweenWidgets),
-                        _buildRow(
-                          context,
-                          icon: 'api',
-                          label: 'Nasa API Key',
-                          controller: apiKeyController,
-                          hintText: 'Enter Nasa API Key (optional)',
-                          inputType: TextInputType.text,
-                          id: 'nasa_key',
-                          secure: true,
-                          dialogTitle: 'Nasa API Key',
-                          dialogContent:
-                              'Enter the NASA API key. This is optional and is used to\nfetch data for the MARS 2020 section.',
-                        ),
+                        _buildRow(context,
+                            icon: 'api',
+                            label: 'Nasa API Key',
+                            controller: apiKeyController,
+                            hintText: 'Enter Nasa API Key (optional)',
+                            inputType: TextInputType.text,
+                            id: 'nasa_api_key_unchecked',
+                            secure: true,
+                            dialogTitle: 'Nasa API Key',
+                            dialogContent:
+                                'Enter the NASA API key. This is used to\nfetch rover photos. If not provided\na default key will be used.',
+                            onSubmitted: (key) async {
+                          if (key.isEmpty) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                SharedPreferences.getInstance().then((prefs) {
+                                  prefs.remove('nasa_api_key');
+                                });
+                                return const CustomDialog(
+                                  title: 'API Key Saved',
+                                  content:
+                                      'No API key entered. The default API key will be used.',
+                                  iconName: 'api',
+                                );
+                              },
+                            );
+                          } else if (await NasaApi.isApiKeyValid(key)) {
+                            SharedPreferences.getInstance().then((prefs) {
+                              prefs.setString('nasa_api_key', key);
+                            });
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const CustomDialog(
+                                  title: 'API Key Saved',
+                                  content:
+                                      'The API key has been saved successfully.',
+                                  iconName: 'api',
+                                );
+                              },
+                            );
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const CustomDialog(
+                                  title: 'Invalid API Key',
+                                  content:
+                                      'The API key entered is invalid.\nPlease enter a valid API key or keep the default one.',
+                                  iconName: 'error',
+                                );
+                              },
+                            );
+                          }
+                        }),
                       ],
                     ),
                   ),
@@ -178,7 +222,8 @@ class _SettingsPageState extends State<SettingsPage> {
       required String id,
       bool secure = false,
       required String dialogTitle,
-      required String dialogContent}) {
+      required String dialogContent,
+      Function(String)? onSubmitted}) {
     return Row(
       children: [
         CustomIcon(name: icon, size: 50, color: secondaryColor),
@@ -193,6 +238,7 @@ class _SettingsPageState extends State<SettingsPage> {
           inputType: inputType,
           id: id,
           secure: secure,
+          onSubmitted: onSubmitted,
         ),
         SizedBox(width: spaceBetweenWidgets),
         Button(
@@ -217,7 +263,6 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget _buildButtons(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 30),
         SizedBox(
           height: 50,
           child: Button(
@@ -251,8 +296,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 prefs.setString('lg_ip', ipController.text);
                 prefs.setInt('lg_port', int.parse(portController.text));
                 prefs.setString('lg_password', passwordController.text);
-                // TODO encrypt api key
-                prefs.setString('nasa_key', apiKeyController.text);
+
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {

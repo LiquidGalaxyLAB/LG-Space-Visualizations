@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// A custom [Input] widget that supports secure text entry and saves input to shared preferences.
 ///
 /// The [hintText], [inputType], [controller], and [id] parameters are required.
-/// The [secure] parameter defaults to `false`.
+/// The [secure] parameter defaults to `false` and an optional [onSubmitted] callback function can be provided.
 class Input extends StatefulWidget {
   /// The hint text to display in the input field.
   final String hintText;
@@ -24,6 +24,10 @@ class Input extends StatefulWidget {
   /// The unique identifier for saving the input field's value to shared preferences.
   final String id;
 
+  /// The callback function to be executed when the input field is submitted.
+  /// If not provided, an empty function is used.
+  final void Function(String)? onSubmitted;
+
   const Input({
     super.key,
     required this.hintText,
@@ -31,6 +35,7 @@ class Input extends StatefulWidget {
     required this.controller,
     required this.id,
     this.secure = false,
+    this.onSubmitted,
   });
 
   @override
@@ -65,6 +70,7 @@ class _InputState extends State<Input> {
             prefs.remove(widget.id);
           }
         },
+        onSubmitted: widget.onSubmitted,
         decoration: InputDecoration(
           suffixIcon: widget.secure
               ? Button(
