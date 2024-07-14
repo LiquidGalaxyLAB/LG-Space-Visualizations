@@ -392,4 +392,35 @@ fi
     await client!.execute(
         'echo "flytoview=${KMLMakers.lookAtLinear(latitude, longitude, zoom, tilt, bearing)}" > /tmp/query.txt');
   }
+
+  /// Displays an image on the Liquid Galaxy system using Chromium.
+  ///
+  /// Requires `display_images_service` to be installed on the Liquid Galaxy system.
+  ///
+  /// [imgUrl] is the URL of the image to be displayed.
+  Future<void> displayImageOnLG(String imgUrl) async {
+    final String? pw = await password;
+
+    if (!isConnected() || pw == null) {
+      return;
+    }
+
+    await clearKml(keepLogos: true);
+
+    await client!.execute(
+        'bash display_images_service/scripts/open.sh $pw $imgUrl $screenAmount');
+  }
+
+  /// Closes the image displayed on the Liquid Galaxy system.
+  ///
+  /// Requires `display_images_service` to be installed on the Liquid Galaxy system.
+  Future<void> closeImageOnLG() async {
+    final String? pw = await password;
+
+    if (!isConnected() || pw == null) {
+      return;
+    }
+
+    await client!.execute('bash display_images_service/scripts/close.sh $pw');
+  }
 }
