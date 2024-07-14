@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
+import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/nasa_api.dart';
 import 'package:lg_space_visualizations/utils/rover_photo.dart';
 import 'package:lg_space_visualizations/utils/sol_day.dart';
@@ -163,6 +164,10 @@ class _CamerasImagesPageState extends State<CamerasImagesPage> {
   /// The full-screen view allows the user to display the photo on Liquid Galaxy.
   Widget _showImage(RoverPhoto photo) {
     return PopUp(
+        onPressed: () {
+          lgConnection.closeImageOnLG();
+          Navigator.pop(context);
+        },
         child: Container(
             color: primaryColor,
             child: Column(
@@ -192,7 +197,7 @@ class _CamerasImagesPageState extends State<CamerasImagesPage> {
                                 color: backgroundColor,
                                 size: 40),
                             onPressed: () {
-                              Navigator.of(context).pop();
+                              lgConnection.displayImageOnLG(photo.imgSrc);
                             }),
                       ],
                     ))
