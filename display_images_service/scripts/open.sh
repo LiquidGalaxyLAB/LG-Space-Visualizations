@@ -19,7 +19,7 @@ assign_screens() {
     if [ "$1" -eq 5 ]; then
         echo "lg4=1 lg5=2 lg1=3 lg2=4 lg3=5"
     elif [ "$1" -eq 3 ]; then
-        echo "lg3=1 lg1=2 lg3=3"
+        echo "lg3=1 lg1=2 lg2=3"
     else
         echo "Unsupported screen count. Only 3 or 5 screens are supported."
         exit 1
