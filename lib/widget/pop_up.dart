@@ -3,12 +3,16 @@ import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 
-/// A Widget that displays a popup with a [child] widget
+/// A Widget that displays a popup with a [child] widget and an optional [onPressed] callback.
 class PopUp extends StatelessWidget {
-  // Child widget to be displayed inside the popup
+  /// Child widget to be displayed inside the popup
   final Widget child;
 
-  const PopUp({super.key, required this.child});
+  /// The callback function to be executed when the close button is pressed.
+  /// If no callback is provided, it will default to popping the current route.
+  final VoidCallback? onPressed;
+
+  const PopUp({super.key, required this.child, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +45,7 @@ class PopUp extends StatelessWidget {
                 color: backgroundColor,
                 size: 40,
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: onPressed ?? () => Navigator.pop(context),
             ),
           ),
         ),

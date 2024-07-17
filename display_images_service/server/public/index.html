@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LG Space Visualizations</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Hide scrollbars */
+            height: 100%;
+        }
+        #fullscreenImage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Cover the full screen without losing aspect ratio */
+            object-position: center; /* Center the image */
+        }
+    </style>
+</head>
+<body>
+    <img id="fullscreenImage" src="" alt="Full Screen Image">
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const photoUrl = urlParams.get('photo_url');
+            const screen = urlParams.get('current_screen');
+            const totalScreen = urlParams.get('total_screen');
+
+            // Set image source
+            const image = document.getElementById('fullscreenImage');
+            image.src = photoUrl;
+
+            // Adjust for multi-screen display
+            image.style.width = `${totalScreen * 100}%`;
+            image.style.left = `${-100 * (screen - 1)}%`;
+
+            // Request full screen on image load
+            image.onload = () => {
+                if (image.requestFullscreen) {
+                    image.requestFullscreen();
+                } else if (image.webkitRequestFullscreen) { /* Safari */
+                    image.webkitRequestFullscreen();
+                } else if (image.msRequestFullscreen) { /* IE11 */
+                    image.msRequestFullscreen();
+                }
+            };
+        });
+    </script>
+</body>
+</html>

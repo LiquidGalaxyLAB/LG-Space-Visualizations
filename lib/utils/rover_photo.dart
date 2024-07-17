@@ -1,4 +1,4 @@
-import 'package:lg_space_visualizations/utils/costants.dart';
+import 'package:lg_space_visualizations/utils/constants.dart';
 
 /// A class representing a photo taken by the Mars rover. It requires an image source URL [imgSrc] and the [camera] that took the photo.
 class RoverPhoto {

@@ -1,10 +1,10 @@
-import 'dart:io';
+import 'dart:convert';
+
+import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/services.dart';
-import 'package:lg_space_visualizations/utils/costants.dart';
-import 'package:ssh2/ssh2.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/kml/kml_makers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Global instance of [LGConnection].
 LGConnection lgConnection = LGConnection();
@@ -23,14 +23,14 @@ class LGConnection {
   /// Checks if the SSH client is connected.
   ///
   /// Returns `true` if connected, `false` otherwise.
-  Future<bool> isConnected() async {
-    return client == null ? false : await client!.isConnected();
+  bool isConnected() {
+    return !(client?.isClosed ?? true);
   }
 
   /// Disconnects the SSH client if connected.
-  Future<void> disconnect() async {
-    if (await isConnected()) {
-      await client!.disconnect();
+  void disconnect() {
+    if (isConnected()) {
+      client?.close();
     }
   }
 
@@ -46,74 +46,82 @@ class LGConnection {
         !prefs.containsKey('lg_password')) {
       return false;
     }
-
-    client = SSHClient(
-      host: prefs.getString('lg_ip')!,
-      port: prefs.getInt('lg_port')!,
-      username: prefs.getString('lg_username')!,
-      passwordOrKey: prefs.getString('lg_password')!,
-    );
-
     try {
-      final connectionResult =
-          await client!.connect().timeout(const Duration(seconds: 8));
-      if (connectionResult == 'session_connected') {
-        screenAmount = await getScreenAmount();
-        await showLogos();
-        return true;
-      } else {
-        return false;
-      }
+      final socket = await SSHSocket.connect(
+        prefs.getString('lg_ip')!,
+        prefs.getInt('lg_port')!,
+      ).timeout(const Duration(seconds: 8));
+
+      client = SSHClient(
+        socket,
+        username: prefs.getString('lg_username')!,
+        onPasswordRequest: () => prefs.getString('lg_password')!,
+      );
+
+      await client!.authenticated;
+      screenAmount = await getScreenAmount();
+      await showLogos();
     } catch (e) {
       return false;
     }
+    return true;
   }
 
   /// Retrieves the number of screens in the Liquid Galaxy system.
   ///
   /// Returns the number of screens, or default value 1 if not connected or on failure
   Future<int> getScreenAmount() async {
-    if (await isConnected() == false) {
+    if (isConnected() == false) {
       return 1;
     }
 
-    String screenAmount = await client!
-            .execute("grep -oP '(?<=DHCP_LG_FRAMES_MAX=).*' personavars.txt") ??
-        '1';
+    var screenAmount = await client!
+        .run("grep -oP '(?<=DHCP_LG_FRAMES_MAX=).*' personavars.txt");
 
-    return int.parse(screenAmount);
+    return int.parse(utf8.decode(screenAmount));
   }
 
   /// Sends a KML file to the Liquid Galaxy system.
   ///
   /// [kml] is the KML content to send.
   Future<void> sendKml(String kml, {List<String> images = const []}) async {
-    if (await isConnected() == false) {
+    if (!isConnected()) {
       return;
     }
-    for (String image in images) {
-      await upload(image);
+
+    try {
+      for (String image in images) {
+        await upload(image);
+      }
+
+      const fileName = 'upload.kml';
+
+      final sftpClient = await client!.sftp();
+
+      final remoteFile = await sftpClient.open('/var/www/html/$fileName',
+          mode: SftpFileOpenMode.create |
+              SftpFileOpenMode.write |
+              SftpFileOpenMode.truncate);
+
+      // Convert KML string to a stream and write it directly
+      final kmlBytes = Uint8List.fromList(kml.codeUnits);
+      await remoteFile.write(Stream.value(kmlBytes).cast<Uint8List>());
+      await remoteFile.close();
+      await client!
+          .execute('echo "http://$lgUrl/$fileName" > /var/www/html/kmls.txt');
+    } catch (e) {
+      print('Error during KML file upload: $e');
     }
-
-    const fileName = 'upload.kml';
-
-    final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/$fileName');
-    file.writeAsStringSync(kml);
-
-    await client!.connectSFTP();
-    await client!.sftpUpload(path: file.path, toPath: '/var/www/html');
-    await client!
-        .execute('echo "http://$lgUrl/$fileName" > /var/www/html/kmls.txt');
   }
 
   /// Uploads a file to the Liquid Galaxy.
   ///
   /// requires the [filePath] of the file to upload.
   Future<void> upload(String filePath) async {
-    if (await isConnected() == false) {
+    if (!isConnected()) {
       return;
     }
+
     try {
       // Load file data from assets
       final ByteData data = await rootBundle.load(filePath);
@@ -121,24 +129,20 @@ class LGConnection {
       // Extract the file name from the provided filePath
       final fileName = filePath.split('/').last;
 
-      // Get the temporary directory
-      final tempDir = await getTemporaryDirectory();
-      final tempFilePath = '${tempDir.path}/$fileName';
+      final sftp = await client!.sftp();
 
-      // Write data to a temporary file if it doesn't exist
-      final tempFile = File(tempFilePath);
-      if (!tempFile.existsSync()) {
-        await tempFile.writeAsBytes(data.buffer.asUint8List(), flush: true);
-      }
+      // Upload file directly from byte data
+      final remoteFile = await sftp.open(
+        '/var/www/html/$fileName',
+        mode: SftpFileOpenMode.create | SftpFileOpenMode.write,
+      );
 
-      // Connect to SFTP and upload the temporary file
-      await client!.connectSFTP();
-      await client!.sftpUpload(path: tempFile.path, toPath: '/var/www/html');
-
-      // Clean up: delete the temporary file
-      await tempFile.delete();
+      // Convert ByteData to Uint8List and write it directly
+      final uint8ListData = data.buffer.asUint8List();
+      await remoteFile.write(Stream.value(uint8ListData).cast<Uint8List>());
+      await remoteFile.close();
     } catch (e) {
-      print("Error uploading file: $e");
+      print('Error during file upload: $e');
     }
   }
 
@@ -147,7 +151,7 @@ class LGConnection {
   /// [assetPath] is the path to the KML file in the assets folder.
   Future<void> sendKmlFromAssets(String assetPath,
       {List<String> images = const []}) async {
-    if (await isConnected() == false) {
+    if (isConnected() == false) {
       return;
     }
 
@@ -167,7 +171,7 @@ class LGConnection {
   /// [screenNumber] is the screen number.
   /// [kml] is the KML content to send.
   Future<void> sendKMLToSlave(int screenNumber, String kml) async {
-    if (await isConnected() == false) {
+    if (isConnected() == false) {
       return;
     }
 
@@ -189,13 +193,20 @@ class LGConnection {
     return screenAmount ~/ 2 + 1;
   }
 
+  /// Gets the password from the shared preferences. Returns null if not found.
+  Future<String?> get password async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('lg_password');
+  }
+
   /// Relaunches the Liquid Galaxy services.
   Future<void> relaunch() async {
-    if (await isConnected() == false) {
+    final String? pw = await password;
+
+    if (isConnected() == false || pw == null) {
       return;
     }
 
-    final pw = client!.passwordOrKey;
     final user = client!.username;
 
     for (var i = screenAmount; i >= 1; i--) {
@@ -227,7 +238,7 @@ fi
   ///
   /// [keepLogos] indicates whether to keep the logo overlays.
   Future<void> clearKml({bool keepLogos = false}) async {
-    if (await isConnected() == false) {
+    if (isConnected() == false) {
       return;
     }
     String query =
@@ -247,7 +258,7 @@ fi
 
   /// Display the logos on the last screen of the Liquid Galaxy.
   Future<void> showLogos() async {
-    if (await isConnected() == false) {
+    if (isConnected() == false) {
       return;
     }
 
@@ -257,11 +268,10 @@ fi
 
   /// Reboots the Liquid Galaxy system.
   Future<void> reboot() async {
-    if (await isConnected() == false) {
+    final String? pw = await password;
+    if (isConnected() == false || pw == null) {
       return;
     }
-
-    final pw = client!.passwordOrKey;
 
     for (var i = screenAmount; i >= 1; i--) {
       try {
@@ -276,11 +286,10 @@ fi
 
   /// Sets the refresh interval
   Future<void> setRefresh() async {
-    if (await isConnected() == false) {
+    final String? pw = await password;
+    if (isConnected() == false || pw == null) {
       return;
     }
-
-    final pw = client!.passwordOrKey;
 
     const search = '<href>##LG_PHPIFACE##kml\\/slave_{{slave}}.kml<\\/href>';
     const replace =
@@ -310,11 +319,10 @@ fi
 
   /// Resets the refresh interval
   Future<void> resetRefresh() async {
-    if (await isConnected() == false) {
+    final String? pw = await password;
+    if (isConnected() == false || pw == null) {
       return;
     }
-
-    final pw = client!.passwordOrKey;
 
     const search =
         '<href>##LG_PHPIFACE##kml\\/slave_{{slave}}.kml<\\/href><refreshMode>onInterval<\\/refreshMode><refreshInterval>2<\\/refreshInterval>';
@@ -340,11 +348,10 @@ fi
 
   /// Shuts down the Liquid Galaxy system.
   Future<void> shutdown() async {
-    if (await isConnected() == false) {
+    final String? pw = await password;
+    if (isConnected() == false || pw == null) {
       return;
     }
-
-    final pw = client!.passwordOrKey;
 
     for (var i = screenAmount; i >= 1; i--) {
       try {
@@ -360,7 +367,7 @@ fi
   ///
   /// The [planet] can be 'earth', 'mars', or 'moon'.
   Future<void> setPlanet(String planet) async {
-    if (await isConnected() == false ||
+    if (isConnected() == false ||
         planet.isEmpty ||
         (planet != 'earth' && planet != 'mars' && planet != 'moon')) {
       return;
@@ -379,10 +386,41 @@ fi
   /// [zoom] is the zoom level and [tilt] and [bearing] are the angles.
   Future<void> flyTo(double latitude, double longitude, double zoom,
       double tilt, double bearing) async {
-    if (await isConnected() == false) {
+    if (isConnected() == false) {
       return;
     }
     await client!.execute(
         'echo "flytoview=${KMLMakers.lookAtLinear(latitude, longitude, zoom, tilt, bearing)}" > /tmp/query.txt');
+  }
+
+  /// Displays an image on the Liquid Galaxy system using Chromium.
+  ///
+  /// Requires `display_images_service` to be installed on the Liquid Galaxy system.
+  ///
+  /// [imgUrl] is the URL of the image to be displayed.
+  Future<void> displayImageOnLG(String imgUrl) async {
+    final String? pw = await password;
+
+    if (!isConnected() || pw == null) {
+      return;
+    }
+
+    await clearKml(keepLogos: true);
+
+    await client!.execute(
+        'bash display_images_service/scripts/open.sh $pw $imgUrl $screenAmount');
+  }
+
+  /// Closes the image displayed on the Liquid Galaxy system.
+  ///
+  /// Requires `display_images_service` to be installed on the Liquid Galaxy system.
+  Future<void> closeImageOnLG() async {
+    final String? pw = await password;
+
+    if (!isConnected() || pw == null) {
+      return;
+    }
+
+    await client!.execute('bash display_images_service/scripts/close.sh $pw');
   }
 }

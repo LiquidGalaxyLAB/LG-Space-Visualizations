@@ -1,5 +1,5 @@
 import 'kml_makers.dart';
-import 'package:lg_space_visualizations/utils/costants.dart';
+import 'package:lg_space_visualizations/utils/constants.dart';
 
 /// Class responsible for generating KML balloons for various visualizations.
 class BalloonMaker {
@@ -11,16 +11,15 @@ class BalloonMaker {
   /// Returns a string containing the KML balloon.
   static String generatePerseveranceRoverBalloon() {
     return KMLMakers.screenOverlayBalloon(
-        '''<div style="width: 400px; color: white; padding-left: 20px; padding-right: 20px;">
+        '''<div style="width: 480px; color: white; padding-left: 10px; padding-right: 10px;">
       <center>
         <div>
-          <img width="90%" height="auto" src="$roverImageUrl">
+          <img width="100%" height="auto" src="$roverImageUrl">
         </div>
-        <h1 style="color:white;">Perseverance Rover</h1>
-        <p style="color:white;">
-        $roverIntroText
-        </p>
-        <p style="color:white;">Space Visualizations | Liquid Galaxy | GSoC 2024</p>
+        <h1 style="color:white; font-size: 28px;">Perseverance Rover</h1>
+        <p style="color:white; font-size: 18px;">$roverIntroText</p>
+        <br>
+        <p style="color:white; font-size: 15px;">Space Visualizations | Liquid Galaxy | GSoC 2024</p>
       </center>
       </div>''');
   }
@@ -32,17 +31,15 @@ class BalloonMaker {
   /// Returns a string containing the KML balloon.
   static String generateIngenuityHelicopterBalloon() {
     return KMLMakers.screenOverlayBalloon(
-        '''<div style="width: 400px; color: white; padding-left: 20px; padding-right: 20px;">
+        '''<div style="width: 480px; color: white; padding-left: 10px; padding-right: 10px;">
       <center>
         <div>
           <img width="100%" height="auto" src="$droneImageUrl">
         </div>
-        <h1 style="color:white;">Ingenuity Drone</h1>
-        <p style="color:white;">
-        $droneIntroText
-        </p>
-        <br><br>
-        <p style="color:white;">Space Visualizations | Liquid Galaxy | GSoC 2024</p>
+        <h1 style="color:white; font-size: 28px;">Ingenuity Drone</h1>
+        <p style="color:white; font-size: 18px;">$droneIntroText</p>
+        <br>
+        <p style="color:white; font-size: 15px;">Space Visualizations | Liquid Galaxy | GSoC 2024</p>
       </center>
       </div>''');
   }
@@ -52,12 +49,12 @@ class BalloonMaker {
   /// Returns a string containing the KML balloon.
   static String generateOrbitBalloon(String name, String description) {
     return KMLMakers.screenOverlayBalloon(
-        '''<div style="width: 400px; color: white; padding-left: 20px; padding-right: 20px;">
+        '''<div style="width: 480px; color: white; padding-left: 10px; padding-right: 10px;">
       <center>
-         <h1 style="color:white;">$name</h1>
-        <p style="color:white;">$description</p>
-         <br><br>
-        <p style="color:white;">Space Visualizations | Liquid Galaxy | GSoC 2024</p>
+         <h1 style="color:white; font-size: 28px;">$name</h1>
+        <p style="color:white; font-size: 18px;">$description</p>
+        <br>
+        <p style="color:white; font-size: 15px;">Space Visualizations | Liquid Galaxy | GSoC 2024</p>
       </center>
       </div>''');
   }

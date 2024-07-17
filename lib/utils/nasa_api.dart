@@ -1,11 +1,23 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:lg_space_visualizations/utils/costants.dart';
+import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// A class that interacts with NASA's API to fetch data related to the perseverance rover
 class NasaApi {
+
+  /// Checks if the provided [apiKey] is valid by making a request to NASA's API
+  static Future<bool> isApiKeyValid(String apiKey) async {
+    final response = await get(Uri.parse('https://api.nasa.gov/mars-photos/api/v1/manifests/perseverance?api_key=$apiKey'));
+
+    if (response.statusCode != 200) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   /// Fetches the API key from SharedPreferences. If not present, returns the default API key
   static Future<String> getApiKey() async {
     // Default API key set by default. This key is used if the user has not set a custom API key
@@ -15,8 +27,8 @@ class NasaApi {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // Checking if the API key is present in SharedPreferences and setting it as the API key if present
-    if (prefs.containsKey('NasaApiKey')) {
-      apiKey = prefs.getString('NasaApiKey')!;
+    if (prefs.containsKey('nasa_api_key')) {
+      apiKey = prefs.getString('nasa_api_key')!;
     }
 
     return apiKey;

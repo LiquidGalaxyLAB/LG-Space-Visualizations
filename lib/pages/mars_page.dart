@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
-import 'package:lg_space_visualizations/utils/costants.dart';
+import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
@@ -37,10 +37,10 @@ class _MarsPageState extends State<MarsPage> {
             ),
           ),
           padding: EdgeInsets.only(
-            top: spaceBetweenWidgets / 2,
-            left: 2 * spaceBetweenWidgets,
-            right: 2 * spaceBetweenWidgets,
-            bottom: spaceBetweenWidgets / 2,
+            top: spaceBetweenWidgets / 4,
+            left: spaceBetweenWidgets,
+            right: spaceBetweenWidgets,
+            bottom: spaceBetweenWidgets / 4,
           ),
           child: Row(
             children: [
@@ -60,7 +60,7 @@ class _MarsPageState extends State<MarsPage> {
                     missionOverviewIntroText,
                     style: smallText,
                   ),
-                  const SizedBox(height: 15),
+                  SizedBox(height: spaceBetweenWidgets / 2),
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -69,12 +69,12 @@ class _MarsPageState extends State<MarsPage> {
                       InfoBox(text: 'Jezero Crater', subText: 'Location'),
                     ],
                   ),
-                  const SizedBox(height: 15),
+                  SizedBox(height: spaceBetweenWidgets / 3),
                   Text(
                     missionOverviewDescriptionText,
                     style: smallText,
                   ),
-                  SizedBox(height: spaceBetweenWidgets),
+                  SizedBox(height: spaceBetweenWidgets / 1.5),
                   Button(
                     color: secondaryColor,
                     center: false,
@@ -118,6 +118,26 @@ class _MarsPageState extends State<MarsPage> {
                     onPressed: () {
                       setState(() {
                         Navigator.pushNamed(context, '/drone');
+                      });
+                    },
+                  ),
+                  SizedBox(height: spaceBetweenWidgets / 2),
+                  Button(
+                    color: secondaryColor,
+                    center: false,
+                    text: 'See Landing Simulation',
+                    padding: const EdgeInsets.only(left: 15),
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    icon: CustomIcon(
+                        name: 'landing', size: 50, color: backgroundColor),
+                    onPressed: () {
+                      setState(() {
+                        setState(() {
+                          Navigator.pushNamed(context, '/web', arguments: {
+                            'url': landingUrl,
+                            'title': 'Mars Landing Simulation'
+                          });
+                        });
                       });
                     },
                   )

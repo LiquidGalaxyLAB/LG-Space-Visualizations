@@ -16,10 +16,10 @@ class KMLMakers {
                   <ScreenOverlay>
                       <name>Logo</name>
                       <Icon><href>$imageUrl</href></Icon>                    
-                      <overlayXY x="0" y="0.5" xunits="fraction" yunits="fraction"/>
-                      <screenXY x="0" y="0.5" xunits="fraction" yunits="fraction"/>
+                      <overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>
+                      <screenXY x="0" y="0.98" xunits="fraction" yunits="fraction"/>
                       <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
-                      <size x="400" y="${400 * factor}" xunits="pixels" yunits="pixels"/>
+                      <size x="560" y="${560 * factor}" xunits="pixels" yunits="pixels"/>
                   </ScreenOverlay>
              </Folder>
     </Document>
