@@ -176,7 +176,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
                 tilt: widget.tilt,
               ),
               mapType: MapType.none,
-              zoomControlsEnabled: true,
+              zoomControlsEnabled: false,
               tiltGesturesEnabled: false,
               minMaxZoomPreference: const MinMaxZoomPreference(11, 14),
               onCameraMove: _onCameraMove,
