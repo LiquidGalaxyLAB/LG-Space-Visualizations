@@ -4,11 +4,11 @@ import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/kml/ballon_maker.dart';
 import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
-import 'package:lg_space_visualizations/widget/info_box.dart';
-import 'package:lg_space_visualizations/widget/view_model.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
+import 'package:lg_space_visualizations/widget/info_box.dart';
 import 'package:lg_space_visualizations/widget/map.dart';
+import 'package:lg_space_visualizations/widget/view_model.dart';
 
 /// [DronePage] is a widget that displays information about the Ingenuity Drone.
 ///
@@ -46,9 +46,6 @@ class _DronePageState extends State<DronePage> {
     // Send the KML file of the drone's path to the LG
     await lgConnection.sendKmlFromAssets('assets/kmls/drone_path.kml',
         images: ['assets/images/drone_icon.png']);
-
-    // Fly to the drone's location
-    await lgConnection.flyTo(18.476717, 77.382319, 25000, 0, 0);
   }
 
   @override
@@ -153,6 +150,8 @@ class _DronePageState extends State<DronePage> {
                         latitude: mapCenterLat,
                         longitude: mapCenterLong,
                         zoom: defaultMapZoom,
+                        tilt: defaultMapTilt,
+                        bearing: defaultMapBearing,
                         kmlName: 'Drone')),
               ],
             ),

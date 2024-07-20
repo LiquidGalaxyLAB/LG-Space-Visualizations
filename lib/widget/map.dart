@@ -21,10 +21,10 @@ class Map extends StatefulWidget {
   double zoom;
 
   // Fixed tilt angle of the map view
-  final double tilt = 0;
+  final double tilt;
 
   // Fixed bearing angle of the map view
-  final double bearing = 0;
+  final double bearing;
 
   // Type of KML to load, in this case Drone or Rover
   final String kmlName;
@@ -34,7 +34,9 @@ class Map extends StatefulWidget {
       required this.latitude,
       required this.longitude,
       required this.zoom,
-      required this.kmlName});
+      required this.kmlName,
+      required this.tilt,
+      required this.bearing});
 
   @override
   _MapState createState() => _MapState();
@@ -42,8 +44,6 @@ class Map extends StatefulWidget {
 
 class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   late GoogleMapController mapController; // Controller for Google Map
-
-
 
   /// Converts a zoom level to an altitude for Google Earth visualization.
   double zoomToGoogleEarthAltitude(int zoom) {
@@ -76,7 +76,8 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
           (visibleRegion.northeast.latitude - target.latitude);
     }
     // If the camera's northern boundary exceeds the allowed maximum, adjust latitude downwards
-    else if (visibleRegion.northeast.latitude > landingBounds.northeast.latitude) {
+    else if (visibleRegion.northeast.latitude >
+        landingBounds.northeast.latitude) {
       constrainedLat = landingBounds.northeast.latitude -
           (target.latitude - visibleRegion.southwest.latitude);
     }
@@ -88,7 +89,8 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
           (visibleRegion.northeast.longitude - target.longitude);
     }
     // If the camera's eastern boundary exceeds the allowed maximum, adjust longitude to the left
-    else if (visibleRegion.northeast.longitude > landingBounds.northeast.longitude) {
+    else if (visibleRegion.northeast.longitude >
+        landingBounds.northeast.longitude) {
       constrainedLng = landingBounds.northeast.longitude -
           (target.longitude - visibleRegion.southwest.longitude);
     }
@@ -174,8 +176,9 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
                 tilt: widget.tilt,
               ),
               mapType: MapType.none,
-              zoomControlsEnabled: false,
-              minMaxZoomPreference: const MinMaxZoomPreference(11, 16),
+              zoomControlsEnabled: true,
+              tiltGesturesEnabled: false,
+              minMaxZoomPreference: const MinMaxZoomPreference(11, 14),
               onCameraMove: _onCameraMove,
               onCameraIdle: _onCameraIdle,
             )));

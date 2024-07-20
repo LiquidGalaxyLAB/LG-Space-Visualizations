@@ -33,12 +33,10 @@ String missionOverviewDescriptionText =
 
 /// Conversion table mapping zoom levels to altitudes (in kilometers) for Google Earth visualization
 const Map<int, int> zoomToAltitude = {
-  11: 43,
-  12: 25,
-  13: 13,
-  14: 8,
-  15: 4,
-  16: 2,
+  11: 10,
+  12: 7,
+  13: 5,
+  14: 3,
 };
 
 /// Bounds for the Mars Perseverance Rover landing site.
@@ -47,10 +45,12 @@ final LatLngBounds landingBounds = LatLngBounds(
   northeast: const LatLng(18.88553559552019, 78.14596461992367),
 );
 
-/// Default map center and zoom level
-double mapCenterLat = 18.472805;
-double mapCenterLong = 77.382319;
+/// Default map center, zoom level, tilt and bearing
+double mapCenterLat = 18.465;
+double mapCenterLong = 77.388997;
 double defaultMapZoom = 12;
+double defaultMapTilt = 0;
+double defaultMapBearing = 25;
 
 /// List of months
 List<String> months = [

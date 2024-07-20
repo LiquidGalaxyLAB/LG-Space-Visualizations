@@ -171,6 +171,8 @@ class _RoverPageState extends State<RoverPage> {
                         latitude: mapCenterLat,
                         longitude: mapCenterLong,
                         zoom: defaultMapZoom,
+                        tilt: defaultMapTilt,
+                        bearing: defaultMapBearing,
                         kmlName: 'Rover')),
               ],
             ),
