@@ -46,9 +46,6 @@ class _RoverPageState extends State<RoverPage> {
     // Send the KML file of the rover's path to the LG
     lgConnection.sendKmlFromAssets('assets/kmls/rover_path.kml',
         images: ['assets/images/rover_icon.png']);
-
-    // Fly to the drone's location.
-    await lgConnection.flyTo(18.476717, 77.382319, 25000, 0, 0);
   }
 
   @override
