@@ -4,6 +4,7 @@ import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/services.dart';
 import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/kml/kml_makers.dart';
+import 'package:lg_space_visualizations/utils/orbit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Global instance of [LGConnection].
@@ -24,7 +25,7 @@ class LGConnection {
   ///
   /// Returns `true` if connected, `false` otherwise.
   bool isConnected() {
-    return !(client?.isClosed ?? true);
+    return client?.isClosed == false;
   }
 
   /// Disconnects the SSH client if connected.
@@ -391,6 +392,65 @@ fi
     }
     await client!.execute(
         'echo "flytoview=${KMLMakers.lookAtLinear(latitude, longitude, zoom, tilt, bearing)}" > /tmp/query.txt');
+  }
+
+  /// Builds an orbit animation around a specific latitude and longitude.
+  ///
+  /// This method computes an orbit animation based on provided [latitude], [longitude], [zoom] level,
+  /// [tilt], and [bearing].
+  ///
+  /// Upon creating the orbit, it automatically initiates the orbit by calling `startOrbit`.
+  Future<void> buildOrbit(double latitude, double longitude, double zoom,
+      double tilt, double bearing) async {
+    final orbit =
+        Orbit.buildOrbit(Orbit.tag(latitude, longitude, zoom, tilt, bearing));
+    await startOrbit(orbit);
+  }
+
+  /// Starts the orbit animation on the Liquid Galaxy.
+  ///
+  /// This method sends a KML file representing the orbit to the Liquid Galaxy and starts
+  /// the orbit animation.
+  ///
+  /// [tourKml] is the KML content defining the orbit.
+  Future<void> startOrbit(String tourKml) async {
+    if (!isConnected()) {
+      return;
+    }
+
+    const fileName = 'Orbit.kml';
+
+    final sftp = await client!.sftp();
+
+    // Open a remote file for writing
+    final remoteFile = await sftp.open('/var/www/html/$fileName',
+        mode: SftpFileOpenMode.create | SftpFileOpenMode.write);
+
+    // Convert KML string to a stream
+    final kmlStreamBytes = Stream.value(Uint8List.fromList(tourKml.codeUnits));
+
+    // Write the KML content to the remote file
+    await remoteFile.write(kmlStreamBytes);
+
+    await remoteFile.close();
+
+    // Prepare the orbit
+    await client!
+        .execute("echo '\nhttp://lg1:81/$fileName' >> /var/www/html/kmls.txt");
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    // Start the orbit
+    await client!.execute('echo "playtour=Orbit" > /tmp/query.txt');
+  }
+
+  /// Stops any currently playing orbit animation on the Liquid Galaxy.
+  Future<void> stopOrbit() async {
+    if (!isConnected()) {
+      return;
+    }
+
+    await client!.execute('echo "exittour=true" > /tmp/query.txt');
   }
 
   /// Displays an image on the Liquid Galaxy system using Chromium.

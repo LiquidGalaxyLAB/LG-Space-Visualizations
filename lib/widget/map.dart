@@ -6,6 +6,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/widget/button.dart';
+import 'package:lg_space_visualizations/widget/custom_icon.dart';
 
 /// The [Map] widget displays a Google Map with a specific [latitude], [longitude], and [zoom] level.
 ///
@@ -44,6 +46,45 @@ class Map extends StatefulWidget {
 
 class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   late GoogleMapController mapController; // Controller for Google Map
+  late AnimationController
+      rotationOrbitController; // Controller for the Icon rotation animation
+  bool isOrbiting = false; // Flag to check if the map is currently orbiting
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize the rotationOrbitController
+    rotationOrbitController = AnimationController(
+      duration: const Duration(seconds: 50),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    // Dispose the rotationOrbitController
+    rotationOrbitController.dispose();
+
+    // Stop the orbiting if it is currently active
+    lgConnection.stopOrbit();
+
+    super.dispose();
+  }
+
+  /// Stops the orbiting of the Liquid Galaxy.
+  Future<void> stopOrbit() async {
+    await lgConnection.stopOrbit();
+    rotationOrbitController.stop();
+    _onCameraIdle();
+  }
+
+  /// Starts the orbiting of the Liquid Galaxy.
+  Future<void> startOrbit() async {
+    await lgConnection.buildOrbit(mapCenterLat, mapCenterLong,
+        defaultOrbitRange, defaultOrbitTilt, defaultMapBearing);
+    rotationOrbitController.repeat();
+  }
 
   /// Converts a zoom level to an altitude for Google Earth visualization.
   double zoomToGoogleEarthAltitude(int zoom) {
@@ -151,36 +192,76 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-          color: secondaryColor,
-          border: Border.all(
-            color: secondaryColor,
-            width: 5,
-          ),
-          borderRadius: BorderRadius.circular(borderRadius),
-        ),
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(borderRadius - 5),
-            child: GoogleMap(
-              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-                Factory<OneSequenceGestureRecognizer>(
-                  () => EagerGestureRecognizer(),
+    return Stack(children: [
+      Positioned.fill(
+          child: Container(
+              decoration: BoxDecoration(
+                color: secondaryColor,
+                border: Border.all(
+                  color: secondaryColor,
+                  width: 5,
                 ),
-              },
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: LatLng(widget.latitude, widget.longitude),
-                zoom: widget.zoom,
-                bearing: widget.bearing,
-                tilt: widget.tilt,
+                borderRadius: BorderRadius.circular(borderRadius),
               ),
-              mapType: MapType.none,
-              zoomControlsEnabled: false,
-              tiltGesturesEnabled: false,
-              minMaxZoomPreference: const MinMaxZoomPreference(11, 14),
-              onCameraMove: _onCameraMove,
-              onCameraIdle: _onCameraIdle,
-            )));
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(borderRadius - 5),
+                child: GoogleMap(
+                  gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                    Factory<OneSequenceGestureRecognizer>(
+                      () => EagerGestureRecognizer(),
+                    ),
+                  },
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(widget.latitude, widget.longitude),
+                    zoom: widget.zoom,
+                    bearing: widget.bearing,
+                    tilt: widget.tilt,
+                  ),
+                  mapType: MapType.none,
+                  zoomControlsEnabled: false,
+                  tiltGesturesEnabled: false,
+                  minMaxZoomPreference: const MinMaxZoomPreference(11, 14),
+                  onCameraMove: _onCameraMove,
+                  onCameraIdle: _onCameraIdle,
+                ),
+              ))),
+      Positioned(
+          bottom: 20,
+          right: 20,
+          child: Tooltip(
+            message: 'Orbit on Liquid Galaxy',
+            child: RotationTransition(
+              turns:
+                  Tween(begin: 0.0, end: 25.0).animate(rotationOrbitController),
+              child: Builder(builder: (context) {
+                return Container(
+                    decoration: BoxDecoration(
+                      color: backgroundColor,
+                      border: Border.all(
+                        color: secondaryColor,
+                        width: 3,
+                      ),
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Button(
+                        padding: const EdgeInsets.all(8),
+                        icon: CustomIcon(
+                            name: 'orbit', size: 40, color: secondaryColor),
+                        onPressed: () async {
+                          // Start or stop orbiting based on the current state
+                          if (isOrbiting) {
+                            await stopOrbit();
+                          } else {
+                            await startOrbit();
+                          }
+
+                          // Update the state to reflect the new orbiting state
+                          isOrbiting = !isOrbiting;
+                        }));
+              }),
+            ),
+          ))
+    ]);
   }
 }

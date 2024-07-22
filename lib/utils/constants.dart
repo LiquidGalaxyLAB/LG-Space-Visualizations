@@ -52,6 +52,10 @@ double defaultMapZoom = 12;
 double defaultMapTilt = 0;
 double defaultMapBearing = 25;
 
+/// Default orbit tilt and range
+double defaultOrbitTilt = 60;
+double defaultOrbitRange= 9000;
+
 /// List of months
 List<String> months = [
   'Jan',
