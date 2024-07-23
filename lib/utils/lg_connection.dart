@@ -4,7 +4,7 @@ import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/services.dart';
 import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/kml/kml_makers.dart';
-import 'package:lg_space_visualizations/utils/orbit.dart';
+import 'package:lg_space_visualizations/utils/kml/orbit_kml.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Global instance of [LGConnection].
@@ -403,7 +403,7 @@ fi
   Future<void> buildOrbit(double latitude, double longitude, double zoom,
       double tilt, double bearing) async {
     final orbit =
-        Orbit.buildOrbit(Orbit.tag(latitude, longitude, zoom, tilt, bearing));
+        OrbitKml.buildOrbit(OrbitKml.tag(latitude, longitude, zoom, tilt, bearing));
     await startOrbit(orbit);
   }
 

@@ -1,4 +1,4 @@
-class Orbit {
+class OrbitKml {
   static tag(double latitude, double longitude, double range, double tilt,
       double bearing) {
     double heading = bearing;
