@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
 import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/kml/ballon_maker.dart';
@@ -152,6 +153,8 @@ class _DronePageState extends State<DronePage> {
                         zoom: defaultMapZoom,
                         tilt: defaultMapTilt,
                         bearing: defaultMapBearing,
+                        minMaxZoomPreference: const MinMaxZoomPreference(11, 14),
+                        bounds: roverLandingBounds,
                         kmlName: 'Drone')),
               ],
             ),

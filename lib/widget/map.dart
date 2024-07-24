@@ -9,8 +9,9 @@ import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 
-/// The [Map] widget displays a Google Map with a specific [latitude], [longitude], and [zoom] level.
+/// The [Map] widget displays a Google Map with a specific [latitude], [longitude], [tilt], [bearing] and [zoom] level.
 ///
+/// The map can be constrained to a specific [bounds] if provided, it can also display a set of [polylines] on the map.
 /// It also loads a KML layer on the map based on the [kmlName] provided.
 class Map extends StatefulWidget {
   // Latitude for the center of the map
@@ -26,19 +27,35 @@ class Map extends StatefulWidget {
   final double tilt;
 
   // Fixed bearing angle of the map view
-  final double bearing;
+  double bearing;
 
   // Type of KML to load, in this case Drone or Rover
-  final String kmlName;
+  final String? kmlName;
+
+  // Type of map to display, default is none
+  final MapType mapType;
+
+  // Set of polylines to display on the map
+  final Set<Polyline> polylines;
+
+  // Min and max zoom levels for the map const MinMaxZoomPreference(11, 14);
+  final MinMaxZoomPreference minMaxZoomPreference;
+
+  // Optional bounds to constrain the camera's target
+  final LatLngBounds? bounds;
 
   Map(
       {super.key,
       required this.latitude,
       required this.longitude,
       required this.zoom,
-      required this.kmlName,
       required this.tilt,
-      required this.bearing});
+      required this.bearing,
+      this.mapType = MapType.none,
+      this.polylines = const {},
+      this.kmlName,
+      this.bounds,
+      this.minMaxZoomPreference = MinMaxZoomPreference.unbounded});
 
   @override
   _MapState createState() => _MapState();
@@ -91,70 +108,85 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
     return (zoomToAltitude[zoom] ?? 43) * 1000;
   }
 
-  /// Initializes the map controller and loads a KML layer.
+  /// Initializes the map controller and loads a KML layer if a KML name is provided.
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
-    addKml(mapController, 'map#add${widget.kmlName}KML');
+
+    // Add the KML layer to the map if a KML name is provided
+    if (widget.kmlName != null) {
+      addKml(mapController, 'map#add${widget.kmlName}KML');
+    }
   }
 
   /// Handles camera movement events.
   /// This method ensures the camera's target stays within predefined bounds.
   Future<void> _onCameraMove(CameraPosition position) async {
-    // Extract the target coordinates from the current camera position
-    LatLng target = position.target;
+    if (widget.bounds == null) {
+      // Update the widget's state to reflect the new or adjusted camera position
+      widget.longitude = position.target.longitude;
+      widget.latitude = position.target.latitude;
+      widget.zoom = position.zoom;
+      widget.bearing = position.bearing;
+    } else {
+      // Extract the target coordinates from the current camera position
+      LatLng target = position.target;
 
-    // Retrieve the currently visible region of the map to determine its boundaries
-    LatLngBounds visibleRegion = await mapController.getVisibleRegion();
+      // Retrieve the currently visible region of the map to determine its boundaries
+      LatLngBounds visibleRegion = await mapController.getVisibleRegion();
 
-    // Initialize variables to hold the potentially adjusted coordinates
-    double constrainedLat = target.latitude;
-    double constrainedLng = target.longitude;
+      // Initialize variables to hold the potentially adjusted coordinates
+      double constrainedLat = target.latitude;
+      double constrainedLng = target.longitude;
 
-    // Constrain the latitude:
-    // If the camera's southern boundary is below the allowed minimum, adjust latitude upwards
-    if (visibleRegion.southwest.latitude < landingBounds.southwest.latitude) {
-      constrainedLat = landingBounds.southwest.latitude +
-          (visibleRegion.northeast.latitude - target.latitude);
+      // Constrain the latitude:
+      // If the camera's southern boundary is below the allowed minimum, adjust latitude upwards
+      if (visibleRegion.southwest.latitude <
+          widget.bounds!.southwest.latitude) {
+        constrainedLat = widget.bounds!.southwest.latitude +
+            (visibleRegion.northeast.latitude - target.latitude);
+      }
+      // If the camera's northern boundary exceeds the allowed maximum, adjust latitude downwards
+      else if (visibleRegion.northeast.latitude >
+          widget.bounds!.northeast.latitude) {
+        constrainedLat = widget.bounds!.northeast.latitude -
+            (target.latitude - visibleRegion.southwest.latitude);
+      }
+
+      // Constrain the longitude:
+      // If the camera's western boundary is left of the allowed minimum, adjust longitude to the right
+      if (visibleRegion.southwest.longitude <
+          widget.bounds!.southwest.longitude) {
+        constrainedLng = widget.bounds!.southwest.longitude +
+            (visibleRegion.northeast.longitude - target.longitude);
+      }
+      // If the camera's eastern boundary exceeds the allowed maximum, adjust longitude to the left
+      else if (visibleRegion.northeast.longitude >
+          widget.bounds!.northeast.longitude) {
+        constrainedLng = widget.bounds!.northeast.longitude -
+            (target.longitude - visibleRegion.southwest.longitude);
+      }
+
+      // Create a new target position using the potentially adjusted coordinates
+      LatLng constrainedTarget = LatLng(constrainedLat, constrainedLng);
+
+      // If the target has been adjusted, update the map's camera to reflect the changes
+      if (constrainedTarget != target) {
+        mapController.moveCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: constrainedTarget,
+            zoom: position.zoom,
+            bearing: position.bearing,
+            tilt: position.tilt,
+          ),
+        ));
+      }
+
+      // Update the widget's state to reflect the new or adjusted camera position
+      widget.longitude = constrainedTarget.longitude;
+      widget.latitude = constrainedTarget.latitude;
+      widget.zoom = position.zoom;
+      widget.bearing = position.bearing;
     }
-    // If the camera's northern boundary exceeds the allowed maximum, adjust latitude downwards
-    else if (visibleRegion.northeast.latitude >
-        landingBounds.northeast.latitude) {
-      constrainedLat = landingBounds.northeast.latitude -
-          (target.latitude - visibleRegion.southwest.latitude);
-    }
-
-    // Constrain the longitude:
-    // If the camera's western boundary is left of the allowed minimum, adjust longitude to the right
-    if (visibleRegion.southwest.longitude < landingBounds.southwest.longitude) {
-      constrainedLng = landingBounds.southwest.longitude +
-          (visibleRegion.northeast.longitude - target.longitude);
-    }
-    // If the camera's eastern boundary exceeds the allowed maximum, adjust longitude to the left
-    else if (visibleRegion.northeast.longitude >
-        landingBounds.northeast.longitude) {
-      constrainedLng = landingBounds.northeast.longitude -
-          (target.longitude - visibleRegion.southwest.longitude);
-    }
-
-    // Create a new target position using the potentially adjusted coordinates
-    LatLng constrainedTarget = LatLng(constrainedLat, constrainedLng);
-
-    // If the target has been adjusted, update the map's camera to reflect the changes
-    if (constrainedTarget != target) {
-      mapController.moveCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: constrainedTarget,
-          zoom: position.zoom,
-          bearing: position.bearing,
-          tilt: position.tilt,
-        ),
-      ));
-    }
-
-    // Update the widget's state to reflect the new or adjusted camera position
-    widget.longitude = constrainedTarget.longitude;
-    widget.latitude = constrainedTarget.latitude;
-    widget.zoom = position.zoom;
   }
 
   /// Updates the LG map visualization on camera idle.
@@ -218,12 +250,13 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
                     bearing: widget.bearing,
                     tilt: widget.tilt,
                   ),
-                  mapType: MapType.none,
+                  mapType: widget.mapType,
                   zoomControlsEnabled: false,
                   tiltGesturesEnabled: false,
-                  minMaxZoomPreference: const MinMaxZoomPreference(11, 14),
+                  minMaxZoomPreference: widget.minMaxZoomPreference,
                   onCameraMove: _onCameraMove,
                   onCameraIdle: _onCameraIdle,
+                  polylines: widget.polylines,
                 ),
               ))),
       Positioned(

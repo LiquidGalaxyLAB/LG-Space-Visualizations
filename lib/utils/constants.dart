@@ -40,7 +40,7 @@ const Map<int, int> zoomToAltitude = {
 };
 
 /// Bounds for the Mars Perseverance Rover landing site.
-final LatLngBounds landingBounds = LatLngBounds(
+final LatLngBounds roverLandingBounds = LatLngBounds(
   southwest: const LatLng(17.98275998805969, 76.52780706979584),
   northeast: const LatLng(18.88553559552019, 78.14596461992367),
 );
@@ -54,7 +54,7 @@ double defaultMapBearing = 25;
 
 /// Default orbit tilt and range
 double defaultOrbitTilt = 60;
-double defaultOrbitRange= 9000;
+double defaultOrbitRange = 9000;
 
 /// List of months
 List<String> months = [
