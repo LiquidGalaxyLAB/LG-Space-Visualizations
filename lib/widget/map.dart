@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +11,10 @@ import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 
-/// The [Map] widget displays a Google Map with a specific [latitude], [longitude], [tilt], [bearing] and [zoom] level.
+/// The [Map] widget displays a Google Map with a specific [latitude], [longitude], [tilt], [bearing] and [zoom] level. The zoom level can be adjusted using the [boost] parameter.
 ///
 /// The map can be constrained to a specific [bounds] if provided, it can also display a set of [polylines] on the map.
-/// It also loads a KML layer on the map based on the [kmlName] provided.
+/// It also loads a KML layer on the map based on the [kmlName] provided. The [mapType] can be set to display a specific type of map.
 class Map extends StatefulWidget {
   // Latitude for the center of the map
   double latitude;
@@ -44,6 +46,9 @@ class Map extends StatefulWidget {
   // Optional bounds to constrain the camera's target
   final LatLngBounds? bounds;
 
+  // Optional boost value to increase the zoom level
+  final int boost;
+
   Map(
       {super.key,
       required this.latitude,
@@ -55,6 +60,7 @@ class Map extends StatefulWidget {
       this.polylines = const {},
       this.kmlName,
       this.bounds,
+      this.boost = 0,
       this.minMaxZoomPreference = MinMaxZoomPreference.unbounded});
 
   @override
@@ -105,7 +111,9 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
 
   /// Converts a zoom level to an altitude for Google Earth visualization.
   double zoomToGoogleEarthAltitude(int zoom) {
-    return (zoomToAltitude[zoom] ?? 43) * 1000;
+    zoom = zoom + widget.boost;
+
+    return (591657550.500000 / pow(2, zoom)) / lgConnection.screenAmount;
   }
 
   /// Initializes the map controller and loads a KML layer if a KML name is provided.
