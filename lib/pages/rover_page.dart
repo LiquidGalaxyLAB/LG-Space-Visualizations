@@ -173,6 +173,7 @@ class _RoverPageState extends State<RoverPage> {
                         bearing: defaultMapBearing,
                         minMaxZoomPreference: const MinMaxZoomPreference(11, 14),
                         bounds: roverLandingBounds,
+                        boost: 2,
                         kmlName: 'Rover')),
               ],
             ),

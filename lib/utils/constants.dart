@@ -31,14 +31,6 @@ String missionOverviewIntroText =
 String missionOverviewDescriptionText =
     'NASA chose Jezero Crater as the landing site for the Perseverance rover. Scientists believe the area was once flooded with water and was home to an ancient river delta. The process of landing site selection involved a combination of mission team members and scientists from around the world, who carefully examined more than 60 candidate locations on the Red Planet. After the exhaustive five-year study of potential sites, each with its own unique characteristics and appeal, Jezero rose to the top.';
 
-/// Conversion table mapping zoom levels to altitudes (in kilometers) for Google Earth visualization
-const Map<int, int> zoomToAltitude = {
-  11: 10,
-  12: 7,
-  13: 5,
-  14: 3,
-};
-
 /// Bounds for the Mars Perseverance Rover landing site.
 final LatLngBounds roverLandingBounds = LatLngBounds(
   southwest: const LatLng(17.98275998805969, 76.52780706979584),
