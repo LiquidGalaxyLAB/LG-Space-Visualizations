@@ -104,8 +104,8 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
 
   /// Starts the orbiting of the Liquid Galaxy.
   Future<void> startOrbit() async {
-    await lgConnection.buildOrbit(mapCenterLat, mapCenterLong,
-        defaultOrbitRange, defaultOrbitTilt, defaultMapBearing);
+    await lgConnection.buildOrbit(mapMarsCenterLat, mapMarsCenterLong,
+        defaultMarsOrbitRange, defaultMarsOrbitTilt, defaultMarsMapBearing);
     rotationOrbitController.repeat();
   }
 

@@ -148,11 +148,11 @@ class _DronePageState extends State<DronePage> {
                 SizedBox(height: spaceBetweenWidgets / 4),
                 Expanded(
                     child: Map(
-                        latitude: mapCenterLat,
-                        longitude: mapCenterLong,
-                        zoom: defaultMapZoom,
-                        tilt: defaultMapTilt,
-                        bearing: defaultMapBearing,
+                        latitude: mapMarsCenterLat,
+                        longitude: mapMarsCenterLong,
+                        zoom: defaultMarsMapZoom,
+                        tilt: defaultMarsMapTilt,
+                        bearing: defaultMarsMapBearing,
                         minMaxZoomPreference: const MinMaxZoomPreference(11, 14),
                         bounds: roverLandingBounds,
                         boost: 2,

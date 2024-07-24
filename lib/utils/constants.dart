@@ -37,16 +37,16 @@ final LatLngBounds roverLandingBounds = LatLngBounds(
   northeast: const LatLng(18.88553559552019, 78.14596461992367),
 );
 
-/// Default map center, zoom level, tilt and bearing
-double mapCenterLat = 18.465;
-double mapCenterLong = 77.388997;
-double defaultMapZoom = 12;
-double defaultMapTilt = 0;
-double defaultMapBearing = 25;
+/// Default mars map center, zoom level, tilt and bearing
+double mapMarsCenterLat = 18.465;
+double mapMarsCenterLong = 77.388997;
+double defaultMarsMapZoom = 12;
+double defaultMarsMapTilt = 0;
+double defaultMarsMapBearing = 25;
 
-/// Default orbit tilt and range
-double defaultOrbitTilt = 60;
-double defaultOrbitRange = 9000;
+/// Default mars orbit tilt and range
+double defaultMarsOrbitTilt = 60;
+double defaultMarsOrbitRange = 9000;
 
 /// List of months
 List<String> months = [
