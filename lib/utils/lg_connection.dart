@@ -424,7 +424,7 @@ fi
 
     // Open a remote file for writing
     final remoteFile = await sftp.open('/var/www/html/$fileName',
-        mode: SftpFileOpenMode.create | SftpFileOpenMode.write);
+        mode: SftpFileOpenMode.create | SftpFileOpenMode.write | SftpFileOpenMode.truncate);
 
     // Convert KML string to a stream
     final kmlStreamBytes = Stream.value(Uint8List.fromList(tourKml.codeUnits));
