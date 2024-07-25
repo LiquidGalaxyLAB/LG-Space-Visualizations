@@ -17,6 +17,8 @@ String roverUrl =
     'https://science.nasa.gov/mission/mars-2020-perseverance/rover-components/';
 String inspectRoverUrl =
     'https://mars.nasa.gov/js/mars_2020_rover/v1.0/index.html';
+String orbitsUrl =
+    'https://www.esa.int/Enabling_Support/Space_Transportation/Types_of_orbits';
 
 /// Texts
 String roverIntroText =
