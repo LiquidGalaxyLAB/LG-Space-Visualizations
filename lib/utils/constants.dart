@@ -241,19 +241,28 @@ List<Orbit> orbits = [
     period: 92.9,
   ),
   Orbit(
-    id: 'very_low_earth',
+    id: 'vleo',
     orbitName: 'Very Low Earth',
-    satelliteName: 'TSUBAME',
+    satelliteName: 'Tsubame',
     orbitDescription:
         '''Very Low Earth Orbit (VLEO) is typically situated at an altitude of between 250-350 kilometers. It offers the advantage of being closer to Earth than the traditional orbit of satellites, enabling higher resolution images from optical sensors, improved communications, and greater agility.\n\nVLEO is safer from collisions with space debris because objects in these orbits eventually burn up as they re-enter the Earth's atmosphere. However, satellites operating at such low altitudes must withstand surface erosion caused by atomic oxygen, necessitating the use of more durable materials.''',
     satelliteDescription:
-        '''TSUBAME is a satellite developed by the Tokyo Institute of Technology designed to test gyroscopes for pointing control while conducting X-ray astronomy observations and demonstrate a compact camera to look down on Earth.''',
+        '''Tsubame is a satellite developed by the Tokyo Institute of Technology designed to test gyroscopes for pointing control while conducting X-ray astronomy observations and demonstrate a compact camera to look down on Earth.''',
     line1:
         '1 40302U 14070E   24202.19084774  .00076823  00000-0  10425-2 0  9991',
     line2:
         '2 40302  97.1068 209.0045 0013898   2.8929 357.2405 15.57275034538383',
     startDate: DateTime.utc(2024, 7, 14, 0, 0, 0),
-    endDate: DateTime.utc(2024, 7, 15, 1, 0, 0),
+    endDate: DateTime.utc(2024, 7, 16, 0, 0, 0),
     period: 92.5,
   ),
+  Orbit(
+    id: 'walker_constellation',
+    orbitName: 'Walker Constellation',
+    satelliteName: 'STARLINK',
+    orbitDescription: '''Constellations are a group of satellites working in unison to complete a mission objective. A Walker constellation consists of either a plane or multiple planes where each plane contains several satellites spaced in different locations.\n\nUnlike a single satellite, a constellation can provide permanent global or near-global coverage, such that at any time everywhere on Earth at least one satellite is visible. Satellites are typically placed in sets of complementary orbital planes and connect to globally distributed ground stations. They may also use inter-satellite communication.''',
+    satelliteDescription: '''Starlink is a satellite internet constellation operated by Starlink, providing coverage to 80 countries. It also aims to provide global mobile broadband.\n\nSpaceX started launching Starlink satellites in 2019. It consists of over 6,000 mass-produced small satellites in low Earth orbit (LEO) that communicate with designated ground transceivers.''',
+    startDate: DateTime.utc(2024, 7, 14, 0, 0, 0),
+    endDate: DateTime.utc(2024, 7, 15, 23, 0, 0),
+  )
 ];
