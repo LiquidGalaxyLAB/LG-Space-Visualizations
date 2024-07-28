@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
 import 'package:lg_space_visualizations/utils/constants.dart';
+import 'package:lg_space_visualizations/utils/kml/ballon_maker.dart';
 import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/orbit.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
@@ -42,7 +43,17 @@ class _OrbitPageState extends State<OrbitPage> {
 
   /// Sends the KML file to the Liquid Galaxy for visualization.
   showVisualizations() async {
-    lgConnection.sendKmlFromAssets(widget.orbit.kmlPath);
+    // Clear the KML on the LG
+    await lgConnection.clearKml(keepLogos: true);
+
+    // Display a balloon with information about the orbit
+    await lgConnection.sendKMLToSlave(lgConnection.rightScreen,
+        BalloonMaker.generateOrbitBalloon(widget.orbit.orbitName, widget.orbit.orbitDescription));
+
+    // Send the KML file of the orbit's path to the LG
+    await lgConnection.sendKmlFromAssets(widget.orbit.kmlPath);
+
+
   }
 
   /// Loads the polylines from the KML file to display the orbit path on the map.

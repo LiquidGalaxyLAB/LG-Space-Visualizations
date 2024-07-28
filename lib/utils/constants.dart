@@ -145,7 +145,7 @@ List<Orbit> orbits = [
     orbitName: 'Sun synchronous',
     satelliteName: 'TERRA',
     orbitDescription:
-        '''A Sun-synchronous orbit (SSO), also known as a heliosynchronous orbit, is a type of orbit around a planet where the satellite passes over the same point on the planet's surface at the same local time each day.\n\nThis means that the satellite's orbit is aligned in such a way that it keeps a consistent position relative to the Sun, completing one full revolution each year.''',
+        '''A Sun synchronous orbit (SSO), also known as a heliosynchronous orbit, is a type of orbit around a planet where the satellite passes over the same point on the planet's surface at the same local time each day.\n\nThis means that the satellite's orbit is aligned in such a way that it keeps a consistent position relative to the Sun, completing one full revolution each year.''',
     satelliteDescription:
         '''TERRA (EOS AM-1) is a multi-national NASA scientific research satellite in a Sun-synchronous orbit around the Earth. It is the flagship of the Earth Observing System (EOS). The name "TERRA" comes from the Latin word for Earth.\n\nData from the satellite helps scientists better understand the spread of pollution around the globe. Studies have used instruments on TERRA to examine trends in global carbon monoxide and aerosol pollution. The data collected by TERRA will ultimately become a new, 15-year global data set.''',
     line1:
@@ -269,9 +269,10 @@ List<Orbit> orbits = [
   ),
   Orbit(
       id: 'meo',
-      orbitName: 'Medium Earth orbit',
+      orbitName: 'Medium Earth',
       satelliteName: 'Galileo 15',
-      orbitDescription: '''Medium earth orbit (MEO) refers to a specific region in space situated between Low Earth Orbit (LEO) and Geostationary Orbit (GEO). MEO satellites occupy an altitude range typically between 2,000 to 36,000 kilometres (1,243 to 22,300 miles) above the Earth’s surface.\n\nMEO satellites are commonly known for their significant role in global navigation systems.''',
+      orbitDescription:
+          '''Medium earth orbit (MEO) refers to a specific region in space situated between Low Earth Orbit (LEO) and Geostationary Orbit (GEO). MEO satellites occupy an altitude range typically between 2,000 to 36,000 kilometres (1,243 to 22,300 miles) above the Earth’s surface.\n\nMEO satellites are commonly known for their significant role in global navigation systems.''',
       satelliteDescription:
           '''Galileo 15 is built in Germany with navigation payloads from Britain.\n\nThe Galileo satellites are part of a European Union program to provide global positioning services independent of the U.S. military-run Global Positioning System, Russia's Glonass network, and China's Beidou constellation. The Galileo network is designed to provide more accurate and reliable navigation services than other global positioning systems.''',
       startDate: DateTime.utc(2024, 7, 13, 0, 0, 0),
