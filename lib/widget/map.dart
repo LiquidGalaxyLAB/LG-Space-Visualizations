@@ -49,6 +49,12 @@ class Map extends StatefulWidget {
   // Optional boost value to increase the zoom level
   final int boost;
 
+  // Orbit tilt angle
+  final double orbitTilt;
+
+  // Orbit range
+  final double orbitRange;
+
   Map(
       {super.key,
       required this.latitude,
@@ -56,6 +62,8 @@ class Map extends StatefulWidget {
       required this.zoom,
       required this.tilt,
       required this.bearing,
+      required this.orbitTilt,
+      required this.orbitRange,
       this.mapType = MapType.none,
       this.polylines = const {},
       this.kmlName,
@@ -76,7 +84,6 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
     // Initialize the rotationOrbitController
     rotationOrbitController = AnimationController(
       duration: const Duration(seconds: 50),
@@ -105,7 +112,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   /// Starts the orbiting of the Liquid Galaxy.
   Future<void> startOrbit() async {
     await lgConnection.buildOrbit(mapMarsCenterLat, mapMarsCenterLong,
-        defaultMarsOrbitRange, defaultMarsOrbitTilt, defaultMarsMapBearing);
+        widget.orbitRange, widget.orbitTilt, defaultMarsMapBearing);
     rotationOrbitController.repeat();
   }
 
@@ -129,6 +136,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   /// Handles camera movement events.
   /// This method ensures the camera's target stays within predefined bounds.
   Future<void> _onCameraMove(CameraPosition position) async {
+    print('Camera moved to: ${position.target}');
     if (widget.bounds == null) {
       // Update the widget's state to reflect the new or adjusted camera position
       widget.longitude = position.target.longitude;

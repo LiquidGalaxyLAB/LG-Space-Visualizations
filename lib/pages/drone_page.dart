@@ -156,6 +156,8 @@ class _DronePageState extends State<DronePage> {
                         minMaxZoomPreference: const MinMaxZoomPreference(11, 14),
                         bounds: roverLandingBounds,
                         boost: 2,
+                        orbitTilt: defaultMarsOrbitTilt,
+                        orbitRange: defaultMarsOrbitRange,
                         kmlName: 'Drone')),
               ],
             ),
