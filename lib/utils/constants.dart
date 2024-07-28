@@ -108,28 +108,21 @@ const String orbitsEndText =
 /// List of orbits
 List<Orbit> orbits = [
   Orbit(
+    id: 'walker_constellation',
+    orbitName: 'Walker Constellation',
+    satelliteName: 'Starlink',
+    orbitDescription:
+        '''Constellations are a group of satellites working in unison to complete a mission objective. A Walker constellation consists of either a plane or multiple planes where each plane contains several satellites spaced in different locations.\n\nUnlike a single satellite, a constellation can provide permanent global or near-global coverage, such that at any time everywhere on Earth at least one satellite is visible. Satellites are typically placed in sets of complementary orbital planes and connect to globally distributed ground stations. They may also use inter-satellite communication.''',
+    satelliteDescription:
+        '''Starlink is a satellite internet constellation operated by Starlink, providing coverage to 80 countries. It also aims to provide global mobile broadband.\n\nSpaceX started launching Starlink satellites in 2019. It consists of over 6,000 mass-produced small satellites in low Earth orbit (LEO) that communicate with designated ground transceivers.''',
+    startDate: DateTime.utc(2024, 7, 13, 0, 0, 0),
+    endDate: DateTime.utc(2024, 7, 14, 6, 0, 0),
+  ),
+  Orbit(
     id: 'graveyard',
     orbitName: 'Graveyard',
     orbitDescription:
         '''A graveyard orbit, also called a junk orbit or disposal orbit, is an orbit that lies away from common operational orbits. Some satellites are moved into such orbits at the end of their operational life to reduce the probability of colliding with operational spacecraft and generating space debris.\n\nA graveyard orbit has an altitude of 36,050 km above the Earth's surface, which is higher than most common operational orbits.''',
-  ),
-  Orbit(
-    id: 'qzss',
-    orbitName: 'QZSS',
-    orbitDescription:
-        '''The Quasi-Zenith Satellite System (QZSS), also known as Michibiki (みちびき), which means 'guiding' or 'showing the way' in Japanese, is a four-satellite regional navigation and augmentation system developed by the Japanese government. Its purpose is to enhance the United States-operated Global Positioning System (GPS) in the Asia-Oceania regions, with a particular focus on Japan.\n\nThe goal of QZSS is to provide highly precise and stable positioning services in the Asia-Oceania region, ensuring compatibility with GPS.''',
-    satelliteName: 'QZS-4',
-    satelliteDescription:
-        '''QZS-4 (MICHIBIKI-4) is the fourth member of Japan's regional satellite navigation network, conceived to improve GPS coverage over Japanese territory.\n\nThe satellite is designed for a 15-year service life in an orbit inclined approximately 41 degrees to the equator.''',
-    line1:
-        '1 42965U 17062A   24176.78903547 -.00000324  00000-0  00000+0 0  9994',
-    line2:
-        '2 42965  40.5115 352.6916 0746082 271.6310  68.9097  1.00249876 24566',
-    startDate: DateTime.utc(2024, 7, 13, 0, 0, 0),
-    endDate: DateTime.utc(2024, 7, 14, 0, 0, 0),
-    period: 1436.1,
-    centerLatitude: -0.5383416030147427,
-    centerLongitude: 140.83900339901447,
   ),
   Orbit(
     id: 'gps',
@@ -164,6 +157,24 @@ List<Orbit> orbits = [
     period: 98.6,
   ),
   Orbit(
+    id: 'qzss',
+    orbitName: 'QZSS',
+    orbitDescription:
+        '''The Quasi-Zenith Satellite System (QZSS), also known as Michibiki (みちびき), which means 'guiding' or 'showing the way' in Japanese, is a four-satellite regional navigation and augmentation system developed by the Japanese government. Its purpose is to enhance the United States-operated Global Positioning System (GPS) in the Asia-Oceania regions, with a particular focus on Japan.\n\nThe goal of QZSS is to provide highly precise and stable positioning services in the Asia-Oceania region, ensuring compatibility with GPS.''',
+    satelliteName: 'QZS-4',
+    satelliteDescription:
+        '''QZS-4 (MICHIBIKI-4) is the fourth member of Japan's regional satellite navigation network, conceived to improve GPS coverage over Japanese territory.\n\nThe satellite is designed for a 15-year service life in an orbit inclined approximately 41 degrees to the equator.''',
+    line1:
+        '1 42965U 17062A   24176.78903547 -.00000324  00000-0  00000+0 0  9994',
+    line2:
+        '2 42965  40.5115 352.6916 0746082 271.6310  68.9097  1.00249876 24566',
+    startDate: DateTime.utc(2024, 7, 13, 0, 0, 0),
+    endDate: DateTime.utc(2024, 7, 14, 0, 0, 0),
+    period: 1436.1,
+    centerLatitude: -0.5383416030147427,
+    centerLongitude: 140.83900339901447,
+  ),
+  Orbit(
     id: 'molniya',
     orbitName: 'Molniya',
     satelliteName: 'Molniya 1-91',
@@ -178,6 +189,19 @@ List<Orbit> orbits = [
     startDate: DateTime.utc(2024, 7, 13, 0, 0, 0),
     endDate: DateTime.utc(2024, 7, 13, 21, 0, 0),
     period: 609,
+  ),
+  Orbit(
+    id: 'iss',
+    orbitName: 'Iss',
+    orbitDescription:
+        '''The International Space Station (ISS) is a joint project of five space agencies: the National Aeronautics and Space Administration (United States), the Russian Federal Space Agency (Russian Federation), the Japan Aerospace Exploration Agency (Japan), the Canadian Space Agency (Canada) and the European Space Agency (Europe)\n\nThere is an approximate repeat of orbit tracks over the same area on the ground every 3 days. The ISS was originally intended to be a laboratory, observatory, and factory while providing transportation and maintenance. However, not all of the uses envisioned in the initial memorandum of understanding between NASA and Roscosmos have been realised. In the 2010 United States National Space Policy, the ISS was given additional roles of serving commercial, diplomatic and educational purposes. \n\nThe ISS is expected to remain in operation until at least 2020, and potentially to 2028.''',
+    line1:
+        '1 25544U 98067A   24207.39188981  .00018073  00000-0  32052-3 0  9996',
+    line2:
+        '2 25544  51.6402 126.0588 0010177 104.8575   1.8008 15.50254702464479',
+    startDate: DateTime.utc(2024, 7, 12, 0, 0, 0),
+    endDate: DateTime.utc(2024, 7, 15, 0, 0, 0),
+    period: 92.9,
   ),
   Orbit(
     id: 'tundra',
@@ -212,35 +236,6 @@ List<Orbit> orbits = [
     period: 776.2,
   ),
   Orbit(
-    id: 'geostationary',
-    orbitName: 'Geostationary',
-    satelliteName: 'GOES-19',
-    orbitDescription:
-        '''A geosynchronous satellite is a satellite whose orbital track on the Earth repeats regularly over points on the Earth over time. If such a satellite's orbit lies over the equator, it is called a geostationary satellite.\n\nThe orbits of the satellites are known as the geosynchronous orbit and geostationary orbit''',
-    satelliteDescription:
-        '''GOES-19 is a weather satellite, the fourth and last of the GOES-R series of satellites operated by the National Oceanic and Atmospheric Administration (NOAA).\n\nThe GOES-R series will extend the availability of the Geostationary Operational Environmental Satellite (GOES) system until 2036. The satellite is built by Lockheed Martin, based on the A2100 platform.''',
-    line1:
-        '1 60133U 24119A   24199.90728219 -.00000227  00000-0  00000-0 0  9995',
-    line2:
-        '2 60133   0.1192 256.8790 0019714 192.4559  81.3331  1.01128782   315',
-    startDate: DateTime.utc(2024, 7, 14, 0, 0, 0),
-    endDate: DateTime.utc(2024, 11, 9, 0, 0, 0),
-    period: 1423.0,
-  ),
-  Orbit(
-    id: 'iss',
-    orbitName: 'Iss',
-    orbitDescription:
-        '''The International Space Station (ISS) is a joint project of five space agencies: the National Aeronautics and Space Administration (United States), the Russian Federal Space Agency (Russian Federation), the Japan Aerospace Exploration Agency (Japan), the Canadian Space Agency (Canada) and the European Space Agency (Europe)\n\nThere is an approximate repeat of orbit tracks over the same area on the ground every 3 days. The ISS was originally intended to be a laboratory, observatory, and factory while providing transportation and maintenance. However, not all of the uses envisioned in the initial memorandum of understanding between NASA and Roscosmos have been realised. In the 2010 United States National Space Policy, the ISS was given additional roles of serving commercial, diplomatic and educational purposes. \n\nThe ISS is expected to remain in operation until at least 2020, and potentially to 2028.''',
-    line1:
-        '1 25544U 98067A   24207.39188981  .00018073  00000-0  32052-3 0  9996',
-    line2:
-        '2 25544  51.6402 126.0588 0010177 104.8575   1.8008 15.50254702464479',
-    startDate: DateTime.utc(2024, 7, 12, 0, 0, 0),
-    endDate: DateTime.utc(2024, 7, 15, 0, 0, 0),
-    period: 92.9,
-  ),
-  Orbit(
     id: 'vleo',
     orbitName: 'Very Low Earth',
     satelliteName: 'Tsubame',
@@ -257,12 +252,29 @@ List<Orbit> orbits = [
     period: 92.5,
   ),
   Orbit(
-    id: 'walker_constellation',
-    orbitName: 'Walker Constellation',
-    satelliteName: 'STARLINK',
-    orbitDescription: '''Constellations are a group of satellites working in unison to complete a mission objective. A Walker constellation consists of either a plane or multiple planes where each plane contains several satellites spaced in different locations.\n\nUnlike a single satellite, a constellation can provide permanent global or near-global coverage, such that at any time everywhere on Earth at least one satellite is visible. Satellites are typically placed in sets of complementary orbital planes and connect to globally distributed ground stations. They may also use inter-satellite communication.''',
-    satelliteDescription: '''Starlink is a satellite internet constellation operated by Starlink, providing coverage to 80 countries. It also aims to provide global mobile broadband.\n\nSpaceX started launching Starlink satellites in 2019. It consists of over 6,000 mass-produced small satellites in low Earth orbit (LEO) that communicate with designated ground transceivers.''',
+    id: 'geostationary',
+    orbitName: 'Geostationary',
+    satelliteName: 'GOES-19',
+    orbitDescription:
+        '''A geosynchronous satellite is a satellite whose orbital track on the Earth repeats regularly over points on the Earth over time. If such a satellite's orbit lies over the equator, it is called a geostationary satellite.\n\nThe orbits of the satellites are known as the geosynchronous orbit and geostationary orbit''',
+    satelliteDescription:
+        '''GOES-19 is a weather satellite, the fourth and last of the GOES-R series of satellites operated by the National Oceanic and Atmospheric Administration (NOAA).\n\nThe GOES-R series will extend the availability of the Geostationary Operational Environmental Satellite (GOES) system until 2036. The satellite is built by Lockheed Martin, based on the A2100 platform.''',
+    line1:
+        '1 60133U 24119A   24199.90728219 -.00000227  00000-0  00000-0 0  9995',
+    line2:
+        '2 60133   0.1192 256.8790 0019714 192.4559  81.3331  1.01128782   315',
     startDate: DateTime.utc(2024, 7, 14, 0, 0, 0),
-    endDate: DateTime.utc(2024, 7, 15, 23, 0, 0),
-  )
+    endDate: DateTime.utc(2024, 11, 9, 0, 0, 0),
+    period: 1423.0,
+  ),
+  Orbit(
+      id: 'meo',
+      orbitName: 'Medium Earth orbit',
+      satelliteName: 'Galileo 15',
+      orbitDescription: '''Medium earth orbit (MEO) refers to a specific region in space situated between Low Earth Orbit (LEO) and Geostationary Orbit (GEO). MEO satellites occupy an altitude range typically between 2,000 to 36,000 kilometres (1,243 to 22,300 miles) above the Earth’s surface.\n\nMEO satellites are commonly known for their significant role in global navigation systems.''',
+      satelliteDescription:
+          '''Galileo 15 is built in Germany with navigation payloads from Britain.\n\nThe Galileo satellites are part of a European Union program to provide global positioning services independent of the U.S. military-run Global Positioning System, Russia's Glonass network, and China's Beidou constellation. The Galileo network is designed to provide more accurate and reliable navigation services than other global positioning systems.''',
+      startDate: DateTime.utc(2024, 7, 13, 0, 0, 0),
+      endDate: DateTime.utc(2024, 7, 23, 1, 0, 0),
+      period: 844.7)
 ];
