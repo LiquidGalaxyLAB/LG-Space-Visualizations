@@ -45,7 +45,11 @@ class _HomePageState extends State<HomePage> {
                       height: 220,
                       image: const AssetImage('assets/images/earth.png'),
                       text: 'SATELLITE\nEARTH ORBITS',
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          Navigator.pushNamed(context, '/orbits', );
+                        });
+                      },
                     ),
                   ],
                 ),

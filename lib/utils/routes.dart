@@ -5,11 +5,14 @@ import 'package:lg_space_visualizations/pages/drone_page.dart';
 import 'package:lg_space_visualizations/pages/home_page.dart';
 import 'package:lg_space_visualizations/pages/info_page.dart';
 import 'package:lg_space_visualizations/pages/mars_page.dart';
+import 'package:lg_space_visualizations/pages/orbit_page.dart';
+import 'package:lg_space_visualizations/pages/orbits_page.dart';
 import 'package:lg_space_visualizations/pages/rover_page.dart';
 import 'package:lg_space_visualizations/pages/services_page.dart';
 import 'package:lg_space_visualizations/pages/settings_page.dart';
 import 'package:lg_space_visualizations/pages/splash_screen.dart';
 import 'package:lg_space_visualizations/pages/web_page.dart';
+import 'package:lg_space_visualizations/utils/orbit.dart';
 import 'package:lg_space_visualizations/utils/sol_day.dart';
 
 /// Generates a [Route] for the application based on the provided [RouteSettings].
@@ -55,6 +58,24 @@ Route<dynamic> makeRoute(RouteSettings settings) {
     case '/cameras':
       // Route for the cameras screen.
       builder = (BuildContext context) => const CamerasPage();
+      break;
+    case '/orbits':
+      // Route for the orbits screen.
+      builder = (BuildContext context) => const OrbitsPage();
+      break;
+    case '/orbit':
+      // Route for the orbit screen.
+
+      // Retrieve the arguments passed to the route.
+      final arguments = settings.arguments;
+
+      if (arguments is Orbit) {
+        // If valid arguments are provided, set the builder to route to OrbitPage.
+        builder = (BuildContext context) => OrbitPage(orbit: arguments);
+      } else {
+        // If arguments are invalid, set the builder to route to HomePage (default).
+        builder = (BuildContext context) => const HomePage();
+      }
       break;
     case '/cameras_images':
       // Route for the cameras images screen.
