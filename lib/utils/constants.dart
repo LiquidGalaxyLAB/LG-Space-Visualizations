@@ -46,10 +46,17 @@ double mapMarsCenterLong = 77.388997;
 double defaultMarsMapZoom = 12;
 double defaultMarsMapTilt = 0;
 double defaultMarsMapBearing = 25;
+int defaultMarsMapBoost = 2;
 
 /// Default mars orbit tilt and range
 double defaultMarsOrbitTilt = 60;
 double defaultMarsOrbitRange = 9000;
+
+/// Default earth map center, zoom level, tilt and bearing
+double defaultEarthMapZoom = 0;
+double defaultEarthMapTilt = 0;
+double defaultEarthMapBearing = 0;
+int defaultEarthMapBoost = -2;
 
 /// Default earth orbit tilt and range
 double defaultEarthOrbitTilt = 60;

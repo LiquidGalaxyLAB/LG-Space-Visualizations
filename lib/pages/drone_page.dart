@@ -155,7 +155,7 @@ class _DronePageState extends State<DronePage> {
                         bearing: defaultMarsMapBearing,
                         minMaxZoomPreference: const MinMaxZoomPreference(11, 14),
                         bounds: roverLandingBounds,
-                        boost: 2,
+                        boost: defaultMarsMapBoost,
                         orbitTilt: defaultMarsOrbitTilt,
                         orbitRange: defaultMarsOrbitRange,
                         kmlName: 'Drone')),
