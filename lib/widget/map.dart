@@ -15,6 +15,7 @@ import 'package:lg_space_visualizations/widget/custom_icon.dart';
 ///
 /// The map can be constrained to a specific [bounds] if provided, it can also display a set of [polylines] on the map.
 /// It also loads a KML layer on the map based on the [kmlName] provided. The [mapType] can be set to display a specific type of map.
+/// A [minMaxZoomPreference] can be set to limit the zoom levels of the map. If a [canOrbit] flag is set to true, the map can be orbited with a specific [orbitTilt] and [orbitRange].
 class Map extends StatefulWidget {
   // Latitude for the center of the map
   double latitude;
@@ -55,6 +56,9 @@ class Map extends StatefulWidget {
   // Orbit range
   final double orbitRange;
 
+  // Flag to check if the map can orbit
+  final bool canOrbit;
+
   Map(
       {super.key,
       required this.latitude,
@@ -69,6 +73,7 @@ class Map extends StatefulWidget {
       this.kmlName,
       this.bounds,
       this.boost = 0,
+      this.canOrbit = true,
       this.minMaxZoomPreference = MinMaxZoomPreference.unbounded});
 
   @override
@@ -275,42 +280,43 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
                   polylines: widget.polylines,
                 ),
               ))),
-      Positioned(
-          bottom: 20,
-          right: 20,
-          child: Tooltip(
-            message: 'Orbit on Liquid Galaxy',
-            child: RotationTransition(
-              turns:
-                  Tween(begin: 0.0, end: 25.0).animate(rotationOrbitController),
-              child: Builder(builder: (context) {
-                return Container(
-                    decoration: BoxDecoration(
-                      color: backgroundColor,
-                      border: Border.all(
-                        color: secondaryColor,
-                        width: 3,
+      if (widget.canOrbit)
+        Positioned(
+            bottom: 20,
+            right: 20,
+            child: Tooltip(
+              message: 'Orbit on Liquid Galaxy',
+              child: RotationTransition(
+                turns: Tween(begin: 0.0, end: 25.0)
+                    .animate(rotationOrbitController),
+                child: Builder(builder: (context) {
+                  return Container(
+                      decoration: BoxDecoration(
+                        color: backgroundColor,
+                        border: Border.all(
+                          color: secondaryColor,
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.circular(50),
                       ),
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: Button(
-                        padding: const EdgeInsets.all(8),
-                        icon: CustomIcon(
-                            name: 'orbit', size: 40, color: secondaryColor),
-                        onPressed: () async {
-                          // Start or stop orbiting based on the current state
-                          if (isOrbiting) {
-                            await stopOrbit();
-                          } else {
-                            await startOrbit();
-                          }
+                      child: Button(
+                          padding: const EdgeInsets.all(8),
+                          icon: CustomIcon(
+                              name: 'orbit', size: 40, color: secondaryColor),
+                          onPressed: () async {
+                            // Start or stop orbiting based on the current state
+                            if (isOrbiting) {
+                              await stopOrbit();
+                            } else {
+                              await startOrbit();
+                            }
 
-                          // Update the state to reflect the new orbiting state
-                          isOrbiting = !isOrbiting;
-                        }));
-              }),
-            ),
-          ))
+                            // Update the state to reflect the new orbiting state
+                            isOrbiting = !isOrbiting;
+                          }));
+                }),
+              ),
+            ))
     ]);
   }
 }

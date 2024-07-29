@@ -152,6 +152,7 @@ class _OrbitPageState extends State<OrbitPage> {
                       polylines: polylines,
                       orbitTilt: defaultEarthOrbitTilt,
                       orbitRange: defaultEarthOrbitRange,
+                      canOrbit: false,
                     ),
                   ),
                 ],
