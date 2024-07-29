@@ -48,7 +48,7 @@ class BalloonMaker {
   ///
   /// Returns a string containing the KML balloon.
   static String generateOrbitBalloon(String name, String description) {
-    description = description.replaceAll('\n', '<br>');
+    description = description.replaceAll('\n', '<br>').replaceAll('\'', '’');
 
     return KMLMakers.screenOverlayBalloon(
         '''<div style="width: 480px; color: white; padding-left: 10px; padding-right: 10px;">

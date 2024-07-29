@@ -47,13 +47,13 @@ class _OrbitPageState extends State<OrbitPage> {
     await lgConnection.clearKml(keepLogos: true);
 
     // Display a balloon with information about the orbit
-    await lgConnection.sendKMLToSlave(lgConnection.rightScreen,
-        BalloonMaker.generateOrbitBalloon(widget.orbit.orbitName, widget.orbit.orbitDescription));
+    await lgConnection.sendKMLToSlave(
+        lgConnection.rightScreen,
+        BalloonMaker.generateOrbitBalloon(
+            widget.orbit.orbitName, widget.orbit.orbitDescription));
 
     // Send the KML file of the orbit's path to the LG
     await lgConnection.sendKmlFromAssets(widget.orbit.kmlPath);
-
-
   }
 
   /// Loads the polylines from the KML file to display the orbit path on the map.
