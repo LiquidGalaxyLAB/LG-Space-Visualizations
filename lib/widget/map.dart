@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 
@@ -285,7 +286,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
             bottom: 20,
             right: 20,
             child: Tooltip(
-              message: 'Orbit on Liquid Galaxy',
+              message: toolTipMapOrbitText,
               child: RotationTransition(
                 turns: Tween(begin: 0.0, end: 25.0)
                     .animate(rotationOrbitController),

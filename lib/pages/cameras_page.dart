@@ -5,6 +5,7 @@ import 'package:lg_space_visualizations/utils/filter.dart';
 import 'package:lg_space_visualizations/utils/nasa_api.dart';
 import 'package:lg_space_visualizations/utils/sol_day.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/days_list.dart';
@@ -58,7 +59,7 @@ class _CamerasPageState extends State<CamerasPage> {
   @override
   Widget build(BuildContext context) {
     return TemplatePage(
-      title: 'Perseverance Rover Cameras',
+      title: camerasTitle,
       children: [
         Expanded(
             child: Container(
@@ -86,10 +87,10 @@ class _CamerasPageState extends State<CamerasPage> {
                           ],
                         );
                       } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
+                        return Center(
+                            child: Text('$errorLoadingData ${snapshot.error}'));
                       } else {
-                        return const LoadingIndicator(
-                            message: 'Fetching data from NASA API...');
+                        return LoadingIndicator(message: loadingDataMessage);
                       }
                     })))
       ],
@@ -104,15 +105,16 @@ class _CamerasPageState extends State<CamerasPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Select a day", style: middleTitle),
+              Text(camerasTitleText, style: middleTitle),
               Transform.translate(
                   offset: const Offset(0, -5),
-                  child: Text("Total photos: $totalPhotos", style: smallText)),
+                  child: Text('$camerasSubtitleText $totalPhotos',
+                      style: smallText)),
             ],
           ),
         ),
         Tooltip(
-            message: 'Update list from NASA API',
+            message: tooltipRefreshText,
             child: Button(
                 color: secondaryColor,
                 borderRadius: BorderRadius.circular(50),
@@ -126,7 +128,7 @@ class _CamerasPageState extends State<CamerasPage> {
                 })),
         SizedBox(width: spaceBetweenWidgets),
         Tooltip(
-            message: 'View positions of rover cameras',
+            message: tooltipCameraPositionText,
             child: Button(
                 color: secondaryColor,
                 borderRadius: BorderRadius.circular(50),
@@ -150,7 +152,7 @@ class _CamerasPageState extends State<CamerasPage> {
                 })),
         SizedBox(width: spaceBetweenWidgets),
         Tooltip(
-            message: 'Filter the list',
+            message: tooltipFilterText,
             child: Button(
                 color: secondaryColor,
                 borderRadius: BorderRadius.circular(50),

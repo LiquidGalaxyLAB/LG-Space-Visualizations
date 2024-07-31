@@ -5,6 +5,7 @@ import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/kml/ballon_maker.dart';
 import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/info_box.dart';

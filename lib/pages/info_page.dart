@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
 
 /// A [InfoPage] widget that displays information about the Space Visualizations project.
 ///
@@ -16,7 +17,7 @@ class _InfoPageState extends State<InfoPage> {
   @override
   Widget build(BuildContext context) {
     return TemplatePage(
-      title: 'Info',
+      title: infoPageTitle,
       showTopBar: true,
       children: [
         Expanded(
@@ -57,7 +58,7 @@ class _InfoPageState extends State<InfoPage> {
               children: [
                 Center(
                   child: Text(
-                    "Space Visualizations",
+                    projectTitle,
                     style: hugeTitle.apply(color: primaryColor),
                   ),
                 ),
@@ -73,7 +74,7 @@ class _InfoPageState extends State<InfoPage> {
                         margin: const EdgeInsets.only(right: 25),
                       ),
                       Text(
-                        "for Liquid Galaxy",
+                        projectSubtitle,
                         style: bigTitle.apply(color: primaryColor),
                       ),
                       Container(
@@ -86,7 +87,7 @@ class _InfoPageState extends State<InfoPage> {
                   ),
                 ),
                 Text(
-                  """This project aims to build an educational application dedicated to visualizing orbits and the Mars 2020 mission, utilizing the Liquid Galaxy platform to provide immersive space exploration experiences. The app enables users to see and understand different orbits, such as GPS, QZSS, Graveyard and more in detail. Additionally, it showcases the Mars 2020 mission by featuring interactive 3D models of the Perseverance Rover and the Ingenuity Drone. Users can follow their paths on Mars, view photos taken by the rover, and discover technical details about the mission.""",
+                  infoPageDescription,
                   style: middleText,
                 ),
               ],

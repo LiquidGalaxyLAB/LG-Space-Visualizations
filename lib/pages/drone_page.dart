@@ -5,6 +5,7 @@ import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/kml/ballon_maker.dart';
 import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/info_box.dart';
@@ -51,7 +52,7 @@ class _DronePageState extends State<DronePage> {
 
   @override
   Widget build(BuildContext context) {
-    return TemplatePage(title: "Ingenuity Drone", children: [
+    return TemplatePage(title: droneTitle, children: [
       Expanded(
         flex: 3,
         child: Container(
@@ -73,7 +74,7 @@ class _DronePageState extends State<DronePage> {
                 Button(
                   color: secondaryColor,
                   center: false,
-                  text: 'Learn more about the drone',
+                  text: droneLearnMoreText,
                   padding: const EdgeInsets.only(left: 15),
                   borderRadius: BorderRadius.circular(borderRadius),
                   icon: CustomIcon(
@@ -81,10 +82,8 @@ class _DronePageState extends State<DronePage> {
                   onPressed: () {
                     setState(() {
                       setState(() {
-                        Navigator.pushNamed(context, '/web', arguments: {
-                          'url': droneUrl,
-                          'title': 'Ingenuity Drone'
-                        });
+                        Navigator.pushNamed(context, '/web',
+                            arguments: {'url': droneUrl, 'title': droneTitle});
                       });
                     });
                   },
@@ -93,7 +92,7 @@ class _DronePageState extends State<DronePage> {
                 Button(
                     color: secondaryColor,
                     center: false,
-                    text: 'Meet Perseverance Rover',
+                    text: meetTheRoverText,
                     padding: const EdgeInsets.only(left: 15),
                     borderRadius: BorderRadius.circular(borderRadius),
                     icon: CustomIcon(
@@ -126,7 +125,7 @@ class _DronePageState extends State<DronePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "About",
+                  titleDroneDescriptionText,
                   style: middleTitle,
                   textAlign: TextAlign.left,
                 ),
@@ -134,15 +133,27 @@ class _DronePageState extends State<DronePage> {
                 SizedBox(height: spaceBetweenWidgets / 4),
                 Text(droneDescriptionText, style: smallText),
                 SizedBox(height: spaceBetweenWidgets / 4),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    InfoBox(text: '1.8 Kg', subText: 'Mass'),
-                    InfoBox(text: '300 m', subText: 'Flight Range'),
-                    InfoBox(text: '5 m', subText: 'Flight Altitude'),
-                    InfoBox(text: '1.2 m', subText: 'Blade Span'),
-                    InfoBox(text: '350 W', subText: 'Average Flight Power'),
-                    InfoBox(text: '10 m/s', subText: 'Top Speed'),
+                    InfoBox(
+                        text: droneFirstDataValue,
+                        subText: droneFirstDataText),
+                    InfoBox(
+                        text: droneSecondDataValue,
+                        subText: droneSecondDataText),
+                    InfoBox(
+                        text: droneThirdDataValue,
+                        subText: droneThirdDataText),
+                    InfoBox(
+                        text: droneFourthDataValue,
+                        subText: droneFourthDataText),
+                    InfoBox(
+                        text: droneFifthDataValue,
+                        subText: droneFifthDataText),
+                    InfoBox(
+                        text: droneSixthDataValue,
+                        subText: droneSixthDataText),
                   ],
                 ),
                 SizedBox(height: spaceBetweenWidgets / 4),
@@ -153,7 +164,8 @@ class _DronePageState extends State<DronePage> {
                         zoom: defaultMarsMapZoom,
                         tilt: defaultMarsMapTilt,
                         bearing: defaultMarsMapBearing,
-                        minMaxZoomPreference: const MinMaxZoomPreference(11, 14),
+                        minMaxZoomPreference:
+                            const MinMaxZoomPreference(11, 14),
                         bounds: roverLandingBounds,
                         boost: defaultMarsMapBoost,
                         orbitTilt: defaultMarsOrbitTilt,

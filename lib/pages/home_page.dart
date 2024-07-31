@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/image_button.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/widget/logo.dart';
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return TemplatePage(
-      title: 'Home Page',
+      title: homePageTitle,
       showTopBar: false,
       children: [
         Expanded(
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage> {
                       width: 425,
                       height: 220,
                       image: const AssetImage('assets/images/rover.png'),
-                      text: 'MARS 2020\nMISSION',
+                      text: marsSectionTitle,
                       onPressed: () {
                         setState(() {
                           Navigator.pushNamed(context, '/mars');
@@ -44,10 +45,13 @@ class _HomePageState extends State<HomePage> {
                       width: 425,
                       height: 220,
                       image: const AssetImage('assets/images/earth.png'),
-                      text: 'SATELLITE\nEARTH ORBITS',
+                      text: earthSectionTitle,
                       onPressed: () {
                         setState(() {
-                          Navigator.pushNamed(context, '/orbits', );
+                          Navigator.pushNamed(
+                            context,
+                            '/orbits',
+                          );
                         });
                       },
                     ),

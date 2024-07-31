@@ -7,6 +7,7 @@ import 'package:lg_space_visualizations/utils/kml/ballon_maker.dart';
 import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/orbit.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/map.dart';
 
 /// A page that displays detailed information and visualizations for a specific [Orbit].
@@ -92,7 +93,7 @@ class _OrbitPageState extends State<OrbitPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'About ${widget.orbit.orbitName}',
+                    '$orbitDescriptionTitle ${widget.orbit.orbitName}',
                     style: middleTitle,
                     textAlign: TextAlign.left,
                   ),
@@ -107,7 +108,7 @@ class _OrbitPageState extends State<OrbitPage> {
                   // Conditionally displays information about the satellite if available
                   if (widget.orbit.satelliteDescription != null) ...[
                     Text(
-                      'About ${widget.orbit.satelliteName} satellite',
+                      '$orbitDescriptionTitle ${widget.orbit.satelliteName} $orbitSatellite',
                       style: middleTitle,
                       textAlign: TextAlign.left,
                     ),

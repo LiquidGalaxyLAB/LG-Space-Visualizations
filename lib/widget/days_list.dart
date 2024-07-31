@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lg_space_visualizations/utils/filter.dart';
 import 'package:lg_space_visualizations/utils/sol_day.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/custom_scrollbar.dart';
 
@@ -73,13 +74,13 @@ class DaysList extends StatelessWidget {
                                 Transform.translate(
                                     offset: const Offset(0, -5),
                                     child: Text(
-                                      'Earth date: ${SolDay.getFormattedEarthDate(day.earthDate)}', // Displaying the formatted Earth date
+                                      '$daysListSubtitle ${SolDay.getFormattedEarthDate(day.earthDate)}', // Displaying the formatted Earth date
                                     ))
                               ],
                             ),
                             const Spacer(),
                             Tooltip(
-                                message: 'Total photos taken on this day',
+                                message: toolTipTotalPhotos,
                                 child: Container(
                                   width: 110,
                                   decoration: BoxDecoration(
@@ -105,7 +106,7 @@ class DaysList extends StatelessWidget {
                                 )),
                             SizedBox(width: spaceBetweenWidgets),
                             Tooltip(
-                                message: 'Cameras used on this day',
+                                message: toolTipCameras,
                                 child: Container(
                                   width: 90,
                                   decoration: BoxDecoration(
@@ -145,8 +146,8 @@ class DaysList extends StatelessWidget {
       children: [
         CustomIcon(name: 'notfound', size: 80, color: primaryColor),
         SizedBox(height: spaceBetweenWidgets),
-        Text('No results found', style: middleTitle),
-        Text('Please adjust your filters and try again', style: middleText),
+        Text(noListResultText, style: middleTitle),
+        Text(noListResultSubtitle, style: middleText),
       ],
     ));
   }

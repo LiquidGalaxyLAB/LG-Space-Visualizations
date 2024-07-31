@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lg_space_visualizations/utils/nasa_api.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/input.dart';
@@ -61,7 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
     bool isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
 
     return TemplatePage(
-      title: 'Settings',
+      title: settingsTitle,
       children: [
         Expanded(
           child: Container(
@@ -80,7 +81,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Connect to the Liquid Galaxy',
+                    settingsSubtitle,
                     style: middleTitle,
                     textAlign: TextAlign.left,
                   ),
@@ -90,70 +91,57 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        _buildRow(
-                          context,
-                          icon: 'user',
-                          label: 'Username',
-                          controller: usernameController,
-                          hintText: 'Enter Liquid Galaxy username',
-                          inputType: TextInputType.text,
-                          id: 'lg_username',
-                          dialogTitle: 'Username',
-                          dialogContent:
-                              'Enter the username of the Liquid Galaxy. This is the username\nof the master computer that is running the Liquid Galaxy.',
-                        ),
+                        _buildRow(context,
+                            icon: 'user',
+                            label: usernameLabel,
+                            controller: usernameController,
+                            hintText: usernameHint,
+                            inputType: TextInputType.text,
+                            id: 'lg_username',
+                            dialogTitle: usernameLabel,
+                            dialogContent: usernameDialogContent),
                         SizedBox(height: spaceBetweenWidgets),
-                        _buildRow(
-                          context,
-                          icon: 'ip',
-                          label: 'IP',
-                          controller: ipController,
-                          hintText: 'Enter Liquid Galaxy IP address',
-                          inputType: TextInputType.number,
-                          id: 'lg_ip',
-                          dialogTitle: 'IP Address',
-                          dialogContent:
-                              'Enter the IP address of the Liquid Galaxy. This is the IP\nof the master computer running Liquid Galaxy.',
-                        ),
+                        _buildRow(context,
+                            icon: 'ip',
+                            label: ipLabel,
+                            controller: ipController,
+                            hintText: ipHint,
+                            inputType: TextInputType.number,
+                            id: 'lg_ip',
+                            dialogTitle: ipLabel,
+                            dialogContent: ipDialogContent),
                         SizedBox(height: spaceBetweenWidgets),
-                        _buildRow(
-                          context,
-                          icon: 'ethernet',
-                          label: 'Port',
-                          controller: portController,
-                          hintText: 'Enter Liquid Galaxy Port',
-                          inputType: TextInputType.number,
-                          id: 'lg_port',
-                          dialogTitle: 'Port',
-                          dialogContent:
-                              'Enter the port of the SSH service of the Liquid\nGalaxy master. Default is 22',
-                        ),
+                        _buildRow(context,
+                            icon: 'ethernet',
+                            label: portLabel,
+                            controller: portController,
+                            hintText: portHint,
+                            inputType: TextInputType.number,
+                            id: 'lg_port',
+                            dialogTitle: 'Port',
+                            dialogContent: portDialogContent),
                         SizedBox(height: spaceBetweenWidgets),
-                        _buildRow(
-                          context,
-                          icon: 'locker',
-                          label: 'Password',
-                          controller: passwordController,
-                          hintText: 'Enter password',
-                          inputType: TextInputType.text,
-                          id: 'lg_password',
-                          secure: true,
-                          dialogTitle: 'Password',
-                          dialogContent:
-                              'Enter the password of the Liquid Galaxy. This is the password\nof the master computer running Liquid Galaxy.',
-                        ),
+                        _buildRow(context,
+                            icon: 'locker',
+                            label: passwordLabel,
+                            controller: passwordController,
+                            hintText: passwordHint,
+                            inputType: TextInputType.text,
+                            id: 'lg_password',
+                            secure: true,
+                            dialogTitle: passwordLabel,
+                            dialogContent: passwordDialogContent),
                         SizedBox(height: spaceBetweenWidgets),
                         _buildRow(context,
                             icon: 'api',
-                            label: 'Nasa API Key',
+                            label: apiLabel,
                             controller: apiKeyController,
-                            hintText: 'Enter Nasa API Key (optional)',
+                            hintText: apiHint,
                             inputType: TextInputType.text,
                             id: 'nasa_api_key_unchecked',
                             secure: true,
-                            dialogTitle: 'Nasa API Key',
-                            dialogContent:
-                                'Enter the NASA API key. This is used to\nfetch rover photos. If not provided\na default key will be used.',
+                            dialogTitle: apiLabel,
+                            dialogContent: apiDialogContent,
                             onSubmitted: (key) async {
                           if (key.isEmpty) {
                             showDialog(
@@ -162,10 +150,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                 SharedPreferences.getInstance().then((prefs) {
                                   prefs.remove('nasa_api_key');
                                 });
-                                return const CustomDialog(
-                                  title: 'API Key Saved',
-                                  content:
-                                      'No API key entered. The default API key will be used.',
+                                return CustomDialog(
+                                  title: apiSaveSuccessMessage,
+                                  content: defaultKeyApiMessage,
                                   iconName: 'api',
                                 );
                               },
@@ -177,10 +164,9 @@ class _SettingsPageState extends State<SettingsPage> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return const CustomDialog(
-                                  title: 'API Key Saved',
-                                  content:
-                                      'The API key has been saved successfully.',
+                                return CustomDialog(
+                                  title: apiSaveSuccessMessage,
+                                  content: customApiSavedMessage,
                                   iconName: 'api',
                                 );
                               },
@@ -189,10 +175,9 @@ class _SettingsPageState extends State<SettingsPage> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return const CustomDialog(
-                                  title: 'Invalid API Key',
-                                  content:
-                                      'The API key entered is invalid.\nPlease enter a valid API key or keep the default one.',
+                                return CustomDialog(
+                                  title: apiInvalidTitle,
+                                  content: apiInvalidMessage,
                                   iconName: 'error',
                                 );
                               },
@@ -271,7 +256,7 @@ class _SettingsPageState extends State<SettingsPage> {
               size: 40,
               color: backgroundColor,
             ),
-            text: 'Connect',
+            text: connectButton,
             color: secondaryColor,
             borderRadius: BorderRadius.circular(borderRadius),
             onPressed: () async {
@@ -284,9 +269,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return const CustomDialog(
-                      title: 'Missing Fields',
-                      content: 'Please fill in all the required fields.',
+                    return CustomDialog(
+                      title: missingFieldsTitle,
+                      content: missingFieldsMessage,
                       iconName: 'error',
                     );
                   },
@@ -305,17 +290,15 @@ class _SettingsPageState extends State<SettingsPage> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             if (snapshot.data ?? false) {
-                              return const CustomDialog(
-                                title: 'Connection successful',
-                                content:
-                                    'Liquid Galaxy connected successfully.',
+                              return CustomDialog(
+                                title: connectButton,
+                                content: connectSuccessMessage,
                                 iconName: 'connect',
                               );
                             } else {
-                              return const CustomDialog(
-                                title: 'Connection Error',
-                                content:
-                                    'An error occurred while connecting.\nPlease check the Liquid Galaxy status\nand verify the connection settings.',
+                              return CustomDialog(
+                                title: connectErrorTitle,
+                                content: connectError,
                                 iconName: 'error',
                               );
                             }
@@ -344,7 +327,7 @@ class _SettingsPageState extends State<SettingsPage> {
               size: 40,
               color: backgroundColor,
             ),
-            text: 'Disconnect',
+            text: disconnectButton,
             color: secondaryColor,
             borderRadius: BorderRadius.circular(borderRadius),
             onPressed: () async {
@@ -353,9 +336,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return const CustomDialog(
-                      title: 'Disconnected',
-                      content: 'Liquid Galaxy disconnected successfully.',
+                    return CustomDialog(
+                      title: disconnectButton,
+                      content: disconnectSuccessMessage,
                       iconName: 'disconnect',
                     );
                   },
@@ -364,9 +347,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return const CustomDialog(
-                      title: 'Not Connected',
-                      content: 'Liquid Galaxy is already disconnected.',
+                    return CustomDialog(
+                      title: alreadyDisconnectedTitle,
+                      content: alreadyDisconnectedMessage,
                       iconName: 'error',
                     );
                   },

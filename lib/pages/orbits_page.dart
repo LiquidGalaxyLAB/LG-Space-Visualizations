@@ -3,6 +3,7 @@ import 'package:lg_space_visualizations/pages/template_page.dart';
 import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/info_box.dart';
@@ -27,7 +28,7 @@ class _OrbitsPageState extends State<OrbitsPage> {
   @override
   Widget build(BuildContext context) {
     return TemplatePage(
-      title: 'Orbits',
+      title: orbitsTitle,
       children: [
         Expanded(
           flex: 3,
@@ -47,7 +48,7 @@ class _OrbitsPageState extends State<OrbitsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "About",
+                    orbitsDescriptionTitle,
                     style: middleTitle,
                     textAlign: TextAlign.left,
                   ),
@@ -56,17 +57,17 @@ class _OrbitsPageState extends State<OrbitsPage> {
                     style: smallText,
                   ),
                   SizedBox(height: spaceBetweenWidgets),
-                  const Row(
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InfoBox(
-                        text: '10000+',
-                        subText: 'Objects in Earth orbit',
+                        text: orbitsFirstDataValue,
+                        subText: orbitsFirstDataText,
                       ),
                       InfoBox(
-                        text: '12400+',
-                        subText: 'Total tonnes in Earth orbit',
+                        text: orbitsSecondDataValue,
+                        subText: orbitsSecondDataText,
                       ),
                     ],
                   ),
@@ -86,12 +87,12 @@ class _OrbitsPageState extends State<OrbitsPage> {
                       size: 50,
                       color: backgroundColor,
                     ),
-                    text: 'Learn more',
+                    text: orbitsLearnMoreText,
                     onPressed: () {
                       setState(() {
                         Navigator.pushNamed(context, '/web', arguments: {
                           'url': orbitsUrl,
-                          'title': 'Orbits',
+                          'title': orbitsTitle,
                         });
                       });
                     },

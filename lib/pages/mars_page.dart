@@ -3,6 +3,7 @@ import 'package:lg_space_visualizations/pages/template_page.dart';
 import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/info_box.dart';
@@ -24,7 +25,7 @@ class _MarsPageState extends State<MarsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return TemplatePage(title: 'Mars 2020', children: [
+    return TemplatePage(title: marsPageTitle, children: [
       Expanded(
         child: Container(
           decoration: BoxDecoration(
@@ -52,33 +53,39 @@ class _MarsPageState extends State<MarsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Mission overview",
+                    marsPageDescriptionTitle,
                     style: middleTitle,
                     textAlign: TextAlign.left,
                   ),
                   Text(
-                    missionOverviewIntroText,
+                    marsPageIntroText,
                     style: smallText,
                   ),
                   SizedBox(height: spaceBetweenWidgets / 2),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      InfoBox(text: '30 July 2020', subText: 'Launch'),
-                      InfoBox(text: '18 Feb 2021', subText: 'Landing'),
-                      InfoBox(text: 'Jezero Crater', subText: 'Location'),
+                      InfoBox(
+                          text: marsPageFirstDataValue,
+                          subText: marsPageFirstDataText),
+                      InfoBox(
+                          text: marsPageSecondDataValue,
+                          subText: marsPageSecondDataText),
+                      InfoBox(
+                          text: marsPageThirdDataValue,
+                          subText: marsPageThirdDataText),
                     ],
                   ),
                   SizedBox(height: spaceBetweenWidgets / 3),
                   Text(
-                    missionOverviewDescriptionText,
+                    marsPageDescriptionText,
                     style: smallText,
                   ),
                   SizedBox(height: spaceBetweenWidgets / 1.5),
                   Button(
                     color: secondaryColor,
                     center: false,
-                    text: 'Read more about the mission',
+                    text: marsPageLearnMoreText,
                     padding: const EdgeInsets.only(left: 15),
                     borderRadius: BorderRadius.circular(borderRadius),
                     icon: CustomIcon(
@@ -87,7 +94,7 @@ class _MarsPageState extends State<MarsPage> {
                       setState(() {
                         Navigator.pushNamed(context, '/web', arguments: {
                           'url': missionOverviewUrl,
-                          'title': 'Mars 2020'
+                          'title': marsPageTitle
                         });
                       });
                     },
@@ -96,7 +103,7 @@ class _MarsPageState extends State<MarsPage> {
                   Button(
                       color: secondaryColor,
                       center: false,
-                      text: 'Meet Perseverance Rover',
+                      text: meetTheRoverText,
                       padding: const EdgeInsets.only(left: 15),
                       borderRadius: BorderRadius.circular(borderRadius),
                       icon: CustomIcon(
@@ -110,7 +117,7 @@ class _MarsPageState extends State<MarsPage> {
                   Button(
                     color: secondaryColor,
                     center: false,
-                    text: 'Meet Ingenuity Drone',
+                    text: meetTheDroneText,
                     padding: const EdgeInsets.only(left: 15),
                     borderRadius: BorderRadius.circular(borderRadius),
                     icon: CustomIcon(
@@ -125,17 +132,17 @@ class _MarsPageState extends State<MarsPage> {
                   Button(
                     color: secondaryColor,
                     center: false,
-                    text: 'See Landing Simulation',
+                    text: landingButtonText,
                     padding: const EdgeInsets.only(left: 15),
                     borderRadius: BorderRadius.circular(borderRadius),
                     icon: CustomIcon(
-                        name: 'landing', size: 50, color: backgroundColor),
+                        name: landingTitle, size: 50, color: backgroundColor),
                     onPressed: () {
                       setState(() {
                         setState(() {
                           Navigator.pushNamed(context, '/web', arguments: {
                             'url': landingUrl,
-                            'title': 'Mars Landing Simulation'
+                            'title': landingTitle
                           });
                         });
                       });
