@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SSHConnection {
   /// SSH client for managing the connection.
-  late SSHClient client;
+  SSHClient? client;
 
   /// Number of screens in the Liquid Galaxy system, default is 5.
   int screenAmount = 5;
@@ -29,23 +29,23 @@ class SSHConnection {
   }
 
   String get username {
-    return client.username;
+    return client!.username;
   }
 
   /// Returns the sftp client
-  Future<SftpClient> get sftp => client.sftp();
+  Future<SftpClient> get sftp => client!.sftp();
 
   /// Checks if the SSH client is connected.
   ///
   /// Returns `true` if connected, `false` otherwise.
   bool isConnected() {
-    return client.isClosed == false;
+    return client == null ? false : !client!.isClosed;
   }
 
   /// Disconnects the SSH client if connected.
   void disconnect() {
     if (isConnected()) {
-      client.close();
+      client!.close();
     }
   }
 
@@ -73,7 +73,7 @@ class SSHConnection {
         onPasswordRequest: () => prefs.getString('lg_password')!,
       );
 
-      await client.authenticated;
+      await client!.authenticated;
       screenAmount = await getScreenAmount();
     } catch (e) {
       return false;
@@ -89,7 +89,7 @@ class SSHConnection {
       return 1;
     }
 
-    var screenAmount = await client
+    var screenAmount = await client!
         .run("grep -oP '(?<=DHCP_LG_FRAMES_MAX=).*' personavars.txt");
 
     return int.parse(utf8.decode(screenAmount));
@@ -97,7 +97,7 @@ class SSHConnection {
 
   /// Sends the [command] to the Liquid Galaxy.
   Future<SSHSession> sendCommand(String command) async {
-    return await client.execute(command);
+    return await client!.execute(command);
   }
 
   /// Uploads a file to the Liquid Galaxy.
@@ -115,7 +115,7 @@ class SSHConnection {
       // Extract the file name from the provided filePath
       final fileName = filePath.split('/').last;
 
-      final sftp = await client.sftp();
+      final sftp = await client!.sftp();
 
       // Upload file directly from byte data
       final remoteFile = await sftp.open(
