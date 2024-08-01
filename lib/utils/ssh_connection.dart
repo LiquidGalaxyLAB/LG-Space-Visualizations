@@ -64,7 +64,7 @@ class SSHConnection {
     try {
       final socket = await SSHSocket.connect(
         prefs.getString('lg_ip')!,
-        prefs.getInt('lg_port')!,
+        int.parse(prefs.getString('lg_port')!),
       ).timeout(const Duration(seconds: 8));
 
       client = SSHClient(
@@ -74,7 +74,11 @@ class SSHConnection {
       );
 
       await client!.authenticated;
-      screenAmount = await getScreenAmount();
+
+      final screenAmountString = prefs.getString('lg_screen_amount') ?? (await getScreenAmount()).toString();
+      screenAmount = int.parse(screenAmountString);
+
+      prefs.setString('lg_screen_amount', screenAmountString);
     } catch (e) {
       return false;
     }

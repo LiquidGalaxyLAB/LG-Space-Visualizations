@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:lg_space_visualizations/pages/template_page.dart';
+import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/nasa_api.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
-import 'package:lg_space_visualizations/pages/template_page.dart';
 import 'package:lg_space_visualizations/utils/text_constants.dart';
-import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
-import 'package:lg_space_visualizations/widget/input.dart';
 import 'package:lg_space_visualizations/widget/custom_dialog.dart';
+import 'package:lg_space_visualizations/widget/custom_icon.dart';
+import 'package:lg_space_visualizations/widget/input.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:lg_space_visualizations/utils/lg_connection.dart';
 
 /// A [SettingsPage] widget for configuring settings related to the Liquid Galaxy connection.
 class SettingsPage extends StatefulWidget {
@@ -31,11 +31,11 @@ class _SettingsPageState extends State<SettingsPage> {
   /// Controller for the password input field.
   final TextEditingController passwordController = TextEditingController();
 
+  /// Controller for the number of screens input field.
+  final TextEditingController nScreensController = TextEditingController();
+
   /// Controller for the NASA API key input field.
   final TextEditingController apiKeyController = TextEditingController();
-
-  /// Indicates whether the fields have been loaded with saved preferences data.
-  bool loaded = false;
 
   /// Updates the input fields with saved preferences data.
   updateFields() async {
@@ -43,12 +43,10 @@ class _SettingsPageState extends State<SettingsPage> {
 
     usernameController.text = prefs.getString('lg_username') ?? '';
     ipController.text = prefs.getString('lg_ip') ?? '';
-    portController.text =
-        prefs.containsKey('lg_port') ? prefs.getInt('lg_port').toString() : '';
+    portController.text = prefs.getString('lg_port') ?? '';
     passwordController.text = prefs.getString('lg_password') ?? '';
     apiKeyController.text = prefs.getString('nasa_api_key_unchecked') ?? '';
-
-    loaded = true;
+    nScreensController.text = prefs.getString('lg_screen_amount') ?? '';
   }
 
   @override
@@ -71,10 +69,10 @@ class _SettingsPageState extends State<SettingsPage> {
               color: backgroundColor,
             ),
             padding: EdgeInsets.only(
-              top: spaceBetweenWidgets,
-              left: 2 * spaceBetweenWidgets,
-              right: 2 * spaceBetweenWidgets,
-              bottom: spaceBetweenWidgets,
+              top: spaceBetweenWidgets / 1.5,
+              left: spaceBetweenWidgets,
+              right: spaceBetweenWidgets,
+              bottom: spaceBetweenWidgets / 1.5,
             ),
             child: Column(
               children: [
@@ -86,7 +84,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     textAlign: TextAlign.left,
                   ),
                 ),
-                SizedBox(height: spaceBetweenWidgets),
+                SizedBox(height: spaceBetweenWidgets / 2),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
@@ -100,7 +98,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             id: 'lg_username',
                             dialogTitle: usernameLabel,
                             dialogContent: usernameDialogContent),
-                        SizedBox(height: spaceBetweenWidgets),
+                        SizedBox(height: spaceBetweenWidgets / 1.5),
                         _buildRow(context,
                             icon: 'ip',
                             label: ipLabel,
@@ -110,7 +108,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             id: 'lg_ip',
                             dialogTitle: ipLabel,
                             dialogContent: ipDialogContent),
-                        SizedBox(height: spaceBetweenWidgets),
+                        SizedBox(height: spaceBetweenWidgets / 1.5),
                         _buildRow(context,
                             icon: 'ethernet',
                             label: portLabel,
@@ -120,7 +118,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             id: 'lg_port',
                             dialogTitle: 'Port',
                             dialogContent: portDialogContent),
-                        SizedBox(height: spaceBetweenWidgets),
+                        SizedBox(height: spaceBetweenWidgets / 1.5),
                         _buildRow(context,
                             icon: 'locker',
                             label: passwordLabel,
@@ -131,7 +129,18 @@ class _SettingsPageState extends State<SettingsPage> {
                             secure: true,
                             dialogTitle: passwordLabel,
                             dialogContent: passwordDialogContent),
-                        SizedBox(height: spaceBetweenWidgets),
+                        SizedBox(height: spaceBetweenWidgets / 1.5),
+                        _buildRow(context,
+                            icon: 'screens',
+                            label: screenNumberLabel,
+                            controller: nScreensController,
+                            hintText: screenNumberHint,
+                            inputType: TextInputType.number,
+                            id: 'lg_screen_amount',
+                            secure: false,
+                            dialogTitle: screenNumberLabel,
+                            dialogContent: screenNumberDialogContent),
+                        SizedBox(height: spaceBetweenWidgets / 1.5),
                         _buildRow(context,
                             icon: 'api',
                             label: apiLabel,
@@ -261,7 +270,6 @@ class _SettingsPageState extends State<SettingsPage> {
             borderRadius: BorderRadius.circular(borderRadius),
             onPressed: () async {
               SharedPreferences prefs = await SharedPreferences.getInstance();
-
               if (usernameController.text.isEmpty ||
                   ipController.text.isEmpty ||
                   portController.text.isEmpty ||
@@ -279,7 +287,7 @@ class _SettingsPageState extends State<SettingsPage> {
               } else {
                 prefs.setString('lg_username', usernameController.text);
                 prefs.setString('lg_ip', ipController.text);
-                prefs.setInt('lg_port', int.parse(portController.text));
+                prefs.setString('lg_port', portController.text);
                 prefs.setString('lg_password', passwordController.text);
 
                 showDialog(
@@ -318,7 +326,7 @@ class _SettingsPageState extends State<SettingsPage> {
             },
           ),
         ),
-        SizedBox(height: spaceBetweenWidgets / 1.5),
+        SizedBox(height: spaceBetweenWidgets / 2),
         SizedBox(
           height: 50,
           child: Button(

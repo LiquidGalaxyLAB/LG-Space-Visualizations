@@ -150,6 +150,10 @@ String portHint = 'Enter Liquid Galaxy port';
 String portDialogContent =
     'Enter the port of the SSH service of the Liquid\nGalaxy master. Default is 22';
 
+String screenNumberLabel = 'Screens';
+String screenNumberHint = 'Enter the number of Liquid Galaxy screens (optional)';
+String screenNumberDialogContent =
+    'Enter the number of screens of the Liquid Galaxy. This is the\nnumber of screens that the Liquid Galaxy is composed of.';
 String apiLabel = 'Nasa API Key';
 String apiHint = 'Enter Nasa API Key (optional)';
 String apiDialogContent =
@@ -194,7 +198,8 @@ String toolTipTotalPhotos = 'Total photos taken on this day';
 String toolTipCameras = 'Cameras used on this day';
 
 String noListResultText = 'No results found';
-String noListResultSubtitle = 'Try changing the filters or refreshing the list.';
+String noListResultSubtitle =
+    'Try changing the filters or refreshing the list.';
 
 /// Texts for the camerasFilters page
 String filterDateText = 'Filter by date';
