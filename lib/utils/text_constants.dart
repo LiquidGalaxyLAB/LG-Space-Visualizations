@@ -117,16 +117,6 @@ String showLogosMessageTitle = 'Show Logos';
 String showLogosSuccessMessage =
     'The show logos command has been sent.\nThe logos will be displayed in a few seconds.';
 
-String setRefreshTitle = 'SET\nREFRESH';
-String setRefreshMessageTitle = 'Set Refresh';
-String setRefreshSuccessMessage =
-    'The Set Refresh command has been sent.\nThe Liquid Galaxy will set refresh and reboot in a few seconds.';
-
-String resetRefreshTitle = 'RESET\nREFRESH';
-String resetRefreshMessageTitle = 'Reset Refresh';
-String resetRefreshSuccessMessage =
-    'The Reset Refresh command has been sent.\nThe Liquid Galaxy will reset the refresh and reboot in a few seconds.';
-
 String shutdownTitle = 'LG\nSHUTDOWN';
 String shutdownMessageTitle = 'Shutdown';
 String shutdownSuccessMessage =

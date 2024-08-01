@@ -140,58 +140,6 @@ fi
     }
   }
 
-  /// Sets the refresh interval
-  Future<void> setRefresh() async {
-    final String? pw = await sshConnection.password;
-    if (sshConnection.isConnected() == false || pw == null) {
-      return;
-    }
-
-    const search = '<href>##LG_PHPIFACE##kml\\/slave_{{slave}}.kml<\\/href>';
-    const replace =
-        '<href>##LG_PHPIFACE##kml\\/slave_{{slave}}.kml<\\/href><refreshMode>onInterval<\\/refreshMode><refreshInterval>2<\\/refreshInterval>';
-    final command =
-        'echo $pw | sudo -S sed -i "s/$search/$replace/" ~/earth/kml/slave/myplaces.kml';
-
-    final clear =
-        'echo $pw | sudo -S sed -i "s/$replace/$search/" ~/earth/kml/slave/myplaces.kml';
-
-    for (var i = 2; i <= sshConnection.screenAmount; i++) {
-      final clearCmd = clear.replaceAll('{{slave}}', i.toString());
-      final cmd = command.replaceAll('{{slave}}', i.toString());
-      String query = 'sshpass -p $pw ssh -t lg$i \'{{cmd}}\'';
-
-      await sshConnection.sendCommand(query.replaceAll('{{cmd}}', clearCmd));
-      await sshConnection.sendCommand(query.replaceAll('{{cmd}}', cmd));
-    }
-
-    await reboot();
-  }
-
-  /// Resets the refresh interval
-  Future<void> resetRefresh() async {
-    final String? pw = await sshConnection.password;
-    if (sshConnection.isConnected() == false || pw == null) {
-      return;
-    }
-
-    const search =
-        '<href>##LG_PHPIFACE##kml\\/slave_{{slave}}.kml<\\/href><refreshMode>onInterval<\\/refreshMode><refreshInterval>2<\\/refreshInterval>';
-    const replace = '<href>##LG_PHPIFACE##kml\\/slave_{{slave}}.kml<\\/href>';
-
-    final clear =
-        'echo $pw | sudo -S sed -i "s/$search/$replace/" ~/earth/kml/slave/myplaces.kml';
-
-    for (var i = 2; i <= sshConnection.screenAmount; i++) {
-      final cmd = clear.replaceAll('{{slave}}', i.toString());
-      String query = 'sshpass -p $pw ssh -t lg$i \'$cmd\'';
-
-      await sshConnection.sendCommand(query);
-    }
-
-    await reboot();
-  }
-
   /// Shuts down the Liquid Galaxy system.
   Future<void> shutdown() async {
     final String? pw = await sshConnection.password;

@@ -121,77 +121,11 @@ class _ServicesPageState extends State<ServicesPage> {
                         }
                       },
                     ),
-                    _buildServiceButton(
-                      context,
-                      icon: 'see',
-                      text: showLogosTitle,
-                      onPressed: () async {
-                        if (lgConnection.isConnected()) {
-                          lgConnection.showLogos();
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomDialog(
-                                title: showLogosMessageTitle,
-                                content: showLogosSuccessMessage,
-                                iconName: 'see',
-                              );
-                            },
-                          );
-                        } else {
-                          showNotConnectedDialog(context);
-                        }
-                      },
-                    ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildServiceButton(
-                      context,
-                      icon: 'setrefresh',
-                      text: setRefreshTitle,
-                      onPressed: () async {
-                        if (lgConnection.isConnected()) {
-                          lgConnection.setRefresh();
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomDialog(
-                                title: setRefreshMessageTitle,
-                                content: setRefreshSuccessMessage,
-                                iconName: 'setrefresh',
-                              );
-                            },
-                          );
-                        } else {
-                          showNotConnectedDialog(context);
-                        }
-                      },
-                    ),
-                    _buildServiceButton(
-                      context,
-                      icon: 'resetrefresh',
-                      text: setRefreshTitle,
-                      onPressed: () async {
-                        if (lgConnection.isConnected()) {
-                          lgConnection.resetRefresh();
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomDialog(
-                                title: resetRefreshMessageTitle,
-                                content: resetRefreshSuccessMessage,
-                                iconName: 'resetrefresh',
-                              );
-                            },
-                          );
-                        } else {
-                          showNotConnectedDialog(context);
-                        }
-                      },
-                    ),
                     _buildServiceButton(
                       context,
                       icon: 'shutdown',
@@ -206,6 +140,28 @@ class _ServicesPageState extends State<ServicesPage> {
                                 title: shutdownMessageTitle,
                                 content: shutdownSuccessMessage,
                                 iconName: 'shutdown',
+                              );
+                            },
+                          );
+                        } else {
+                          showNotConnectedDialog(context);
+                        }
+                      },
+                    ),
+                    _buildServiceButton(
+                      context,
+                      icon: 'see',
+                      text: showLogosTitle,
+                      onPressed: () async {
+                        if (lgConnection.isConnected()) {
+                          lgConnection.showLogos();
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomDialog(
+                                title: showLogosMessageTitle,
+                                content: showLogosSuccessMessage,
+                                iconName: 'see',
                               );
                             },
                           );
