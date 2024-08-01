@@ -124,7 +124,7 @@ fi
     }
 
     await sshConnection.sendKMLToSlave(sshConnection.leftScreen,
-        KMLMakers.screenOverlayImage(logosUrl, 4032 / 4024));
+        KMLMakers.screenOverlayImage(logosUrl));
   }
 
   /// Reboots the Liquid Galaxy system.
