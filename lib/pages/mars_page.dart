@@ -38,10 +38,10 @@ class _MarsPageState extends State<MarsPage> {
             ),
           ),
           padding: EdgeInsets.only(
-            top: spaceBetweenWidgets / 4,
-            left: spaceBetweenWidgets,
-            right: spaceBetweenWidgets,
-            bottom: spaceBetweenWidgets / 4,
+            top: spaceBetweenWidgets / 2,
+            left: 2 * spaceBetweenWidgets,
+            right: 2 * spaceBetweenWidgets,
+            bottom: spaceBetweenWidgets / 2,
           ),
           child: Row(
             children: [
@@ -81,7 +81,7 @@ class _MarsPageState extends State<MarsPage> {
                     marsPageDescriptionText,
                     style: smallText,
                   ),
-                  SizedBox(height: spaceBetweenWidgets / 1.5),
+                  SizedBox(height: spaceBetweenWidgets),
                   Button(
                     color: secondaryColor,
                     center: false,
@@ -128,26 +128,6 @@ class _MarsPageState extends State<MarsPage> {
                       });
                     },
                   ),
-                  SizedBox(height: spaceBetweenWidgets / 2),
-                  Button(
-                    color: secondaryColor,
-                    center: false,
-                    text: landingButtonText,
-                    padding: const EdgeInsets.only(left: 15),
-                    borderRadius: BorderRadius.circular(borderRadius),
-                    icon: CustomIcon(
-                        name: landingTitle, size: 50, color: backgroundColor),
-                    onPressed: () {
-                      setState(() {
-                        setState(() {
-                          Navigator.pushNamed(context, '/web', arguments: {
-                            'url': landingUrl,
-                            'title': landingTitle
-                          });
-                        });
-                      });
-                    },
-                  )
                 ],
               )),
             ],

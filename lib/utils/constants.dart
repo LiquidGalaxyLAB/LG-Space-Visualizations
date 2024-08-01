@@ -11,7 +11,6 @@ String roverImageUrl = 'https://i.imghippo.com/files/repop1722252628.png';
 
 /// Web url
 String missionOverviewUrl = 'https://mars.nasa.gov/mars2020/';
-String landingUrl = 'https://eyes.nasa.gov/apps/mars2020/#/home';
 String droneUrl = 'https://mars.nasa.gov/technology/helicopter/';
 String roverUrl =
     'https://science.nasa.gov/mission/mars-2020-perseverance/rover-components/';
