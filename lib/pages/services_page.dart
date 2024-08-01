@@ -60,7 +60,7 @@ class _ServicesPageState extends State<ServicesPage> {
                       icon: 'relaunch',
                       text: relaunchTitle,
                       onPressed: () async {
-                        if (lgConnection.isConnected()) {
+                        if (await lgConnection.isConnected()) {
                           lgConnection.relaunch();
                           showDialog(
                             context: context,
@@ -82,7 +82,7 @@ class _ServicesPageState extends State<ServicesPage> {
                       icon: 'clear',
                       text: clearKmlTitle,
                       onPressed: () async {
-                        if (lgConnection.isConnected()) {
+                        if (await lgConnection.isConnected()) {
                           lgConnection.clearKml(keepLogos: true);
                           showDialog(
                             context: context,
@@ -104,7 +104,7 @@ class _ServicesPageState extends State<ServicesPage> {
                       icon: 'reboot',
                       text: rebootTitle,
                       onPressed: () async {
-                        if (lgConnection.isConnected()) {
+                        if (await lgConnection.isConnected()) {
                           lgConnection.reboot();
                           showDialog(
                             context: context,
@@ -131,7 +131,7 @@ class _ServicesPageState extends State<ServicesPage> {
                       icon: 'shutdown',
                       text: shutdownTitle,
                       onPressed: () async {
-                        if (lgConnection.isConnected()) {
+                        if (await lgConnection.isConnected()) {
                           lgConnection.shutdown();
                           showDialog(
                             context: context,
@@ -153,7 +153,7 @@ class _ServicesPageState extends State<ServicesPage> {
                       icon: 'see',
                       text: showLogosTitle,
                       onPressed: () async {
-                        if (lgConnection.isConnected()) {
+                        if (await lgConnection.isConnected()) {
                           lgConnection.showLogos();
                           showDialog(
                             context: context,
@@ -175,7 +175,7 @@ class _ServicesPageState extends State<ServicesPage> {
                       icon: 'hide',
                       text: hideLogosTitle,
                       onPressed: () async {
-                        if (lgConnection.isConnected()) {
+                        if (await lgConnection.isConnected()) {
                           lgConnection.clearKml(keepLogos: false);
                           showDialog(
                             context: context,

@@ -26,8 +26,8 @@ class LGConnection {
   int get screenAmount => sshConnection.screenAmount;
 
   /// Returns the status of the SSH connection.
-  bool isConnected() {
-    return sshConnection.isConnected();
+  Future<bool> isConnected() async {
+    return await sshConnection.isConnected();
   }
 
   /// Connects to the Liquid Galaxy system.
@@ -68,7 +68,7 @@ class LGConnection {
   Future<void> relaunch() async {
     final String? pw = await sshConnection.password;
 
-    if (sshConnection.isConnected() == false || pw == null) {
+    if (!await sshConnection.isConnected() || pw == null) {
       return;
     }
 
@@ -99,7 +99,7 @@ fi
   ///
   /// [keepLogos] indicates whether to keep the logo overlays.
   Future<void> clearKml({bool keepLogos = false}) async {
-    if (sshConnection.isConnected() == false) {
+    if (!await sshConnection.isConnected()) {
       return;
     }
     String query =
@@ -119,18 +119,18 @@ fi
 
   /// Display the logos on the last screen of the Liquid Galaxy.
   Future<void> showLogos() async {
-    if (sshConnection.isConnected() == false) {
+    if (!await sshConnection.isConnected()) {
       return;
     }
 
-    await sshConnection.sendKMLToSlave(sshConnection.leftScreen,
-        KMLMakers.screenOverlayImage(logosUrl));
+    await sshConnection.sendKMLToSlave(
+        sshConnection.leftScreen, KMLMakers.screenOverlayImage(logosUrl));
   }
 
   /// Reboots the Liquid Galaxy system.
   Future<void> reboot() async {
     final String? pw = await sshConnection.password;
-    if (sshConnection.isConnected() == false || pw == null) {
+    if (!await sshConnection.isConnected() || pw == null) {
       return;
     }
 
@@ -143,7 +143,7 @@ fi
   /// Shuts down the Liquid Galaxy system.
   Future<void> shutdown() async {
     final String? pw = await sshConnection.password;
-    if (sshConnection.isConnected() == false || pw == null) {
+    if (!await sshConnection.isConnected() || pw == null) {
       return;
     }
 
@@ -157,7 +157,7 @@ fi
   ///
   /// The [planet] can be 'earth', 'mars', or 'moon'.
   Future<void> setPlanet(String planet) async {
-    if (sshConnection.isConnected() == false ||
+    if (!await sshConnection.isConnected() ||
         planet.isEmpty ||
         (planet != 'earth' && planet != 'mars' && planet != 'moon')) {
       return;
@@ -172,7 +172,7 @@ fi
   /// [zoom] is the zoom level and [tilt] and [bearing] are the angles.
   Future<void> flyTo(double latitude, double longitude, double zoom,
       double tilt, double bearing) async {
-    if (sshConnection.isConnected() == false) {
+    if (!await sshConnection.isConnected()) {
       return;
     }
     await sshConnection.sendCommand(
@@ -201,13 +201,13 @@ fi
   ///
   /// [tourKml] is the KML content defining the orbit.
   Future<void> startOrbit(String tourKml) async {
-    if (!sshConnection.isConnected()) {
+    if (!await sshConnection.isConnected()) {
       return;
     }
 
     const fileName = 'Orbit.kml';
 
-    final sftp = await sshConnection.sftp;
+    SftpClient sftp = await sshConnection.getSftp();
 
     // Open a remote file for writing
     final remoteFile = await sftp.open('/var/www/html/$fileName',
@@ -222,6 +222,7 @@ fi
     await remoteFile.write(kmlStreamBytes);
 
     await remoteFile.close();
+    sftp.close();
 
     // Prepare the orbit
     await sshConnection.sendCommand(
@@ -235,7 +236,7 @@ fi
 
   /// Stops any currently playing orbit animation on the Liquid Galaxy.
   Future<void> stopOrbit() async {
-    if (!sshConnection.isConnected()) {
+    if (!await sshConnection.isConnected()) {
       return;
     }
 
@@ -250,7 +251,7 @@ fi
   Future<void> displayImageOnLG(String imgUrl) async {
     final String? pw = await sshConnection.password;
 
-    if (!sshConnection.isConnected() || pw == null) {
+    if (!await sshConnection.isConnected() || pw == null) {
       return;
     }
 
@@ -264,7 +265,7 @@ fi
   Future<void> closeImageOnLG() async {
     final String? pw = await sshConnection.password;
 
-    if (!sshConnection.isConnected() || pw == null) {
+    if (!await sshConnection.isConnected() || pw == null) {
       return;
     }
 

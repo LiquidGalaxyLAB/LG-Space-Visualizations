@@ -33,18 +33,35 @@ class SSHConnection {
   }
 
   /// Returns the sftp client
-  Future<SftpClient> get sftp => client!.sftp();
+  Future<SftpClient> getSftp() async {
+    SftpClient sftp;
+    try {
+      sftp = await client!.sftp();
+    } on SSHChannelOpenError {
+      await handleSSHChannelOpenError();
+      sftp = await client!.sftp();
+    }
+    return sftp;
+  }
 
   /// Checks if the SSH client is connected.
   ///
   /// Returns `true` if connected, `false` otherwise.
-  bool isConnected() {
-    return client == null ? false : !client!.isClosed;
+  Future<bool> isConnected() async {
+    if (client == null || client!.isClosed) return false;
+    try {
+      // Attempt to execute a simple command to check the connection status
+      final result = await sendCommand('echo "check connection"');
+      return result != null;
+    } catch (e) {
+      // If an exception occurs, the connection is not active
+      return false;
+    }
   }
 
   /// Disconnects the SSH client if connected.
-  void disconnect() {
-    if (isConnected()) {
+  Future<void> disconnect() async {
+    if (await isConnected()) {
       client!.close();
     }
   }
@@ -75,7 +92,8 @@ class SSHConnection {
 
       await client!.authenticated;
 
-      final screenAmountString = prefs.getString('lg_screen_amount') ?? (await getScreenAmount()).toString();
+      final screenAmountString = prefs.getString('lg_screen_amount') ??
+          (await getScreenAmount()).toString();
       screenAmount = int.parse(screenAmountString);
 
       prefs.setString('lg_screen_amount', screenAmountString);
@@ -87,10 +105,10 @@ class SSHConnection {
 
   /// Retrieves the number of screens in the Liquid Galaxy system.
   ///
-  /// Returns the number of screens, or default value 1 if not connected or on failure
+  /// Returns the number of screens, or default value 5 if not connected or on failure
   Future<int> getScreenAmount() async {
-    if (isConnected() == false) {
-      return 1;
+    if (!await isConnected()) {
+      return 5;
     }
 
     var screenAmount = await client!
@@ -100,15 +118,28 @@ class SSHConnection {
   }
 
   /// Sends the [command] to the Liquid Galaxy.
-  Future<SSHSession> sendCommand(String command) async {
-    return await client!.execute(command);
+  Future<String?> sendCommand(String command) async {
+    try {
+      return utf8.decode(await client!.run(command));
+    } on SSHChannelOpenError {
+      await handleSSHChannelOpenError();
+      return utf8.decode(await client!.run(command));
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Handles an SSH channel open error.
+  Future<void> handleSSHChannelOpenError() async {
+    await disconnect();
+    await connect();
   }
 
   /// Uploads a file to the Liquid Galaxy.
   ///
   /// requires the [filePath] of the file to upload.
   Future<void> upload(String filePath) async {
-    if (!isConnected()) {
+    if (!await isConnected()) {
       return;
     }
 
@@ -140,7 +171,7 @@ class SSHConnection {
   ///
   /// [kml] is the KML content to send.
   Future<void> sendKml(String kml, {List<String> images = const []}) async {
-    if (!isConnected()) {
+    if (!await isConnected()) {
       return;
     }
 
@@ -151,7 +182,7 @@ class SSHConnection {
 
       const fileName = 'upload.kml';
 
-      final sftpClient = await sftp;
+      SftpClient sftpClient = await getSftp();
 
       final remoteFile = await sftpClient.open('/var/www/html/$fileName',
           mode: SftpFileOpenMode.create |
@@ -178,11 +209,7 @@ class SSHConnection {
       return;
     }
 
-    try {
-      await sendCommand(
-          "echo '$kml' > /var/www/html/kml/slave_$screenNumber.kml");
-    } catch (e) {
-      print(e);
-    }
+    await sendCommand(
+        "echo '$kml' > /var/www/html/kml/slave_$screenNumber.kml");
   }
 }

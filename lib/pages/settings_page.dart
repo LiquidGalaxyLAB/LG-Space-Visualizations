@@ -339,7 +339,7 @@ class _SettingsPageState extends State<SettingsPage> {
             color: secondaryColor,
             borderRadius: BorderRadius.circular(borderRadius),
             onPressed: () async {
-              if (lgConnection.isConnected()) {
+              if (await lgConnection.isConnected()) {
                 lgConnection.disconnect();
                 showDialog(
                   context: context,
