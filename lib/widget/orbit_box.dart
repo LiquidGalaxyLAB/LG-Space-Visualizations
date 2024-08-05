@@ -47,7 +47,11 @@ class _OrbitBoxState extends State<OrbitBox> {
                   bottom: spaceBetweenWidgets / 2,
                     child: Button(
                       icon: null,
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          Navigator.pushNamed(context, '/orbit', arguments: widget.orbit);
+                        });
+                      },
                       text: widget.orbit.orbitName,
                     color: secondaryColor,
                     borderRadius: BorderRadius.circular(borderRadius),

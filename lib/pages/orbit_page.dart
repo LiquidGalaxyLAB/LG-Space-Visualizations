@@ -108,7 +108,8 @@ class _OrbitPageState extends State<OrbitPage> {
                   // Conditionally displays information about the satellite if available
                   if (widget.orbit.satelliteDescription != null) ...[
                     Text(
-                      '$orbitDescriptionTitle ${widget.orbit.satelliteName} $orbitSatellite',
+                      '$orbitDescriptionTitle ${widget.orbit
+                          .satelliteName} $orbitSatellite',
                       style: middleTitle,
                       textAlign: TextAlign.left,
                     ),
@@ -172,12 +173,14 @@ class _OrbitPageState extends State<OrbitPage> {
 Future<List<LatLng>> parseKmlFromAssets(String assetPath) async {
   final xmlString = await rootBundle.loadString(assetPath);
   List<LatLng> path = [];
-  RegExp exp = RegExp(r'<coordinates>(.*?)<\/coordinates>');
+
+  // Update the regular expression to handle namespaces
+  RegExp exp = RegExp(r'<coordinates[^>]*>(.*?)<\/coordinates>', dotAll: true);
   var matches = exp.allMatches(xmlString);
 
   for (var match in matches) {
     String coordinateString = match.group(1) ?? "";
-    List<String> coordinatePairs = coordinateString.split(' ');
+    List<String> coordinatePairs = coordinateString.split(RegExp(r'\s+'));
 
     for (String pair in coordinatePairs) {
       List<String> coords = pair.split(',');
