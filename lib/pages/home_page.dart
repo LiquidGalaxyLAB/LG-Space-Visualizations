@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
+import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/image_button.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
@@ -15,6 +16,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+    // Clear the KML when the page is disposed, keeping the logos
+    lgConnection.clearKml(keepLogos: true);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return TemplatePage(
