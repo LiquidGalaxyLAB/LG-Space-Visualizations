@@ -1,9 +1,10 @@
-import 'kml_makers.dart';
 import 'package:lg_space_visualizations/utils/constants.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
+
+import 'kml_makers.dart';
 
 /// Class responsible for generating KML balloons for various visualizations.
 class BalloonMaker {
-
   /// Generates a KML balloon for the Perseverance Rover.
   ///
   /// The balloon contains an image and a description of the Perseverance Rover.
@@ -48,10 +49,12 @@ class BalloonMaker {
   ///
   /// Returns a string containing the KML balloon.
   static String generateOrbitBalloon(String name, String description) {
+    description = description.replaceAll('\n', '<br>').replaceAll('\'', '’');
+
     return KMLMakers.screenOverlayBalloon(
         '''<div style="width: 480px; color: white; padding-left: 10px; padding-right: 10px;">
       <center>
-         <h1 style="color:white; font-size: 28px;">$name</h1>
+         <h1 style="color:white; font-size: 28px;">$name Orbit</h1>
         <p style="color:white; font-size: 18px;">$description</p>
         <br>
         <p style="color:white; font-size: 15px;">Space Visualizations | Liquid Galaxy | GSoC 2024</p>

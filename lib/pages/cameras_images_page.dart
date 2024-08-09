@@ -5,6 +5,7 @@ import 'package:lg_space_visualizations/utils/nasa_api.dart';
 import 'package:lg_space_visualizations/utils/rover_photo.dart';
 import 'package:lg_space_visualizations/utils/sol_day.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_dialog.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
@@ -55,7 +56,7 @@ class _CamerasImagesPageState extends State<CamerasImagesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return TemplatePage(title: 'Photos', children: [
+    return TemplatePage(title: camerasImagesTitle, children: [
       Expanded(
           child: Container(
               decoration: BoxDecoration(
@@ -75,7 +76,7 @@ class _CamerasImagesPageState extends State<CamerasImagesPage> {
                         Row(
                           children: [
                             Text(
-                                'Rover photos of ${SolDay.getFormattedEarthDate(widget.day.earthDate)}',
+                                '$camerasImagesSubtitle ${SolDay.getFormattedEarthDate(widget.day.earthDate)}',
                                 style: middleTitle),
                             const Spacer(),
                             Button(
@@ -91,10 +92,10 @@ class _CamerasImagesPageState extends State<CamerasImagesPage> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return CustomDialog(
-                                          title: 'Info',
+                                          title: camerasImagesInfoTitle,
                                           iconName: 'info',
                                           content:
-                                              'This page displays the photos taken by the rover on the selected day. The photos are filtered \n by the cameras selected on the previous page. ${photos.length} filtered out of ${widget.day.totalPhotos} total photos for the day.\nTap on a photo to view it in full screen and display it on Liquid Galaxy.');
+                                              '$camerasImagesInfoText1 ${photos.length} $camerasImagesInfoText2 ${widget.day.totalPhotos} $camerasImagesInfoText3');
                                     },
                                   );
                                 }),
@@ -150,10 +151,12 @@ class _CamerasImagesPageState extends State<CamerasImagesPage> {
                                 ))))
                       ]);
                     } else if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
+                      return Center(
+                          child: Text(
+                              '$camerasImagesErrorText ${snapshot.error}'));
                     } else {
-                      return const LoadingIndicator(
-                          message: 'Fetching photos from the NASA API...');
+                      return LoadingIndicator(
+                          message: camerasImagesLoadingText);
                     }
                   })))
     ]);
@@ -184,12 +187,12 @@ class _CamerasImagesPageState extends State<CamerasImagesPage> {
                     ),
                     child: Row(
                       children: [
-                        Text('Taken with ${photo.fullCameraName}',
+                        Text('$camerasImagesTaken ${photo.fullCameraName}',
                             style: middleTitle),
                         const Spacer(),
                         Button(
                             color: secondaryColor,
-                            text: 'Display on Liquid Galaxy',
+                            text: displayOnLGButtonText,
                             padding: EdgeInsets.all(spaceBetweenWidgets / 2),
                             borderRadius: BorderRadius.circular(borderRadius),
                             icon: CustomIcon(

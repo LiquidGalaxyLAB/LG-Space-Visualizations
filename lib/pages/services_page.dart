@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
-import 'package:lg_space_visualizations/utils/styles.dart';
-import 'package:lg_space_visualizations/widget/button.dart';
-import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/utils/lg_connection.dart';
+import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
+import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_dialog.dart';
+import 'package:lg_space_visualizations/widget/custom_icon.dart';
 
 /// A [ServicesPage] widget for managing services related to the Liquid Galaxy system.
 ///
@@ -22,9 +23,9 @@ class _ServicesPageState extends State<ServicesPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const CustomDialog(
-          title: 'Error',
-          content: 'The Liquid Galaxy is not connected.\nPlease connect to the rig and try again.',
+        return CustomDialog(
+          title: errorTitle,
+          content: notConnectedMessage,
           iconName: 'error',
         );
       },
@@ -34,7 +35,7 @@ class _ServicesPageState extends State<ServicesPage> {
   @override
   Widget build(BuildContext context) {
     return TemplatePage(
-      title: 'Services',
+      title: titleServices,
       children: [
         Expanded(
           child: Container(
@@ -44,8 +45,8 @@ class _ServicesPageState extends State<ServicesPage> {
             ),
             padding: EdgeInsets.only(
               top: spaceBetweenWidgets,
-              left: 2 * spaceBetweenWidgets,
-              right: 2 * spaceBetweenWidgets,
+              left: spaceBetweenWidgets,
+              right: spaceBetweenWidgets,
               bottom: spaceBetweenWidgets,
             ),
             child: Column(
@@ -57,16 +58,16 @@ class _ServicesPageState extends State<ServicesPage> {
                     _buildServiceButton(
                       context,
                       icon: 'relaunch',
-                      text: 'LG\nRELAUNCH',
+                      text: relaunchTitle,
                       onPressed: () async {
-                        if (lgConnection.isConnected()) {
+                        if (await lgConnection.isConnected()) {
                           lgConnection.relaunch();
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return const CustomDialog(
-                                title: 'Reboot',
-                                content: 'The relaunch command has been sent.\nThe Liquid Galaxy will relaunch in a few seconds.',
+                              return CustomDialog(
+                                title: relaunchMessageTitle,
+                                content: relaunchSuccessMessage,
                                 iconName: 'relaunch',
                               );
                             },
@@ -79,16 +80,16 @@ class _ServicesPageState extends State<ServicesPage> {
                     _buildServiceButton(
                       context,
                       icon: 'clear',
-                      text: 'CLEAR\nKML',
+                      text: clearKmlTitle,
                       onPressed: () async {
-                        if (lgConnection.isConnected()) {
-                          lgConnection.clearKml();
+                        if (await lgConnection.isConnected()) {
+                          lgConnection.clearKml(keepLogos: true);
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return const CustomDialog(
-                                title: 'Clear KML',
-                                content: 'The Clear KML command has been sent to the Liquid Galaxy.\nThe KMLs will be cleared in a few seconds.',
+                              return CustomDialog(
+                                title: clearKmlMessageTitle,
+                                content: clearKmlSuccessMessage,
                                 iconName: 'clear',
                               );
                             },
@@ -101,16 +102,16 @@ class _ServicesPageState extends State<ServicesPage> {
                     _buildServiceButton(
                       context,
                       icon: 'reboot',
-                      text: 'LG\nREBOOT',
+                      text: rebootTitle,
                       onPressed: () async {
-                        if (lgConnection.isConnected()) {
+                        if (await lgConnection.isConnected()) {
                           lgConnection.reboot();
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return const CustomDialog(
-                                title: 'Reboot',
-                                content: 'The reboot command has been sent.\nThe Liquid Galaxy will reboot in a few seconds.',
+                              return CustomDialog(
+                                title: rebootMessageTitle,
+                                content: rebootSuccessMessage,
                                 iconName: 'reboot',
                               );
                             },
@@ -127,62 +128,62 @@ class _ServicesPageState extends State<ServicesPage> {
                   children: [
                     _buildServiceButton(
                       context,
-                      icon: 'setrefresh',
-                      text: 'SET\nREFRESH',
-                      onPressed: () async {
-                        if (lgConnection.isConnected()) {
-                          lgConnection.setRefresh();
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const CustomDialog(
-                                title: 'Set Refresh',
-                                content: 'The Set Refresh command has been sent.\nThe Liquid Galaxy will set refresh and reboot in a few seconds.',
-                                iconName: 'setrefresh',
-                              );
-                            },
-                          );
-                        } else {
-                          showNotConnectedDialog(context);
-                        }
-                      },
-                    ),
-                    _buildServiceButton(
-                      context,
-                      icon: 'resetrefresh',
-                      text: 'RESET\nREFRESH',
-                      onPressed: () async {
-                        if (lgConnection.isConnected()) {
-                          lgConnection.resetRefresh();
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const CustomDialog(
-                                title: 'Reset Refresh',
-                                content: 'The Reset Refresh command has been sent.\nThe Liquid Galaxy will reset the refresh and reboot in a few seconds.',
-                                iconName: 'resetrefresh',
-                              );
-                            },
-                          );
-                        } else {
-                          showNotConnectedDialog(context);
-                        }
-                      },
-                    ),
-                    _buildServiceButton(
-                      context,
                       icon: 'shutdown',
-                      text: 'LG\nSHUTDOWN',
+                      text: shutdownTitle,
                       onPressed: () async {
-                        if (lgConnection.isConnected()) {
+                        if (await lgConnection.isConnected()) {
                           lgConnection.shutdown();
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return const CustomDialog(
-                                title: 'Shutdown',
-                                content: 'The shutdown command has been sent.\nThe Liquid Galaxy will shutdown in a few seconds.',
+                              return CustomDialog(
+                                title: shutdownMessageTitle,
+                                content: shutdownSuccessMessage,
                                 iconName: 'shutdown',
+                              );
+                            },
+                          );
+                        } else {
+                          showNotConnectedDialog(context);
+                        }
+                      },
+                    ),
+                    _buildServiceButton(
+                      context,
+                      icon: 'see',
+                      text: showLogosTitle,
+                      onPressed: () async {
+                        if (await lgConnection.isConnected()) {
+                          lgConnection.showLogos();
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomDialog(
+                                title: showLogosMessageTitle,
+                                content: showLogosSuccessMessage,
+                                iconName: 'see',
+                              );
+                            },
+                          );
+                        } else {
+                          showNotConnectedDialog(context);
+                        }
+                      },
+                    ),
+                    _buildServiceButton(
+                      context,
+                      icon: 'hide',
+                      text: hideLogosTitle,
+                      onPressed: () async {
+                        if (await lgConnection.isConnected()) {
+                          lgConnection.clearKml(keepLogos: false);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomDialog(
+                                title: hideLogosMessageTitle,
+                                content: hideLogosSuccessMessage,
+                                iconName: 'hide',
                               );
                             },
                           );
@@ -209,8 +210,8 @@ class _ServicesPageState extends State<ServicesPage> {
   /// [onPressed] is the function to call when the button is pressed.
   Widget _buildServiceButton(BuildContext context,
       {required String icon,
-        required String text,
-        required VoidCallback onPressed}) {
+      required String text,
+      required VoidCallback onPressed}) {
     return SizedBox(
       height: 250,
       width: 250,

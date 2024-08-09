@@ -12,10 +12,14 @@ class LedStatus extends StatelessWidget {
   /// The size of the LED.
   final double size;
 
+  /// Indicates if the LED is enabled.
+  final bool enable;
+
   const LedStatus({
     super.key,
     required this.status,
     required this.size,
+    this.enable = true,
   });
 
   @override
@@ -25,7 +29,11 @@ class LedStatus extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: status ? Colors.green : Colors.red,
+        color: enable
+            ? status
+                ? Colors.green
+                : Colors.red
+            : Colors.grey,
         border: Border.all(
           color: secondaryColor,
           width: 2.5,

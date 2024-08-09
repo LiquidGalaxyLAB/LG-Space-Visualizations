@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lg_space_visualizations/pages/template_page.dart';
 import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/kml/ballon_maker.dart';
 import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/info_box.dart';
@@ -46,9 +48,6 @@ class _RoverPageState extends State<RoverPage> {
     // Send the KML file of the rover's path to the LG
     lgConnection.sendKmlFromAssets('assets/kmls/rover_path.kml',
         images: ['assets/images/rover_icon.png']);
-
-    // Fly to the drone's location.
-    await lgConnection.flyTo(18.476717, 77.382319, 25000, 0, 0);
   }
 
   @override
@@ -168,9 +167,16 @@ class _RoverPageState extends State<RoverPage> {
                 SizedBox(height: spaceBetweenWidgets / 4),
                 Expanded(
                     child: Map(
-                        latitude: mapCenterLat,
-                        longitude: mapCenterLong,
-                        zoom: defaultMapZoom,
+                        latitude: mapMarsCenterLat,
+                        longitude: mapMarsCenterLong,
+                        zoom: defaultMarsMapZoom,
+                        tilt: defaultMarsMapTilt,
+                        bearing: defaultMarsMapBearing,
+                        minMaxZoomPreference: const MinMaxZoomPreference(11, 14),
+                        bounds: roverLandingBounds,
+                        boost: defaultMarsMapBoost,
+                        orbitTilt: defaultMarsOrbitTilt,
+                        orbitRange: defaultMarsOrbitRange,
                         kmlName: 'Rover')),
               ],
             ),

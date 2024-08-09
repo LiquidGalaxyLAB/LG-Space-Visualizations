@@ -3,6 +3,7 @@ import 'package:lg_space_visualizations/utils/constants.dart';
 import 'package:lg_space_visualizations/utils/filter.dart';
 import 'package:lg_space_visualizations/utils/sol_day.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_dialog.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
@@ -122,7 +123,7 @@ class _CamerasFiltersPageState extends State<CamerasFiltersPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text('Filter by date', style: middleTitle),
+              Text(filterDateText, style: middleTitle),
               Button(
                   color: secondaryColor,
                   borderRadius: BorderRadius.circular(50),
@@ -135,11 +136,10 @@ class _CamerasFiltersPageState extends State<CamerasFiltersPage> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return const CustomDialog(
-                            title: 'Dates Selection Info',
+                        return CustomDialog(
+                            title: filterDateInfoTitle,
                             iconName: 'info',
-                            content:
-                                'Filter by a range of dates. The range is inclusive.');
+                            content: filterDateInfoText);
                       },
                     );
                   })
@@ -166,7 +166,7 @@ class _CamerasFiltersPageState extends State<CamerasFiltersPage> {
                   ],
                 )),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text('Filter by photos number', style: middleTitle),
+              Text(filterPhotoNumberText, style: middleTitle),
               Button(
                   color: secondaryColor,
                   borderRadius: BorderRadius.circular(50),
@@ -179,11 +179,10 @@ class _CamerasFiltersPageState extends State<CamerasFiltersPage> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return const CustomDialog(
-                            title: 'Photos Range Info',
+                        return CustomDialog(
+                            title: filterPhotoNumberInfoTitle,
                             iconName: 'info',
-                            content:
-                                'Filter by the number of photos taken by the rover\non a specific day. The range is inclusive.');
+                            content: filterPhotoNumberInfoText);
                       },
                     );
                   }),
@@ -217,30 +216,28 @@ class _CamerasFiltersPageState extends State<CamerasFiltersPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Filter by cameras', style: middleTitle),
-                Tooltip(
-                    message: 'View positions of rover cameras',
-                    child: Button(
-                        color: secondaryColor,
-                        borderRadius: BorderRadius.circular(50),
-                        icon: CustomIcon(
-                            name: 'info', color: backgroundColor, size: 30),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return PopUp(
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(borderRadius),
-                                        color: backgroundColor,
-                                      ),
-                                      child: Image.asset(
-                                          'assets/images/rover_cameras.png')));
-                            },
-                          );
-                        })),
+                Text(filterCamerasText, style: middleTitle),
+                Button(
+                    color: secondaryColor,
+                    borderRadius: BorderRadius.circular(50),
+                    icon: CustomIcon(
+                        name: 'info', color: backgroundColor, size: 30),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return PopUp(
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(borderRadius),
+                                    color: backgroundColor,
+                                  ),
+                                  child: Image.asset(
+                                      'assets/images/rover_cameras.png')));
+                        },
+                      );
+                    }),
               ],
             ),
             Transform.translate(
@@ -253,7 +250,7 @@ class _CamerasFiltersPageState extends State<CamerasFiltersPage> {
               padding: EdgeInsets.only(
                   top: spaceBetweenWidgets / 4,
                   bottom: spaceBetweenWidgets / 4),
-              text: 'Show results',
+              text: showResultButtonText,
               borderRadius: BorderRadius.circular(borderRadius),
               icon:
                   CustomIcon(name: 'search', size: 40, color: backgroundColor),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lg_space_visualizations/utils/lg_connection.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/led_status.dart';
-import 'package:lg_space_visualizations/utils/lg_connection.dart';
 
 /// Bottom navigation bar with various buttons and a status indicator.
 ///
@@ -99,7 +99,17 @@ class _BottomBarState extends State<BottomBar> {
                     }
                   }),
               Container(width: 40),
-              LedStatus(status: lgConnection.isConnected(), size: 35)
+              FutureBuilder<bool>(
+                future: lgConnection.isConnected(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done &&
+                      snapshot.hasData) {
+                    return LedStatus(status: snapshot.data!, size: 35);
+                  } else {
+                    return const LedStatus(status: false, size: 35, enable: false);
+                  }
+                },
+              ),
             ],
           )),
     );

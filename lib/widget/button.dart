@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
+import 'package:lg_space_visualizations/widget/custom_icon.dart';
 
 /// A customizable button widget that can display an icon and optional text.
 ///
@@ -10,7 +10,7 @@ import 'package:lg_space_visualizations/utils/styles.dart';
 /// [padding], [bold], and [multiLine] parameters are optional and have default values.
 class Button extends StatelessWidget {
   /// The icon to be displayed inside the button.
-  final CustomIcon icon;
+  final CustomIcon? icon;
 
   /// Center the icon and text.
   final bool center;
@@ -59,36 +59,40 @@ class Button extends StatelessWidget {
           color: color,
         ),
         child: text != null
-            ? !multiLine
-            ? Padding(
-            padding: padding,
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: center ? MainAxisAlignment.center:  MainAxisAlignment.start,
-              children: [
-                icon,
-                SizedBox(width: spaceBetweenWidgets),
-                Text(text!, style: buttonText),
-              ],
-            ))
-            : Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: spaceBetweenWidgets),
-            icon,
-            const Spacer(),
-            Text(
-              text!,
-              textAlign: TextAlign.center,
-              style: bold ? buttonTextBold : buttonText,
-            ),
-            SizedBox(height: spaceBetweenWidgets),
-          ],
-        )
+            ? multiLine
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: spaceBetweenWidgets),
+                      if (icon != null) icon!,
+                      const Spacer(),
+                      Text(
+                        text!,
+                        textAlign: TextAlign.center,
+                        style: bold ? buttonTextBold : buttonText,
+                      ),
+                      SizedBox(height: spaceBetweenWidgets),
+                    ],
+                  )
+                : Padding(
+                    padding: padding,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: center
+                          ? MainAxisAlignment.center
+                          : MainAxisAlignment.start,
+                      children: [
+                        if (icon != null) ...[
+                          icon!,
+                          SizedBox(width: spaceBetweenWidgets),
+                        ],
+                        Text(text!, style: buttonText),
+                      ],
+                    ))
             : Padding(
-          padding: padding,
-          child: icon,
-        ),
+                padding: padding,
+                child: icon,
+              ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lg_space_visualizations/utils/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   // Ensures that an instance of the widgets library is initialized.
@@ -14,6 +15,13 @@ void main() {
 
   // Set the app in fullscreen mode, hiding the system UI overlays.
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+
+  // Set the default NASA API key to the DEMO_KEY.
+  SharedPreferences.getInstance().then((prefs) {
+    if (!prefs.containsKey('nasa_api_key_unchecked')) {
+      prefs.setString('nasa_api_key_unchecked', 'DEMO_KEY');
+    }
+  });
 
   runApp(const Launcher());
 }
