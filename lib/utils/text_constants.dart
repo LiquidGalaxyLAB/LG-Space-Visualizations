@@ -8,7 +8,11 @@ String infoPageTitle = 'Info';
 String projectTitle = 'Space Visualizations';
 String projectSubtitle = 'for Liquid Galaxy';
 String infoPageDescription =
-    '''This project aims to build an educational application dedicated to visualizing orbits and the Mars 2020 mission, utilizing the Liquid Galaxy platform to provide immersive space exploration experiences. The app enables users to see and understand different orbits, such as GPS, QZSS, Graveyard and more in detail. Additionally, it showcases the Mars 2020 mission by featuring interactive 3D models of the Perseverance Rover and the Ingenuity Drone. Users can follow their paths on Mars, view photos taken by the rover, and discover technical details about the mission.''';
+    '''Space Visualizations for Liquid Galaxy is an application that showcases the Mars 2020 NASA mission and some of the most famous Earth orbits. The application uses the Liquid Galaxy platform to provide immersive space exploration experiences. In the Mars mission section, users can interactively learn about the mission by visualizing 3D models, technical data, and the path of the Perseverance rover and Ingenuity drone. Users can see Mars from the perspective of the Perseverance rover with more than 220000 photos available. In the Earth orbit section, a list of orbits can be displayed in both the application and, with a realistic representation, on Liquid Galaxy Google Earth. Users can interact with these orbits and learn more about them.''';
+String infoPageFooter = '''This project has been started as a Google Summer of Code 2024 project with the Liquid Galaxy Org
+Developed by Mattia Baggini
+Mentor: Victor Sanchez
+Liquid Galaxy Org Director: Andreu Ibañez''';
 
 /// Texts for the rover page
 String roverIntroText =
