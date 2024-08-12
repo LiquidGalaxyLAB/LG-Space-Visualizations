@@ -24,7 +24,6 @@ void main() {
     }
   });
 
-
   runApp(const Launcher());
 }
 

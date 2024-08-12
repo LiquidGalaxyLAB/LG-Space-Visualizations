@@ -9,6 +9,8 @@ import 'package:lg_space_visualizations/utils/orbit.dart';
 import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/map.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 /// A page that displays detailed information and visualizations for a specific [Orbit].
 class OrbitPage extends StatefulWidget {
@@ -28,11 +30,28 @@ class _OrbitPageState extends State<OrbitPage> {
   /// Set of polylines to display the orbit path on the map.
   final Set<Polyline> polylines = {};
 
+  /// The showcase keys
+  final GlobalKey _oneShowCase = GlobalKey();
+  final GlobalKey _twoShowCase = GlobalKey();
+
   @override
   void initState() {
     super.initState();
     loadPolylines();
     showVisualizations();
+
+    // Show the showcase tutorial if it's the first time the user opens the page
+    SharedPreferences.getInstance().then((prefs) {
+      if (prefs.getBool('showcaseOrbitPage') ?? true) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ShowCaseWidget.of(context).startShowCase([
+            _oneShowCase,
+            _twoShowCase,
+          ]);
+          prefs.setBool('showcaseOrbitPage', false);
+        });
+      }
+    });
   }
 
   @override
@@ -77,90 +96,100 @@ class _OrbitPageState extends State<OrbitPage> {
       children: [
         Expanded(
           flex: 3,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(borderRadius),
-              color: backgroundColor,
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: spaceBetweenWidgets,
-                right: spaceBetweenWidgets,
-                top: spaceBetweenWidgets / 2,
-                bottom: spaceBetweenWidgets,
+          child: Showcase(
+            key: _oneShowCase,
+            targetBorderRadius: BorderRadius.circular(borderRadius),
+            title: oneShowcaseOrbitPageTitle,
+            description:
+                '$oneShowcaseOrbitPageDescription1 ${widget.orbit.orbitName} $oneShowcaseOrbitPageDescription2 ${widget.orbit.satelliteName ?? oneShowcaseOrbitPageDescription3} $oneShowcaseOrbitPageDescription4',
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(borderRadius),
+                color: backgroundColor,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '$orbitDescriptionTitle ${widget.orbit.orbitName}',
-                    style: middleTitle,
-                    textAlign: TextAlign.left,
+              child: Padding(
+                  padding: EdgeInsets.only(
+                    left: spaceBetweenWidgets,
+                    right: spaceBetweenWidgets,
+                    top: spaceBetweenWidgets / 2,
+                    bottom: spaceBetweenWidgets,
                   ),
-                  SizedBox(height: spaceBetweenWidgets / 2),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '$orbitDescriptionTitle ${widget.orbit.orbitName}',
+                        style: middleTitle,
+                        textAlign: TextAlign.left,
+                      ),
+                      SizedBox(height: spaceBetweenWidgets / 2),
 
-                  Text(
-                    widget.orbit.orbitDescription,
-                    style: smallText,
-                  ),
-                  SizedBox(height: spaceBetweenWidgets / 2),
+                      Text(
+                        widget.orbit.orbitDescription,
+                        style: smallText,
+                      ),
+                      SizedBox(height: spaceBetweenWidgets / 2),
 
-                  // Conditionally displays information about the satellite if available
-                  if (widget.orbit.satelliteDescription != null) ...[
-                    Text(
-                      '$orbitDescriptionTitle ${widget.orbit
-                          .satelliteName} $orbitSatellite',
-                      style: middleTitle,
-                      textAlign: TextAlign.left,
-                    ),
-                    SizedBox(height: spaceBetweenWidgets / 2),
-                    Text(
-                      widget.orbit.satelliteDescription!,
-                      style: smallText,
-                    ),
-                  ],
-                ],
-              ),
+                      // Conditionally displays information about the satellite if available
+                      if (widget.orbit.satelliteDescription != null) ...[
+                        Text(
+                          '$orbitDescriptionTitle ${widget.orbit.satelliteName} $orbitSatellite',
+                          style: middleTitle,
+                          textAlign: TextAlign.left,
+                        ),
+                        SizedBox(height: spaceBetweenWidgets / 2),
+                        Text(
+                          widget.orbit.satelliteDescription!,
+                          style: smallText,
+                        ),
+                      ],
+                    ],
+                  )),
             ),
           ),
         ),
         SizedBox(width: spaceBetweenWidgets),
         Expanded(
           flex: 7,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(borderRadius),
-              color: backgroundColor,
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: spaceBetweenWidgets / 2,
-                right: spaceBetweenWidgets / 2,
-                top: spaceBetweenWidgets / 2,
-                bottom: spaceBetweenWidgets / 2,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    child: Map(
-                      latitude: widget.orbit.centerLatitude,
-                      longitude: widget.orbit.centerLongitude,
-                      zoom: defaultEarthMapZoom,
-                      tilt: defaultEarthMapTilt,
-                      bearing: defaultEarthMapBearing,
-                      mapType: MapType.satellite,
-                      boost: defaultEarthMapBoost,
-                      polylines: polylines,
-                      orbitTilt: defaultEarthOrbitTilt,
-                      orbitRange: defaultEarthOrbitRange,
-                      canOrbit: false,
-                    ),
+          child: Showcase(
+              key: _twoShowCase,
+              targetBorderRadius: BorderRadius.circular(borderRadius),
+              title: twoShowcaseOrbitPageTitle,
+              description: twoShowcaseOrbitPageDescription,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(borderRadius),
+                  color: backgroundColor,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: spaceBetweenWidgets / 2,
+                    right: spaceBetweenWidgets / 2,
+                    top: spaceBetweenWidgets / 2,
+                    bottom: spaceBetweenWidgets / 2,
                   ),
-                ],
-              ),
-            ),
-          ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        child: Map(
+                          latitude: widget.orbit.centerLatitude,
+                          longitude: widget.orbit.centerLongitude,
+                          zoom: defaultEarthMapZoom,
+                          tilt: defaultEarthMapTilt,
+                          bearing: defaultEarthMapBearing,
+                          mapType: MapType.satellite,
+                          boost: defaultEarthMapBoost,
+                          polylines: polylines,
+                          orbitTilt: defaultEarthOrbitTilt,
+                          orbitRange: defaultEarthOrbitRange,
+                          canOrbit: false,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )),
         ),
       ],
     );
