@@ -9,6 +9,7 @@ import 'package:lg_space_visualizations/widget/custom_dialog.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/input.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 /// A [SettingsPage] widget for configuring settings related to the Liquid Galaxy connection.
 class SettingsPage extends StatefulWidget {
@@ -37,6 +38,10 @@ class _SettingsPageState extends State<SettingsPage> {
   /// Controller for the NASA API key input field.
   final TextEditingController apiKeyController = TextEditingController();
 
+  /// The showcase keys
+  final GlobalKey _oneShowCase = GlobalKey();
+  final GlobalKey _twoShowCase = GlobalKey();
+
   /// Updates the input fields with saved preferences data.
   updateFields() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -53,6 +58,19 @@ class _SettingsPageState extends State<SettingsPage> {
   void initState() {
     super.initState();
     updateFields();
+
+    // Show the showcase tutorial if it's the first time the user opens the page
+    SharedPreferences.getInstance().then((prefs) {
+      if (prefs.getBool('showcaseSettingsPage') ?? true) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ShowCaseWidget.of(context).startShowCase([
+            _oneShowCase,
+            _twoShowCase,
+          ]);
+          prefs.setBool('showcaseSettingsPage', false);
+        });
+      }
+    });
   }
 
   @override
@@ -86,118 +104,130 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 SizedBox(height: spaceBetweenWidgets / 2),
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        _buildRow(context,
-                            icon: 'user',
-                            label: usernameLabel,
-                            controller: usernameController,
-                            hintText: usernameHint,
-                            inputType: TextInputType.text,
-                            id: 'lg_username',
-                            dialogTitle: usernameLabel,
-                            dialogContent: usernameDialogContent),
-                        SizedBox(height: spaceBetweenWidgets / 1.5),
-                        _buildRow(context,
-                            icon: 'ip',
-                            label: ipLabel,
-                            controller: ipController,
-                            hintText: ipHint,
-                            inputType: TextInputType.number,
-                            id: 'lg_ip',
-                            dialogTitle: ipLabel,
-                            dialogContent: ipDialogContent),
-                        SizedBox(height: spaceBetweenWidgets / 1.5),
-                        _buildRow(context,
-                            icon: 'ethernet',
-                            label: portLabel,
-                            controller: portController,
-                            hintText: portHint,
-                            inputType: TextInputType.number,
-                            id: 'lg_port',
-                            dialogTitle: 'Port',
-                            dialogContent: portDialogContent),
-                        SizedBox(height: spaceBetweenWidgets / 1.5),
-                        _buildRow(context,
-                            icon: 'locker',
-                            label: passwordLabel,
-                            controller: passwordController,
-                            hintText: passwordHint,
-                            inputType: TextInputType.text,
-                            id: 'lg_password',
-                            secure: true,
-                            dialogTitle: passwordLabel,
-                            dialogContent: passwordDialogContent),
-                        SizedBox(height: spaceBetweenWidgets / 1.5),
-                        _buildRow(context,
-                            icon: 'screens',
-                            label: screenNumberLabel,
-                            controller: nScreensController,
-                            hintText: screenNumberHint,
-                            inputType: TextInputType.number,
-                            id: 'lg_screen_amount',
-                            secure: false,
-                            dialogTitle: screenNumberLabel,
-                            dialogContent: screenNumberDialogContent),
-                        SizedBox(height: spaceBetweenWidgets / 1.5),
-                        _buildRow(context,
-                            icon: 'api',
-                            label: apiLabel,
-                            controller: apiKeyController,
-                            hintText: apiHint,
-                            inputType: TextInputType.text,
-                            id: 'nasa_api_key_unchecked',
-                            secure: true,
-                            dialogTitle: apiLabel,
-                            dialogContent: apiDialogContent,
-                            onSubmitted: (key) async {
-                          if (key.isEmpty) {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
+                  child: Showcase(
+                      key: _oneShowCase,
+                      targetBorderRadius: BorderRadius.circular(borderRadius),
+                      title: oneShowcaseSettingsPageTitle,
+                      description: oneShowcaseSettingsPageDescription,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            _buildRow(context,
+                                icon: 'user',
+                                label: usernameLabel,
+                                controller: usernameController,
+                                hintText: usernameHint,
+                                inputType: TextInputType.text,
+                                id: 'lg_username',
+                                dialogTitle: usernameLabel,
+                                dialogContent: usernameDialogContent),
+                            SizedBox(height: spaceBetweenWidgets / 1.5),
+                            _buildRow(context,
+                                icon: 'ip',
+                                label: ipLabel,
+                                controller: ipController,
+                                hintText: ipHint,
+                                inputType: TextInputType.number,
+                                id: 'lg_ip',
+                                dialogTitle: ipLabel,
+                                dialogContent: ipDialogContent),
+                            SizedBox(height: spaceBetweenWidgets / 1.5),
+                            _buildRow(context,
+                                icon: 'ethernet',
+                                label: portLabel,
+                                controller: portController,
+                                hintText: portHint,
+                                inputType: TextInputType.number,
+                                id: 'lg_port',
+                                dialogTitle: 'Port',
+                                dialogContent: portDialogContent),
+                            SizedBox(height: spaceBetweenWidgets / 1.5),
+                            _buildRow(context,
+                                icon: 'locker',
+                                label: passwordLabel,
+                                controller: passwordController,
+                                hintText: passwordHint,
+                                inputType: TextInputType.text,
+                                id: 'lg_password',
+                                secure: true,
+                                dialogTitle: passwordLabel,
+                                dialogContent: passwordDialogContent),
+                            SizedBox(height: spaceBetweenWidgets / 1.5),
+                            _buildRow(context,
+                                icon: 'screens',
+                                label: screenNumberLabel,
+                                controller: nScreensController,
+                                hintText: screenNumberHint,
+                                inputType: TextInputType.number,
+                                id: 'lg_screen_amount',
+                                secure: false,
+                                dialogTitle: screenNumberLabel,
+                                dialogContent: screenNumberDialogContent),
+                            SizedBox(height: spaceBetweenWidgets / 1.5),
+                            _buildRow(context,
+                                icon: 'api',
+                                label: apiLabel,
+                                controller: apiKeyController,
+                                hintText: apiHint,
+                                inputType: TextInputType.text,
+                                id: 'nasa_api_key_unchecked',
+                                secure: true,
+                                dialogTitle: apiLabel,
+                                dialogContent: apiDialogContent,
+                                onSubmitted: (key) async {
+                              if (key.isEmpty) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    SharedPreferences.getInstance()
+                                        .then((prefs) {
+                                      prefs.remove('nasa_api_key');
+                                    });
+                                    return CustomDialog(
+                                      title: apiSaveSuccessMessage,
+                                      content: defaultKeyApiMessage,
+                                      iconName: 'api',
+                                    );
+                                  },
+                                );
+                              } else if (await NasaApi.isApiKeyValid(key)) {
                                 SharedPreferences.getInstance().then((prefs) {
-                                  prefs.remove('nasa_api_key');
+                                  prefs.setString('nasa_api_key', key);
                                 });
-                                return CustomDialog(
-                                  title: apiSaveSuccessMessage,
-                                  content: defaultKeyApiMessage,
-                                  iconName: 'api',
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CustomDialog(
+                                      title: apiSaveSuccessMessage,
+                                      content: customApiSavedMessage,
+                                      iconName: 'api',
+                                    );
+                                  },
                                 );
-                              },
-                            );
-                          } else if (await NasaApi.isApiKeyValid(key)) {
-                            SharedPreferences.getInstance().then((prefs) {
-                              prefs.setString('nasa_api_key', key);
-                            });
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return CustomDialog(
-                                  title: apiSaveSuccessMessage,
-                                  content: customApiSavedMessage,
-                                  iconName: 'api',
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CustomDialog(
+                                      title: apiInvalidTitle,
+                                      content: apiInvalidMessage,
+                                      iconName: 'error',
+                                    );
+                                  },
                                 );
-                              },
-                            );
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return CustomDialog(
-                                  title: apiInvalidTitle,
-                                  content: apiInvalidMessage,
-                                  iconName: 'error',
-                                );
-                              },
-                            );
-                          }
-                        }),
-                      ],
-                    ),
-                  ),
+                              }
+                            }),
+                          ],
+                        ),
+                      )),
                 ),
-                if (!isKeyboardVisible) _buildButtons(context),
+                if (!isKeyboardVisible)
+                  Showcase(
+                      key: _twoShowCase,
+                      targetBorderRadius: BorderRadius.circular(borderRadius),
+                      title: twoShowcaseSettingsPageTitle,
+                      description: twoShowcaseSettingsPageDescription,
+                      child: _buildButtons(context)),
               ],
             ),
           ),

@@ -11,6 +11,8 @@ import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/info_box.dart';
 import 'package:lg_space_visualizations/widget/map.dart';
 import 'package:lg_space_visualizations/widget/view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 /// [RoverPage] is a stateful widget that displays information about the Perseverance Rover.
 ///
@@ -23,10 +25,36 @@ class RoverPage extends StatefulWidget {
 }
 
 class _RoverPageState extends State<RoverPage> {
+  /// The showcase keys
+  final GlobalKey _oneShowCase = GlobalKey();
+  final GlobalKey _twoShowCase = GlobalKey();
+  final GlobalKey _threeShowCase = GlobalKey();
+  final GlobalKey _fourShowCase = GlobalKey();
+  final GlobalKey _fiveShowCase = GlobalKey();
+  final GlobalKey _sixShowCase = GlobalKey();
+
   @override
   void initState() {
     super.initState();
     showVisualizations();
+
+    // Show the showcase tutorial if it's the first time the user opens the page
+    SharedPreferences.getInstance().then((prefs) {
+      if (prefs.getBool('showcaseRoverPage') ?? true) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ShowCaseWidget.of(context).startShowCase([
+            _oneShowCase,
+            _twoShowCase,
+            _threeShowCase,
+            oneBottomBarMapShowcase!,
+            _fourShowCase,
+            _fiveShowCase,
+            _sixShowCase,
+          ]);
+          prefs.setBool('showcaseRoverPage', false);
+        });
+      }
+    });
   }
 
   @override
@@ -64,63 +92,86 @@ class _RoverPageState extends State<RoverPage> {
             padding: EdgeInsets.all(spaceBetweenWidgets / 2),
             child: Column(
               children: <Widget>[
-                const ViewModel(
-                  model: 'assets/models/perseverance_rover.glb',
-                  backgroundImage: 'assets/images/model_background.png',
-                  alt: 'perseverance rover',
-                  cameraOrbit: '-10deg 78deg 5.5m',
-                ),
+                Expanded(
+                    child: Showcase(
+                        key: _twoShowCase,
+                        targetBorderRadius: BorderRadius.circular(borderRadius),
+                        title: twoShowcaseRoverPageTitle,
+                        description: twoShowcaseRoverPageDescription,
+                        child: const ViewModel(
+                          model: 'assets/models/perseverance_rover.glb',
+                          backgroundImage: 'assets/images/model_background.png',
+                          alt: 'perseverance rover',
+                          cameraOrbit: '-10deg 78deg 5.5m',
+                        ))),
                 SizedBox(height: spaceBetweenWidgets - 5),
-                Button(
-                  color: secondaryColor,
-                  center: false,
-                  text: 'Inspect Rover',
-                  padding: const EdgeInsets.only(left: 25, top: 5, bottom: 5),
-                  borderRadius: BorderRadius.circular(borderRadius),
-                  icon: CustomIcon(
-                      name: 'mechanic', size: 40, color: backgroundColor),
-                  onPressed: () {
-                    setState(() {
-                      Navigator.pushNamed(context, '/web', arguments: {
-                        'url': inspectRoverUrl,
-                        'title': 'Inspect Perseverance Rover'
-                      });
-                    });
-                  },
-                ),
+                Showcase(
+                    key: _fourShowCase,
+                    targetBorderRadius: BorderRadius.circular(borderRadius),
+                    title: fourShowcaseRoverPageTitle,
+                    description: fourShowcaseRoverPageDescription,
+                    child: Button(
+                      color: secondaryColor,
+                      center: false,
+                      text: 'Inspect Rover',
+                      padding:
+                          const EdgeInsets.only(left: 25, top: 5, bottom: 5),
+                      borderRadius: BorderRadius.circular(borderRadius),
+                      icon: CustomIcon(
+                          name: 'mechanic', size: 40, color: backgroundColor),
+                      onPressed: () {
+                        setState(() {
+                          Navigator.pushNamed(context, '/web', arguments: {
+                            'url': inspectRoverUrl,
+                            'title': 'Inspect Perseverance Rover'
+                          });
+                        });
+                      },
+                    )),
                 SizedBox(height: spaceBetweenWidgets / 2),
-                Button(
-                  color: secondaryColor,
-                  center: false,
-                  text: 'See rover cameras',
-                  padding: const EdgeInsets.only(left: 25, top: 5, bottom: 5),
-                  borderRadius: BorderRadius.circular(borderRadius),
-                  icon: CustomIcon(
-                      name: 'cameras', size: 40, color: backgroundColor),
-                  onPressed: () {
-                    setState(() {
-                      Navigator.pushNamed(context, '/cameras');
-                    });
-                  },
-                ),
+                Showcase(
+                    key: _fiveShowCase,
+                    targetBorderRadius: BorderRadius.circular(borderRadius),
+                    title: fiveShowcaseRoverPageTitle,
+                    description: fiveShowcaseRoverPageDescription,
+                    child: Button(
+                      color: secondaryColor,
+                      center: false,
+                      text: 'See rover cameras',
+                      padding:
+                          const EdgeInsets.only(left: 25, top: 5, bottom: 5),
+                      borderRadius: BorderRadius.circular(borderRadius),
+                      icon: CustomIcon(
+                          name: 'cameras', size: 40, color: backgroundColor),
+                      onPressed: () {
+                        setState(() {
+                          Navigator.pushNamed(context, '/cameras');
+                        });
+                      },
+                    )),
                 SizedBox(height: spaceBetweenWidgets / 2),
-                Button(
-                  center: false,
-                  color: secondaryColor,
-                  text: 'Learn more about the rover',
-                  padding: const EdgeInsets.only(left: 15),
-                  borderRadius: BorderRadius.circular(borderRadius),
-                  icon: CustomIcon(
-                      name: 'read', size: 50, color: backgroundColor),
-                  onPressed: () {
-                    setState(() {
-                      Navigator.pushNamed(context, '/web', arguments: {
-                        'url': roverUrl,
-                        'title': 'Perseverance Rover'
-                      });
-                    });
-                  },
-                ),
+                Showcase(
+                    key: _sixShowCase,
+                    targetBorderRadius: BorderRadius.circular(borderRadius),
+                    title: sixShowcaseRoverPageTitle,
+                    description: sixShowcaseRoverPageDescription,
+                    child: Button(
+                      center: false,
+                      color: secondaryColor,
+                      text: 'Learn more about the rover',
+                      padding: const EdgeInsets.only(left: 15),
+                      borderRadius: BorderRadius.circular(borderRadius),
+                      icon: CustomIcon(
+                          name: 'read', size: 50, color: backgroundColor),
+                      onPressed: () {
+                        setState(() {
+                          Navigator.pushNamed(context, '/web', arguments: {
+                            'url': roverUrl,
+                            'title': 'Perseverance Rover'
+                          });
+                        });
+                      },
+                    )),
               ],
             ),
           ),
@@ -143,15 +194,24 @@ class _RoverPageState extends State<RoverPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  "About",
-                  style: middleTitle,
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  '$roverIntroText $roverDescriptionText',
-                  style: smallText,
-                ),
+                Showcase(
+                    key: _oneShowCase,
+                    targetBorderRadius: BorderRadius.circular(borderRadius),
+                    title: oneShowcaseRoverPageTitle,
+                    description: oneShowcaseRoverPageDescription,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "About",
+                            style: middleTitle,
+                            textAlign: TextAlign.left,
+                          ),
+                          Text(
+                            '$roverIntroText $roverDescriptionText',
+                            style: smallText,
+                          ),
+                        ])),
                 SizedBox(height: spaceBetweenWidgets / 4),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,18 +226,24 @@ class _RoverPageState extends State<RoverPage> {
                 ),
                 SizedBox(height: spaceBetweenWidgets / 4),
                 Expanded(
-                    child: Map(
-                        latitude: mapMarsCenterLat,
-                        longitude: mapMarsCenterLong,
-                        zoom: defaultMarsMapZoom,
-                        tilt: defaultMarsMapTilt,
-                        bearing: defaultMarsMapBearing,
-                        minMaxZoomPreference: const MinMaxZoomPreference(11, 14),
-                        bounds: roverLandingBounds,
-                        boost: defaultMarsMapBoost,
-                        orbitTilt: defaultMarsOrbitTilt,
-                        orbitRange: defaultMarsOrbitRange,
-                        kmlName: 'Rover')),
+                    child: Showcase(
+                        key: _threeShowCase,
+                        targetBorderRadius: BorderRadius.circular(borderRadius),
+                        title: threeShowcaseRoverPageTitle,
+                        description: threeShowcaseRoverPageDescription,
+                        child: Map(
+                            latitude: mapMarsCenterLat,
+                            longitude: mapMarsCenterLong,
+                            zoom: defaultMarsMapZoom,
+                            tilt: defaultMarsMapTilt,
+                            bearing: defaultMarsMapBearing,
+                            minMaxZoomPreference:
+                                const MinMaxZoomPreference(11, 14),
+                            bounds: roverLandingBounds,
+                            boost: defaultMarsMapBoost,
+                            orbitTilt: defaultMarsOrbitTilt,
+                            orbitRange: defaultMarsOrbitRange,
+                            kmlName: 'Rover'))),
               ],
             ),
           ),

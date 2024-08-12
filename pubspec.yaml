@@ -37,6 +37,7 @@ dependencies:
   google_maps_flutter: ^2.7.0
   http: ^1.2.1
   dartssh2: ^2.8.2
+  showcaseview: ^3.0.0
 
 dev_dependencies:
   flutter_test:
