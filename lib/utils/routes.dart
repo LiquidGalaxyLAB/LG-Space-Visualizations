@@ -20,7 +20,7 @@ import 'package:lg_space_visualizations/utils/sol_day.dart';
 /// This function takes [settings] as a parameter, which contains the name of
 /// the route to be generated. It returns a [Route] corresponding to the route
 /// name. If the route name is not recognized, it defaults to the home page.
-Route<dynamic> makeRoute(RouteSettings settings) {
+Route<dynamic>? makeRoute(RouteSettings settings) {
   WidgetBuilder builder;
   switch (settings.name) {
     case '/home':
@@ -114,8 +114,7 @@ Route<dynamic> makeRoute(RouteSettings settings) {
       }
       break;
     default:
-      // Default route if no match is found, redirects to the home page.
-      builder = (BuildContext context) => const HomePage();
+      return null;
   }
   // Return a custom route with a very short transition animation.
   return AnimationPageRoute(builder: builder, settings: settings);

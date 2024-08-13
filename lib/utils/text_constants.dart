@@ -8,7 +8,12 @@ String infoPageTitle = 'Info';
 String projectTitle = 'Space Visualizations';
 String projectSubtitle = 'for Liquid Galaxy';
 String infoPageDescription =
-    '''This project aims to build an educational application dedicated to visualizing orbits and the Mars 2020 mission, utilizing the Liquid Galaxy platform to provide immersive space exploration experiences. The app enables users to see and understand different orbits, such as GPS, QZSS, Graveyard and more in detail. Additionally, it showcases the Mars 2020 mission by featuring interactive 3D models of the Perseverance Rover and the Ingenuity Drone. Users can follow their paths on Mars, view photos taken by the rover, and discover technical details about the mission.''';
+    '''Space Visualizations for Liquid Galaxy is an application that showcases the Mars 2020 NASA mission and some of the most famous Earth orbits. The application uses the Liquid Galaxy platform to provide immersive space exploration experiences. In the Mars mission section, users can interactively learn about the mission by visualizing 3D models, technical data, and the path of the Perseverance rover and Ingenuity drone. Users can see Mars from the perspective of the Perseverance rover with more than 220000 photos available. In the Earth orbit section, a list of orbits can be displayed in both the application and, with a realistic representation, on Liquid Galaxy Google Earth. Users can interact with these orbits and learn more about them.''';
+String infoPageFooter =
+    '''This project has been started as a Google Summer of Code 2024 project with the Liquid Galaxy Org
+Developed by Mattia Baggini
+Mentor: Victor Sanchez
+Liquid Galaxy Org Director: Andreu Ibañez''';
 
 /// Texts for the rover page
 String roverIntroText =
@@ -227,3 +232,129 @@ String camerasImagesErrorText = 'Error:';
 String camerasImagesLoadingText = 'Fetching photos from NASA API...';
 String camerasImagesTaken = 'Taken with';
 String displayOnLGButtonText = 'Display on Liquid Galaxy';
+
+/// Texts for showcase
+String oneShowcaseHomePageTitle = 'Mars Section';
+String oneShowcaseHomePageDescription =
+    'Here you can explore Mars 2020 Mission';
+String twoShowcaseHomePageTitle = 'Earth Section';
+String twoShowcaseHomePageDescription = 'Here you can explore Earth orbits';
+
+String oneShowcaseBottomBarTitle = 'Settings';
+String oneShowcaseBottomBarDescription =
+    'Here you can connect the application with the Liquid Galaxy';
+String twoShowcaseBottomBarTitle = 'Services';
+String twoShowcaseBottomBarDescription =
+    'Here you can send service commands to the Liquid Galaxy';
+String threeShowcaseBottomBarTitle = 'Info';
+String threeShowcaseBottomBarDescription =
+    'Here you can learn more about the application';
+String fourShowcaseBottomBarTitle = 'Led Status';
+String fourShowcaseBottomBarDescription =
+    'Here you check the connection status with the Liquid Galaxy, green means connected and red means disconnected';
+String fiveShowcaseBottomBarTitle = 'Home page';
+String fiveShowcaseBottomBarDescription =
+    'Here you can go back to the home page';
+
+String oneShowcaseServicesPageTitle = 'Liquid Galaxy Services';
+String oneShowcaseServicesPageDescription =
+    'Here you have a grid of services that you can use to manage the Liquid Galaxy system.';
+String twoShowcaseServicesPageTitle = 'Liquid Galaxy Service';
+String twoShowcaseServicesPageDescription =
+    'Click on the button to send the command to the Liquid Galaxy system.';
+
+String oneShowcaseSettingsPageTitle = 'LG Connection';
+String oneShowcaseSettingsPageDescription =
+    'Here you can insert the Liquid Galaxy connection details or insert a custom NASA API key';
+String twoShowcaseSettingsPageTitle = 'LG Connection';
+String twoShowcaseSettingsPageDescription =
+    'Here you can connect/disconnect the application with the Liquid Galaxy';
+
+String oneShowcaseOrbitsPageTitle = 'Orbit Description';
+String oneShowcaseOrbitsPageDescription =
+    'Here you can read a general overview of orbits and learn more about them';
+String twoShowcaseOrbitsPageTitle = 'Orbits';
+String twoShowcaseOrbitsPageDescription =
+    'Those are some of the most important orbits around Earth';
+String threeShowcaseOrbitsPageTitle = 'Orbit';
+String threeShowcaseOrbitsPageDescription =
+    'Click on an orbit to learn more about it';
+
+String oneShowcaseOrbitPageTitle = 'Orbit Description';
+String oneShowcaseOrbitPageDescription1 =
+    'Here you can read a description of the';
+String oneShowcaseOrbitPageDescription2 = 'orbit and its';
+String oneShowcaseOrbitPageDescription3 = 'relative';
+String oneShowcaseOrbitPageDescription4 = 'satellite';
+String twoShowcaseOrbitPageTitle = 'Orbit Map';
+String twoShowcaseOrbitPageDescription =
+    'Here you can see the path of the orbit in a 2D map';
+
+String oneShowcaseRoverPageTitle = 'Rover information';
+String oneShowcaseRoverPageDescription =
+    'Here you can read some information about the Perseverance rover';
+String twoShowcaseRoverPageTitle = 'Rover 3D model';
+String twoShowcaseRoverPageDescription =
+    'Here you can see a interactive 3D model of the Perseverance rover';
+String threeShowcaseRoverPageTitle = 'Rover path';
+String threeShowcaseRoverPageDescription =
+    'Here you can see the path of the Perseverance rover in a interactive map';
+String fourShowcaseRoverPageTitle = 'Inspect Rover';
+String fourShowcaseRoverPageDescription =
+    'Here you can inspect the Perseverance rover in a interactive page';
+String fiveShowcaseRoverPageTitle = 'Rover cameras';
+String fiveShowcaseRoverPageDescription =
+    'Here you can see the real photos taken by the Perseverance rover';
+String sixShowcaseRoverPageTitle = 'Read more';
+String sixShowcaseRoverPageDescription =
+    'Here you can read more about the Perseverance rover from Nasa page';
+
+String oneShowcaseMapTitle = 'Orbit';
+String twoShowcaseMapDescription =
+    'Click here to orbit the map on the Liquid Galaxy';
+
+String oneShowcaseDronePageTitle = 'Drone information';
+String oneShowcaseDronePageDescription =
+    'Here you can read some information about the Ingenuity drone';
+String twoShowcaseDronePageTitle = 'Drone 3D model';
+String twoShowcaseDronePageDescription =
+    'Here you can see a interactive 3D model of the Ingenuity drone';
+String threeShowcaseDronePageTitle = 'Drone path';
+String threeShowcaseDronePageDescription =
+    'Here you can see the path of the Ingenuity drone in a interactive map';
+String fourShowcaseDronePageTitle = 'Read more';
+String fourShowcaseDronePageDescription =
+    'Here you can read more about the Ingenuity Drone from Nasa page';
+String fiveShowcaseDronePageTitle = 'Meet Perseverance';
+String fiveShowcaseDronePageDescription =
+    'Here you can see the Perseverance Rover and learn more about it';
+
+String oneShowcaseCamerasPageTitle = 'Days List';
+String oneShowcaseCamerasPageDescription =
+    'Here you can see the list of days with photos taken by the Perseverance Rover';
+String twoShowcaseCamerasPageTitle = 'Update list';
+String twoShowcaseCamerasPageDescription =
+    'Here you can update the list of days with photos taken by the Perseverance Rover using Nasa API';
+String threeShowcaseCamerasPageTitle = 'View cameras';
+String threeShowcaseCamerasPageDescription =
+    'Here you can see the positions of the cameras on the Perseverance Rover';
+String fourShowcaseCamerasPageTitle = 'Filter list';
+String fourShowcaseCamerasPageDescription =
+    'Here you can filter the list of days by different parameters';
+
+String oneShowcaseDaysListTitle = 'Day';
+String oneShowcaseDaysListDescription =
+    'Select a day to see the photos from that day';
+
+String oneShowcaseCamerasFiltersTitle = 'Dates filter';
+String oneShowcaseCamerasFiltersDescription =
+    'Here you can select a range of dates to filter the photos taken by the rover';
+String twoShowcaseCamerasFiltersTitle = 'Photos number filter';
+String twoShowcaseCamerasFiltersDescription =
+    'Here you can slide to select a range of photos to filter the photos';
+String threeShowcaseCamerasFiltersTitle = 'Cameras filter';
+String threeShowcaseCamerasFiltersDescription =
+    'Here you can select the cameras to filter the photos';
+String fourShowcaseCamerasFiltersTitle = 'Show result';
+String fourShowcaseCamerasFiltersDescription =
+    'Click here to show the results of the filter';

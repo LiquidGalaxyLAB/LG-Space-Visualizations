@@ -11,6 +11,10 @@ import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
+import 'package:showcaseview/showcaseview.dart';
+
+/// Global key for the showcase of the [Map] widget
+GlobalKey? oneBottomBarMapShowcase;
 
 /// The [Map] widget displays a Google Map with a specific [latitude], [longitude], [tilt], [bearing] and [zoom] level. The zoom level can be adjusted using the [boost] parameter.
 ///
@@ -86,6 +90,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   late AnimationController
       rotationOrbitController; // Controller for the Icon rotation animation
   bool isOrbiting = false; // Flag to check if the map is currently orbiting
+  final GlobalKey _oneBottomBarMapShowcase = GlobalKey();
 
   @override
   void initState() {
@@ -246,6 +251,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    oneBottomBarMapShowcase = _oneBottomBarMapShowcase;
     return Stack(children: [
       Positioned.fill(
           child: Container(
@@ -285,39 +291,46 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
         Positioned(
             bottom: 20,
             right: 20,
-            child: Tooltip(
-              message: toolTipMapOrbitText,
-              child: RotationTransition(
-                turns: Tween(begin: 0.0, end: 25.0)
-                    .animate(rotationOrbitController),
-                child: Builder(builder: (context) {
-                  return Container(
-                      decoration: BoxDecoration(
-                        color: backgroundColor,
-                        border: Border.all(
-                          color: secondaryColor,
-                          width: 3,
-                        ),
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Button(
-                          padding: const EdgeInsets.all(8),
-                          icon: CustomIcon(
-                              name: 'orbit', size: 40, color: secondaryColor),
-                          onPressed: () async {
-                            // Start or stop orbiting based on the current state
-                            if (isOrbiting) {
-                              await stopOrbit();
-                            } else {
-                              await startOrbit();
-                            }
+            child: Showcase(
+                key: oneBottomBarMapShowcase!,
+                targetShapeBorder: const CircleBorder(),
+                title: oneShowcaseMapTitle,
+                description: twoShowcaseMapDescription,
+                child: Tooltip(
+                  message: toolTipMapOrbitText,
+                  child: RotationTransition(
+                    turns: Tween(begin: 0.0, end: 25.0)
+                        .animate(rotationOrbitController),
+                    child: Builder(builder: (context) {
+                      return Container(
+                          decoration: BoxDecoration(
+                            color: backgroundColor,
+                            border: Border.all(
+                              color: secondaryColor,
+                              width: 3,
+                            ),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: Button(
+                              padding: const EdgeInsets.all(8),
+                              icon: CustomIcon(
+                                  name: 'orbit',
+                                  size: 40,
+                                  color: secondaryColor),
+                              onPressed: () async {
+                                // Start or stop orbiting based on the current state
+                                if (isOrbiting) {
+                                  await stopOrbit();
+                                } else {
+                                  await startOrbit();
+                                }
 
-                            // Update the state to reflect the new orbiting state
-                            isOrbiting = !isOrbiting;
-                          }));
-                }),
-              ),
-            ))
+                                // Update the state to reflect the new orbiting state
+                                isOrbiting = !isOrbiting;
+                              }));
+                    }),
+                  ),
+                )))
     ]);
   }
 }

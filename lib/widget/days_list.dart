@@ -5,6 +5,10 @@ import 'package:lg_space_visualizations/utils/styles.dart';
 import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/custom_scrollbar.dart';
+import 'package:showcaseview/showcaseview.dart';
+
+/// Global key for the showcase of the [DaysList] widget
+GlobalKey? oneDaysListShowcase;
 
 /// A Widget that displays a list of SolDays filtered based on the provided filter
 class DaysList extends StatelessWidget {
@@ -17,12 +21,16 @@ class DaysList extends StatelessWidget {
   /// Filter object to filter SolDay objects
   final Filter filter;
 
+  /// The showcase key
+  final GlobalKey _oneDaysListShowcase = GlobalKey();
+
   DaysList({super.key, required this.allDays, required this.filter});
 
   @override
   Widget build(BuildContext context) {
     // Filtering the list of SolDay objects based on the filter
     filteredDays = allDays.where(filter.isValidDay).toList();
+    oneDaysListShowcase = _oneDaysListShowcase;
 
     return filteredDays.isEmpty
         ? buildNotFound()
@@ -47,90 +55,33 @@ class DaysList extends StatelessWidget {
               itemBuilder: (context, index) {
                 // Getting the SolDay object at the current index
                 SolDay day = filteredDays[index];
-
+                return index == 0
+                    ? Showcase(
+                        key: oneDaysListShowcase!,
+                        targetBorderRadius: BorderRadius.circular(borderRadius),
+                        title: oneShowcaseDaysListTitle,
+                        description: oneShowcaseDaysListDescription,
+                        child: DayListItem(
+                          day: day,
+                          filter: filter,
+                          spaceBetweenWidgets: spaceBetweenWidgets,
+                          borderRadius: borderRadius,
+                          secondaryColor: secondaryColor,
+                          backgroundColor: backgroundColor,
+                          middleTitle: middleTitle,
+                          bigText: bigText,
+                        ))
+                    : DayListItem(
+                        day: day,
+                        filter: filter,
+                        spaceBetweenWidgets: spaceBetweenWidgets,
+                        borderRadius: borderRadius,
+                        secondaryColor: secondaryColor,
+                        backgroundColor: backgroundColor,
+                        middleTitle: middleTitle,
+                        bigText: bigText,
+                      );
                 // Navigating to the cameras images page on tap
-                return GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/cameras_images',
-                          arguments: [day, filter.camerasSelected]);
-                    },
-                    child: Container(
-                        padding: EdgeInsets.only(
-                          left: spaceBetweenWidgets,
-                          right: spaceBetweenWidgets,
-                          top: spaceBetweenWidgets / 2,
-                          bottom: spaceBetweenWidgets / 2,
-                        ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(borderRadius),
-                            color: secondaryColor.withOpacity(0.3)),
-                        child: Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text('Sol ${day.sol}', style: middleTitle),
-                                Transform.translate(
-                                    offset: const Offset(0, -5),
-                                    child: Text(
-                                      '$daysListSubtitle ${SolDay.getFormattedEarthDate(day.earthDate)}', // Displaying the formatted Earth date
-                                    ))
-                              ],
-                            ),
-                            const Spacer(),
-                            Tooltip(
-                                message: toolTipTotalPhotos,
-                                child: Container(
-                                  width: 110,
-                                  decoration: BoxDecoration(
-                                    color: secondaryColor,
-                                    borderRadius:
-                                        BorderRadius.circular(borderRadius),
-                                  ),
-                                  padding:
-                                      EdgeInsets.all(spaceBetweenWidgets / 2),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('${day.totalPhotos}',
-                                          style: bigText.apply(
-                                              color: backgroundColor)),
-                                      CustomIcon(
-                                          name: 'image',
-                                          size: 40,
-                                          color: backgroundColor),
-                                    ],
-                                  ),
-                                )),
-                            SizedBox(width: spaceBetweenWidgets),
-                            Tooltip(
-                                message: toolTipCameras,
-                                child: Container(
-                                  width: 90,
-                                  decoration: BoxDecoration(
-                                      color: secondaryColor,
-                                      borderRadius:
-                                          BorderRadius.circular(borderRadius)),
-                                  padding:
-                                      EdgeInsets.all(spaceBetweenWidgets / 2),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('${day.cameras.length}',
-                                          style: bigText.apply(
-                                              color: backgroundColor)),
-                                      CustomIcon(
-                                          name: 'camera',
-                                          size: 40,
-                                          color: backgroundColor),
-                                    ],
-                                  ),
-                                ))
-                          ],
-                        )));
               },
               separatorBuilder: (BuildContext context, int index) {
                 return SizedBox(height: spaceBetweenWidgets / 2);
@@ -150,5 +101,112 @@ class DaysList extends StatelessWidget {
         Text(noListResultSubtitle, style: middleText),
       ],
     ));
+  }
+}
+
+/// A widget that represents an item in the list.
+///
+/// The item required a [day], [filter], [spaceBetweenWidgets], [borderRadius],
+/// [secondaryColor], [backgroundColor], [middleTitle] and [bigText].
+class DayListItem extends StatelessWidget {
+  final SolDay day;
+  final Filter filter;
+  final double spaceBetweenWidgets;
+  final double borderRadius;
+  final Color secondaryColor;
+  final Color backgroundColor;
+  final TextStyle middleTitle;
+  final TextStyle bigText;
+
+  const DayListItem({
+    super.key,
+    required this.day,
+    required this.filter,
+    required this.spaceBetweenWidgets,
+    required this.borderRadius,
+    required this.secondaryColor,
+    required this.backgroundColor,
+    required this.middleTitle,
+    required this.bigText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/cameras_images',
+            arguments: [day, filter.camerasSelected]);
+      },
+      child: Container(
+        padding: EdgeInsets.only(
+          left: spaceBetweenWidgets,
+          right: spaceBetweenWidgets,
+          top: spaceBetweenWidgets / 2,
+          bottom: spaceBetweenWidgets / 2,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(borderRadius),
+          color: secondaryColor.withOpacity(0.3),
+        ),
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('Sol ${day.sol}', style: middleTitle),
+                Transform.translate(
+                  offset: const Offset(0, -5),
+                  child: Text(
+                    '$daysListSubtitle ${SolDay.getFormattedEarthDate(day.earthDate)}',
+                  ),
+                ),
+              ],
+            ),
+            const Spacer(),
+            Tooltip(
+              message: toolTipTotalPhotos,
+              child: Container(
+                width: 110,
+                decoration: BoxDecoration(
+                  color: secondaryColor,
+                  borderRadius: BorderRadius.circular(borderRadius),
+                ),
+                padding: EdgeInsets.all(spaceBetweenWidgets / 2),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('${day.totalPhotos}',
+                        style: bigText.apply(color: backgroundColor)),
+                    CustomIcon(name: 'image', size: 40, color: backgroundColor),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(width: spaceBetweenWidgets),
+            Tooltip(
+              message: toolTipCameras,
+              child: Container(
+                width: 90,
+                decoration: BoxDecoration(
+                  color: secondaryColor,
+                  borderRadius: BorderRadius.circular(borderRadius),
+                ),
+                padding: EdgeInsets.all(spaceBetweenWidgets / 2),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('${day.cameras.length}',
+                        style: bigText.apply(color: backgroundColor)),
+                    CustomIcon(
+                        name: 'camera', size: 40, color: backgroundColor),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

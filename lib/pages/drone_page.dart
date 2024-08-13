@@ -11,6 +11,8 @@ import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/info_box.dart';
 import 'package:lg_space_visualizations/widget/map.dart';
 import 'package:lg_space_visualizations/widget/view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 /// [DronePage] is a widget that displays information about the Ingenuity Drone.
 ///
@@ -23,10 +25,34 @@ class DronePage extends StatefulWidget {
 }
 
 class _DronePageState extends State<DronePage> {
+  /// The showcase keys
+  final GlobalKey _oneShowCase = GlobalKey();
+  final GlobalKey _twoShowCase = GlobalKey();
+  final GlobalKey _threeShowCase = GlobalKey();
+  final GlobalKey _fourShowCase = GlobalKey();
+  final GlobalKey _fiveShowCase = GlobalKey();
+
   @override
   void initState() {
     super.initState();
     showVisualizations();
+
+    /// Show the showcase tutorial if it's the first time the user opens the page
+    SharedPreferences.getInstance().then((prefs) {
+      if (prefs.getBool('showcaseDronePage') ?? true) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ShowCaseWidget.of(context).startShowCase([
+            _oneShowCase,
+            _twoShowCase,
+            _threeShowCase,
+            oneBottomBarMapShowcase!,
+            _fourShowCase,
+            _fiveShowCase
+          ]);
+          prefs.setBool('showcaseDronePage', false);
+        });
+      }
+    });
   }
 
   @override
@@ -64,44 +90,62 @@ class _DronePageState extends State<DronePage> {
             padding: EdgeInsets.all(spaceBetweenWidgets / 2),
             child: Column(
               children: <Widget>[
-                const ViewModel(
-                  model: 'assets/models/ingenuity_drone.glb',
-                  backgroundImage: 'assets/images/model_background.png',
-                  alt: 'ingenuity drone',
-                  cameraOrbit: '-10deg 78deg 2m',
-                ),
+                Expanded(
+                    child: Showcase(
+                        key: _twoShowCase,
+                        targetBorderRadius: BorderRadius.circular(borderRadius),
+                        title: twoShowcaseDronePageTitle,
+                        description: twoShowcaseDronePageDescription,
+                        child: const ViewModel(
+                          model: 'assets/models/ingenuity_drone.glb',
+                          backgroundImage: 'assets/images/model_background.png',
+                          alt: 'ingenuity drone',
+                          cameraOrbit: '-10deg 78deg 2m',
+                        ))),
                 SizedBox(height: spaceBetweenWidgets - 5),
-                Button(
-                  color: secondaryColor,
-                  center: false,
-                  text: droneLearnMoreText,
-                  padding: const EdgeInsets.only(left: 15),
-                  borderRadius: BorderRadius.circular(borderRadius),
-                  icon: CustomIcon(
-                      name: 'read', size: 50, color: backgroundColor),
-                  onPressed: () {
-                    setState(() {
-                      setState(() {
-                        Navigator.pushNamed(context, '/web',
-                            arguments: {'url': droneUrl, 'title': droneTitle});
-                      });
-                    });
-                  },
-                ),
+                Showcase(
+                    key: _fourShowCase,
+                    targetBorderRadius: BorderRadius.circular(borderRadius),
+                    title: fourShowcaseDronePageTitle,
+                    description: fourShowcaseDronePageDescription,
+                    child: Button(
+                      color: secondaryColor,
+                      center: false,
+                      text: droneLearnMoreText,
+                      padding: const EdgeInsets.only(left: 15),
+                      borderRadius: BorderRadius.circular(borderRadius),
+                      icon: CustomIcon(
+                          name: 'read', size: 50, color: backgroundColor),
+                      onPressed: () {
+                        setState(() {
+                          setState(() {
+                            Navigator.pushNamed(context, '/web', arguments: {
+                              'url': droneUrl,
+                              'title': droneTitle
+                            });
+                          });
+                        });
+                      },
+                    )),
                 SizedBox(height: spaceBetweenWidgets / 2),
-                Button(
-                    color: secondaryColor,
-                    center: false,
-                    text: meetTheRoverText,
-                    padding: const EdgeInsets.only(left: 15),
-                    borderRadius: BorderRadius.circular(borderRadius),
-                    icon: CustomIcon(
-                        name: 'rover', size: 50, color: backgroundColor),
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushNamed(context, '/rover');
-                      });
-                    }),
+                Showcase(
+                    key: _fiveShowCase,
+                    targetBorderRadius: BorderRadius.circular(borderRadius),
+                    title: fiveShowcaseDronePageTitle,
+                    description: fiveShowcaseDronePageDescription,
+                    child: Button(
+                        color: secondaryColor,
+                        center: false,
+                        text: meetTheRoverText,
+                        padding: const EdgeInsets.only(left: 15),
+                        borderRadius: BorderRadius.circular(borderRadius),
+                        icon: CustomIcon(
+                            name: 'rover', size: 50, color: backgroundColor),
+                        onPressed: () {
+                          setState(() {
+                            Navigator.pushNamed(context, '/rover');
+                          });
+                        })),
               ],
             ),
           ),
@@ -124,53 +168,63 @@ class _DronePageState extends State<DronePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  titleDroneDescriptionText,
-                  style: middleTitle,
-                  textAlign: TextAlign.left,
-                ),
-                Text(droneIntroText, style: smallText),
-                SizedBox(height: spaceBetweenWidgets / 4),
-                Text(droneDescriptionText, style: smallText),
+                Showcase(
+                    key: _oneShowCase,
+                    targetBorderRadius: BorderRadius.circular(borderRadius),
+                    title: oneShowcaseDronePageTitle,
+                    description: oneShowcaseDronePageDescription,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            titleDroneDescriptionText,
+                            style: middleTitle,
+                            textAlign: TextAlign.left,
+                          ),
+                          Text(droneIntroText, style: smallText),
+                          SizedBox(height: spaceBetweenWidgets / 4),
+                          Text(droneDescriptionText, style: smallText),
+                        ])),
                 SizedBox(height: spaceBetweenWidgets / 4),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InfoBox(
-                        text: droneFirstDataValue,
-                        subText: droneFirstDataText),
+                        text: droneFirstDataValue, subText: droneFirstDataText),
                     InfoBox(
                         text: droneSecondDataValue,
                         subText: droneSecondDataText),
                     InfoBox(
-                        text: droneThirdDataValue,
-                        subText: droneThirdDataText),
+                        text: droneThirdDataValue, subText: droneThirdDataText),
                     InfoBox(
                         text: droneFourthDataValue,
                         subText: droneFourthDataText),
                     InfoBox(
-                        text: droneFifthDataValue,
-                        subText: droneFifthDataText),
+                        text: droneFifthDataValue, subText: droneFifthDataText),
                     InfoBox(
-                        text: droneSixthDataValue,
-                        subText: droneSixthDataText),
+                        text: droneSixthDataValue, subText: droneSixthDataText),
                   ],
                 ),
                 SizedBox(height: spaceBetweenWidgets / 4),
                 Expanded(
-                    child: Map(
-                        latitude: mapMarsCenterLat,
-                        longitude: mapMarsCenterLong,
-                        zoom: defaultMarsMapZoom,
-                        tilt: defaultMarsMapTilt,
-                        bearing: defaultMarsMapBearing,
-                        minMaxZoomPreference:
-                            const MinMaxZoomPreference(11, 14),
-                        bounds: roverLandingBounds,
-                        boost: defaultMarsMapBoost,
-                        orbitTilt: defaultMarsOrbitTilt,
-                        orbitRange: defaultMarsOrbitRange,
-                        kmlName: 'Drone')),
+                    child: Showcase(
+                        key: _threeShowCase,
+                        targetBorderRadius: BorderRadius.circular(borderRadius),
+                        title: threeShowcaseDronePageTitle,
+                        description: threeShowcaseDronePageDescription,
+                        child: Map(
+                            latitude: mapMarsCenterLat,
+                            longitude: mapMarsCenterLong,
+                            zoom: defaultMarsMapZoom,
+                            tilt: defaultMarsMapTilt,
+                            bearing: defaultMarsMapBearing,
+                            minMaxZoomPreference:
+                                const MinMaxZoomPreference(11, 14),
+                            bounds: roverLandingBounds,
+                            boost: defaultMarsMapBoost,
+                            orbitTilt: defaultMarsOrbitTilt,
+                            orbitRange: defaultMarsOrbitRange,
+                            kmlName: 'Drone'))),
               ],
             ),
           ),

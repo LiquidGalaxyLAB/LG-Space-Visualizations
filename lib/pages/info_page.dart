@@ -90,6 +90,11 @@ class _InfoPageState extends State<InfoPage> {
                   infoPageDescription,
                   style: middleText,
                 ),
+                const Spacer(),
+                Text(
+                  infoPageFooter,
+                  style: middleText,
+                ),
               ],
             ),
           ),

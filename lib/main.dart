@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lg_space_visualizations/utils/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 void main() {
   // Ensures that an instance of the widgets library is initialized.
@@ -34,23 +35,25 @@ class Launcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // Set a background image for the entire app.
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/background.jpg"),
-          fit: BoxFit.fill,
-        ),
-      ),
-      child: MaterialApp(
-        title: 'SpaceVisualizations',
-        // Set the app theme with a custom font.
-        theme: ThemeData(fontFamily: 'Forgotten Futurist'),
-        // Define the route generator function.
-        onGenerateRoute: makeRoute,
-        // Set the initial route to the splash screen.
-        initialRoute: '/splash',
-      ),
-    );
+    return ShowCaseWidget(
+        builder: (context) => Container(
+              // Set a background image for the entire app.
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/background.jpg"),
+                  fit: BoxFit.fill,
+                ),
+              ),
+              child: MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'SpaceVisualizations',
+                // Set the app theme with a custom font.
+                theme: ThemeData(fontFamily: 'Forgotten Futurist'),
+                // Define the route generator function.
+                onGenerateRoute: makeRoute,
+                // Set the initial route to the splash screen.
+                initialRoute: '/splash',
+              ),
+            ));
   }
 }

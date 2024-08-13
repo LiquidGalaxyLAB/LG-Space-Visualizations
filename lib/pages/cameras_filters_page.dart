@@ -8,6 +8,8 @@ import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_dialog.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
 import 'package:lg_space_visualizations/widget/pop_up.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 /// A page that allows users to filter camera images by date and number of photos.
 ///
@@ -43,6 +45,12 @@ class _CamerasFiltersPageState extends State<CamerasFiltersPage> {
   // Custom thumb shape for the range slider
   late IndicatorRangeSliderThumbShape<int> indicatorRangeSliderThumbShape;
 
+  /// The showcase keys
+  final GlobalKey _oneShowCase = GlobalKey();
+  final GlobalKey _twoShowCase = GlobalKey();
+  final GlobalKey _threeShowCase = GlobalKey();
+  final GlobalKey _fourShowCase = GlobalKey();
+
   @override
   void initState() {
     super.initState();
@@ -55,6 +63,17 @@ class _CamerasFiltersPageState extends State<CamerasFiltersPage> {
     indicatorRangeSliderThumbShape = IndicatorRangeSliderThumbShape(
         widget.filter.rangePhotosValuesStart,
         widget.filter.rangePhotosValuesEnd);
+
+    // Show the showcase tutorial if it's the first time the user opens the page
+    SharedPreferences.getInstance().then((prefs) {
+      if (prefs.getBool('showcaseCamerasFilterPage') ?? true) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ShowCaseWidget.of(context).startShowCase(
+              [_oneShowCase, _twoShowCase, _threeShowCase, _fourShowCase]);
+          prefs.setBool('showcaseCamerasFilterPage', false);
+        });
+      }
+    });
   }
 
   /// Displays a date picker dialog to select a date.
@@ -152,19 +171,24 @@ class _CamerasFiltersPageState extends State<CamerasFiltersPage> {
                     left: spaceBetweenWidgets,
                     right: spaceBetweenWidgets,
                     bottom: spaceBetweenWidgets / 2),
-                child: Row(
-                  children: [
-                    CustomIcon(
-                        name: 'startdate', size: 40, color: secondaryColor),
-                    SizedBox(width: spaceBetweenWidgets),
-                    _buildDateSelector('start', true, _selectedStartDate),
-                    SizedBox(width: 4 * spaceBetweenWidgets),
-                    CustomIcon(
-                        name: 'enddate', size: 40, color: secondaryColor),
-                    SizedBox(width: spaceBetweenWidgets),
-                    _buildDateSelector('end', false, _selectedEndDate),
-                  ],
-                )),
+                child: Showcase(
+                    key: _oneShowCase,
+                    targetBorderRadius: BorderRadius.circular(borderRadius),
+                    title: oneShowcaseCamerasFiltersTitle,
+                    description: oneShowcaseCamerasFiltersDescription,
+                    child: Row(
+                      children: [
+                        CustomIcon(
+                            name: 'startdate', size: 40, color: secondaryColor),
+                        SizedBox(width: spaceBetweenWidgets),
+                        _buildDateSelector('start', true, _selectedStartDate),
+                        SizedBox(width: 4 * spaceBetweenWidgets),
+                        CustomIcon(
+                            name: 'enddate', size: 40, color: secondaryColor),
+                        SizedBox(width: spaceBetweenWidgets),
+                        _buildDateSelector('end', false, _selectedEndDate),
+                      ],
+                    ))),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text(filterPhotoNumberText, style: middleTitle),
               Button(
@@ -191,28 +215,34 @@ class _CamerasFiltersPageState extends State<CamerasFiltersPage> {
                 offset: const Offset(0, -10),
                 child: Divider(color: grey, thickness: 1)),
             SizedBox(height: spaceBetweenWidgets / 4),
-            SliderTheme(
-                data: SliderThemeData(
-                  showValueIndicator: ShowValueIndicator.never,
-                  rangeThumbShape: indicatorRangeSliderThumbShape,
-                ),
-                child: RangeSlider(
-                  values: _currentRangeValues,
-                  onChanged: (values) {
-                    indicatorRangeSliderThumbShape.start = values.start.toInt();
-                    indicatorRangeSliderThumbShape.end = values.end.toInt();
-                    setState(() => _currentRangeValues = values);
-                  },
-                  activeColor: secondaryColor,
-                  inactiveColor: secondaryColor.withOpacity(0.5),
-                  max: divisions.toDouble(),
-                  min: 1,
-                  divisions: divisions,
-                  labels: RangeLabels(
-                    _currentRangeValues.start.round().toString(),
-                    _currentRangeValues.end.round().toString(),
-                  ),
-                )),
+            Showcase(
+                key: _twoShowCase,
+                targetBorderRadius: BorderRadius.circular(borderRadius),
+                title: twoShowcaseCamerasFiltersTitle,
+                description: twoShowcaseCamerasFiltersDescription,
+                child: SliderTheme(
+                    data: SliderThemeData(
+                      showValueIndicator: ShowValueIndicator.never,
+                      rangeThumbShape: indicatorRangeSliderThumbShape,
+                    ),
+                    child: RangeSlider(
+                      values: _currentRangeValues,
+                      onChanged: (values) {
+                        indicatorRangeSliderThumbShape.start =
+                            values.start.toInt();
+                        indicatorRangeSliderThumbShape.end = values.end.toInt();
+                        setState(() => _currentRangeValues = values);
+                      },
+                      activeColor: secondaryColor,
+                      inactiveColor: secondaryColor.withOpacity(0.5),
+                      max: divisions.toDouble(),
+                      min: 1,
+                      divisions: divisions,
+                      labels: RangeLabels(
+                        _currentRangeValues.start.round().toString(),
+                        _currentRangeValues.end.round().toString(),
+                      ),
+                    ))),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -243,28 +273,38 @@ class _CamerasFiltersPageState extends State<CamerasFiltersPage> {
             Transform.translate(
                 offset: const Offset(0, -10),
                 child: Divider(color: grey, thickness: 1)),
-            _buildCameraGrid(),
+            Showcase(
+                key: _threeShowCase,
+                targetBorderRadius: BorderRadius.circular(borderRadius),
+                title: threeShowcaseCamerasFiltersTitle,
+                description: threeShowcaseCamerasFiltersDescription,
+                child: _buildCameraGrid()),
             const Spacer(),
-            Button(
-              color: secondaryColor,
-              padding: EdgeInsets.only(
-                  top: spaceBetweenWidgets / 4,
-                  bottom: spaceBetweenWidgets / 4),
-              text: showResultButtonText,
-              borderRadius: BorderRadius.circular(borderRadius),
-              icon:
-                  CustomIcon(name: 'search', size: 40, color: backgroundColor),
-              onPressed: () {
-                Filter.storeFilter(
-                    _currentRangeValues.start.round(),
-                    _currentRangeValues.end.round(),
-                    _selectedStartDate,
-                    _selectedEndDate,
-                    _selectedCameras);
-                Navigator.removeRoute(context, ModalRoute.of(context)!);
-                Navigator.pushReplacementNamed(context, '/cameras');
-              },
-            )
+            Showcase(
+                key: _fourShowCase,
+                targetBorderRadius: BorderRadius.circular(borderRadius),
+                title: fourShowcaseCamerasFiltersTitle,
+                description: fourShowcaseCamerasFiltersDescription,
+                child: Button(
+                  color: secondaryColor,
+                  padding: EdgeInsets.only(
+                      top: spaceBetweenWidgets / 4,
+                      bottom: spaceBetweenWidgets / 4),
+                  text: showResultButtonText,
+                  borderRadius: BorderRadius.circular(borderRadius),
+                  icon: CustomIcon(
+                      name: 'search', size: 40, color: backgroundColor),
+                  onPressed: () {
+                    Filter.storeFilter(
+                        _currentRangeValues.start.round(),
+                        _currentRangeValues.end.round(),
+                        _selectedStartDate,
+                        _selectedEndDate,
+                        _selectedCameras);
+                    Navigator.removeRoute(context, ModalRoute.of(context)!);
+                    Navigator.pushReplacementNamed(context, '/cameras');
+                  },
+                ))
           ],
         ),
       ),

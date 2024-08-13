@@ -6,6 +6,8 @@ import 'package:lg_space_visualizations/utils/text_constants.dart';
 import 'package:lg_space_visualizations/widget/button.dart';
 import 'package:lg_space_visualizations/widget/custom_dialog.dart';
 import 'package:lg_space_visualizations/widget/custom_icon.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 /// A [ServicesPage] widget for managing services related to the Liquid Galaxy system.
 ///
@@ -18,6 +20,26 @@ class ServicesPage extends StatefulWidget {
 }
 
 class _ServicesPageState extends State<ServicesPage> {
+  /// The showcase keys
+  final GlobalKey _oneShowCase = GlobalKey();
+  final GlobalKey _twoShowCase = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Show the showcase tutorial if it's the first time the user opens the page
+    SharedPreferences.getInstance().then((prefs) {
+      if (prefs.getBool('showcaseServicesPage') ?? true) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ShowCaseWidget.of(context)
+              .startShowCase([_oneShowCase, _twoShowCase]);
+          prefs.setBool('showcaseServicesPage', false);
+        });
+      }
+    });
+  }
+
   /// Displays a dialog indicating that the Liquid Galaxy is not connected.
   void showNotConnectedDialog(BuildContext context) {
     showDialog(
@@ -49,153 +71,164 @@ class _ServicesPageState extends State<ServicesPage> {
               right: spaceBetweenWidgets,
               bottom: spaceBetweenWidgets,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Row(
+            child: Showcase(
+                key: _oneShowCase,
+                targetBorderRadius: BorderRadius.circular(borderRadius),
+                title: oneShowcaseServicesPageTitle,
+                description: oneShowcaseServicesPageDescription,
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildServiceButton(
-                      context,
-                      icon: 'relaunch',
-                      text: relaunchTitle,
-                      onPressed: () async {
-                        if (await lgConnection.isConnected()) {
-                          lgConnection.relaunch();
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomDialog(
-                                title: relaunchMessageTitle,
-                                content: relaunchSuccessMessage,
-                                iconName: 'relaunch',
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Showcase(
+                            key: _twoShowCase,
+                            targetBorderRadius:
+                                BorderRadius.circular(borderRadius),
+                            title: twoShowcaseServicesPageTitle,
+                            description: twoShowcaseServicesPageDescription,
+                            child: _buildServiceButton(
+                              context,
+                              icon: 'relaunch',
+                              text: relaunchTitle,
+                              onPressed: () async {
+                                if (await lgConnection.isConnected()) {
+                                  lgConnection.relaunch();
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CustomDialog(
+                                        title: relaunchMessageTitle,
+                                        content: relaunchSuccessMessage,
+                                        iconName: 'relaunch',
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  showNotConnectedDialog(context);
+                                }
+                              },
+                            )),
+                        _buildServiceButton(
+                          context,
+                          icon: 'clear',
+                          text: clearKmlTitle,
+                          onPressed: () async {
+                            if (await lgConnection.isConnected()) {
+                              lgConnection.clearKml(keepLogos: true);
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return CustomDialog(
+                                    title: clearKmlMessageTitle,
+                                    content: clearKmlSuccessMessage,
+                                    iconName: 'clear',
+                                  );
+                                },
                               );
-                            },
-                          );
-                        } else {
-                          showNotConnectedDialog(context);
-                        }
-                      },
+                            } else {
+                              showNotConnectedDialog(context);
+                            }
+                          },
+                        ),
+                        _buildServiceButton(
+                          context,
+                          icon: 'reboot',
+                          text: rebootTitle,
+                          onPressed: () async {
+                            if (await lgConnection.isConnected()) {
+                              lgConnection.reboot();
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return CustomDialog(
+                                    title: rebootMessageTitle,
+                                    content: rebootSuccessMessage,
+                                    iconName: 'reboot',
+                                  );
+                                },
+                              );
+                            } else {
+                              showNotConnectedDialog(context);
+                            }
+                          },
+                        ),
+                      ],
                     ),
-                    _buildServiceButton(
-                      context,
-                      icon: 'clear',
-                      text: clearKmlTitle,
-                      onPressed: () async {
-                        if (await lgConnection.isConnected()) {
-                          lgConnection.clearKml(keepLogos: true);
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomDialog(
-                                title: clearKmlMessageTitle,
-                                content: clearKmlSuccessMessage,
-                                iconName: 'clear',
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildServiceButton(
+                          context,
+                          icon: 'shutdown',
+                          text: shutdownTitle,
+                          onPressed: () async {
+                            if (await lgConnection.isConnected()) {
+                              lgConnection.shutdown();
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return CustomDialog(
+                                    title: shutdownMessageTitle,
+                                    content: shutdownSuccessMessage,
+                                    iconName: 'shutdown',
+                                  );
+                                },
                               );
-                            },
-                          );
-                        } else {
-                          showNotConnectedDialog(context);
-                        }
-                      },
-                    ),
-                    _buildServiceButton(
-                      context,
-                      icon: 'reboot',
-                      text: rebootTitle,
-                      onPressed: () async {
-                        if (await lgConnection.isConnected()) {
-                          lgConnection.reboot();
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomDialog(
-                                title: rebootMessageTitle,
-                                content: rebootSuccessMessage,
-                                iconName: 'reboot',
+                            } else {
+                              showNotConnectedDialog(context);
+                            }
+                          },
+                        ),
+                        _buildServiceButton(
+                          context,
+                          icon: 'see',
+                          text: showLogosTitle,
+                          onPressed: () async {
+                            if (await lgConnection.isConnected()) {
+                              lgConnection.showLogos();
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return CustomDialog(
+                                    title: showLogosMessageTitle,
+                                    content: showLogosSuccessMessage,
+                                    iconName: 'see',
+                                  );
+                                },
                               );
-                            },
-                          );
-                        } else {
-                          showNotConnectedDialog(context);
-                        }
-                      },
+                            } else {
+                              showNotConnectedDialog(context);
+                            }
+                          },
+                        ),
+                        _buildServiceButton(
+                          context,
+                          icon: 'hide',
+                          text: hideLogosTitle,
+                          onPressed: () async {
+                            if (await lgConnection.isConnected()) {
+                              lgConnection.clearKml(keepLogos: false);
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return CustomDialog(
+                                    title: hideLogosMessageTitle,
+                                    content: hideLogosSuccessMessage,
+                                    iconName: 'hide',
+                                  );
+                                },
+                              );
+                            } else {
+                              showNotConnectedDialog(context);
+                            }
+                          },
+                        ),
+                      ],
                     ),
                   ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _buildServiceButton(
-                      context,
-                      icon: 'shutdown',
-                      text: shutdownTitle,
-                      onPressed: () async {
-                        if (await lgConnection.isConnected()) {
-                          lgConnection.shutdown();
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomDialog(
-                                title: shutdownMessageTitle,
-                                content: shutdownSuccessMessage,
-                                iconName: 'shutdown',
-                              );
-                            },
-                          );
-                        } else {
-                          showNotConnectedDialog(context);
-                        }
-                      },
-                    ),
-                    _buildServiceButton(
-                      context,
-                      icon: 'see',
-                      text: showLogosTitle,
-                      onPressed: () async {
-                        if (await lgConnection.isConnected()) {
-                          lgConnection.showLogos();
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomDialog(
-                                title: showLogosMessageTitle,
-                                content: showLogosSuccessMessage,
-                                iconName: 'see',
-                              );
-                            },
-                          );
-                        } else {
-                          showNotConnectedDialog(context);
-                        }
-                      },
-                    ),
-                    _buildServiceButton(
-                      context,
-                      icon: 'hide',
-                      text: hideLogosTitle,
-                      onPressed: () async {
-                        if (await lgConnection.isConnected()) {
-                          lgConnection.clearKml(keepLogos: false);
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomDialog(
-                                title: hideLogosMessageTitle,
-                                content: hideLogosSuccessMessage,
-                                iconName: 'hide',
-                              );
-                            },
-                          );
-                        } else {
-                          showNotConnectedDialog(context);
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                )),
           ),
         ),
       ],
