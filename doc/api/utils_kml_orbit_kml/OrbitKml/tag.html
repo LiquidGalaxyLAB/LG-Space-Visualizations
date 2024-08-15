@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the tag method from the OrbitKml class, for the Dart programming language.">
+  <title>tag method - OrbitKml class - orbit_kml library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">lg_space_visualizations</a></li>
+    <li><a href="../../utils_kml_orbit_kml/utils_kml_orbit_kml-library.html">utils&#47;kml&#47;orbit_kml.dart</a></li>
+    <li><a href="../../utils_kml_orbit_kml/OrbitKml-class.html">OrbitKml</a></li>
+    <li class="self-crumb">tag static method</li>
+  </ol>
+  <div class="self-name">tag</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button" title="Toggle brightness">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        dark_mode
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        light_mode
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="utils_kml_orbit_kml&#47;OrbitKml-class-sidebar.html"
+    data-below-sidebar="">
+    <div>
+<h1><span class="kind-method">tag</span> static method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype">dynamic</span>
+<span class="name ">tag</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="tag-param-latitude"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">latitude</span>, </span></li>
+<li><span class="parameter" id="tag-param-longitude"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">longitude</span>, </span></li>
+<li><span class="parameter" id="tag-param-range"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">range</span>, </span></li>
+<li><span class="parameter" id="tag-param-tilt"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">tilt</span>, </span></li>
+<li><span class="parameter" id="tag-param-bearing"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">bearing</span>, </span></li>
+</ol>)
+
+      
+
+    </section>
+    
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">static tag(double latitude, double longitude, double range, double tilt,
+    double bearing) {
+  double heading = bearing;
+  int orbit = 0;
+  String content = &#39;&#39;;
+
+  while (orbit &lt;= 36) {
+    if (heading &gt;= 360) heading -= 360;
+    content += &#39;&#39;&#39;
+          &lt;gx:FlyTo&gt;
+            &lt;gx:duration&gt;1.2&lt;&#47;gx:duration&gt;
+            &lt;gx:flyToMode&gt;smooth&lt;&#47;gx:flyToMode&gt;
+            &lt;LookAt&gt;
+                &lt;longitude&gt;$longitude&lt;&#47;longitude&gt;
+                &lt;latitude&gt;$latitude&lt;&#47;latitude&gt;
+                &lt;heading&gt;$heading&lt;&#47;heading&gt;
+                &lt;tilt&gt;$tilt&lt;&#47;tilt&gt;
+                &lt;range&gt;$range&lt;&#47;range&gt;
+                &lt;altitude&gt;0&lt;&#47;altitude&gt;
+                &lt;gx:altitudeMode&gt;relativeToGround&lt;&#47;gx:altitudeMode&gt;
+            &lt;&#47;LookAt&gt;
+          &lt;&#47;gx:FlyTo&gt;
+        &#39;&#39;&#39;;
+    heading += 10;
+    orbit += 1;
+  }
+
+  return content;
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">lg_space_visualizations</a></li>
+    <li><a href="../../utils_kml_orbit_kml/utils_kml_orbit_kml-library.html">orbit_kml</a></li>
+    <li><a href="../../utils_kml_orbit_kml/OrbitKml-class.html">OrbitKml</a></li>
+    <li class="self-crumb">tag static method</li>
+</ol>
+
+
+    <h5>OrbitKml class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+</div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    lg_space_visualizations
+      1.0.0+1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

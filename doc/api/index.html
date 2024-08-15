@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="lg_space_visualizations API docs, for the Dart programming language.">
+  <title>lg_space_visualizations - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li class="self-crumb">lg_space_visualizations package</li>
+  </ol>
+  <div class="self-name">lg_space_visualizations</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button" title="Toggle brightness">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        dark_mode
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        light_mode
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <h1 id="-space-visualizations-for-liquid-galaxy">🚀 Space Visualizations for Liquid Galaxy</h1>
+<h2 id="table-of-contents">📄Table of Contents</h2>
+<ul>
+<li><a href="#-about">📚 About</a></li>
+<li><a href="#-requirements">📝 Requirements</a></li>
+<li><a href="#-building-from-source">👨‍💻 Building from source</a></li>
+<li><a href="#-connecting-to-LG">🌐 Connecting to Liquid Galaxy</a></li>
+</ul>
+<p><a name="-about"></a></p>
+<h2 id="-about">📚 About</h2>
+<p>Space Visualizations for Liquid Galaxy is an application that showcases the <a href="https://science.nasa.gov/mission/mars-2020-perseverance/">Mars 2020</a> NASA mission and some of the most famous Earth orbits. The application uses the <a href="https://www.liquidgalaxy.eu">Liquid Galaxy</a> platform to provide immersive space exploration experiences. In the Mars mission section, users can interactively learn about the mission by visualizing 3D models, technical data, and the path of the Perseverance rover and Ingenuity drone. Users can see Mars from the perspective of the Perseverance rover with more than 220000 photos available. The photos can also be displayed on all Liquid Galaxy screens, providing a very immersive experience.</p>
+<p>In the Earth orbit section, a list of orbits can be displayed in both the application and, with a realistic representation, on Liquid Galaxy Google Earth. Users can interact with these orbits and learn more about them.</p>
+<p>This project has been started as a <a href="https://summerofcode.withgoogle.com/about">Google Summer of Code</a> 2024 project with the Liquid Galaxy Org.
+Developed by Mattia Baggini
+Mentor: Victor Sanchez
+Liquid Galaxy Org Director: Andreu Ibañez</p>
+<p><a name="-requirements"></a></p>
+<h2 id="-requirements">📝 Requirements</h2>
+<ol>
+<li>
+<p><strong>Device Compatibility:</strong></p>
+<ul>
+<li>The application requires an Android tablet running <strong>Android 13 (API level 33)</strong> or higher.</li>
+</ul>
+</li>
+<li>
+<p><strong>Liquid Galaxy Integration (Optional):</strong></p>
+<ul>
+<li>To fully utilize the Liquid Galaxy features, ensure that the <strong>Liquid Galaxy core</strong> is installed. For detailed installation instructions, please refer to the <a href="https://github.com/LiquidGalaxyLAB/liquid-galaxy">Liquid Galaxy repository</a>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Displaying Rover Photos on Liquid Galaxy (Optional):</strong></p>
+<ul>
+<li>To enable the display of rover photos on the Liquid Galaxy screens, install the <strong>display_images_service</strong>. For more information and installation guidelines, visit the <a href="https://github.com/0xbaggi/display_images_service">display_images_service repository</a>.</li>
+</ul>
+</li>
+</ol>
+<p><a name="-building-from-source"></a></p>
+<h2 id="-building-from-source">👨‍💻 Building from source</h2>
+<p>First, open a new terminal and clone the repository with the command:</p>
+<pre class="language-bash"><code class="language-bash">git clone https://github.com/LiquidGalaxyLAB/LG-Space-Visualizations.git
+</code></pre>
+<p>To use the Google Maps widget, you'll need to set up an API key for the <a href="https://developers.google.com/maps/documentation/android-sdk/overview">Google Maps SDK</a>. Follow these steps:</p>
+<ol>
+<li>Obtain a Google Maps API Key by following the instructions <a href="https://developers.google.com/maps/documentation/android-sdk/get-api-key">here</a>.</li>
+<li>Once you have the API key, navigate to the <code>android/app/main</code> directory within the cloned repository.</li>
+<li>Open the <strong>AndroidManifest.xml</strong> file in a text editor.</li>
+<li>Locate the following section in the <strong>AndroidManifest.xml</strong> file:</li>
+</ol>
+<pre class="language-XML"><code class="language-XML">   &lt;meta-data
+       android:name="com.google.android.geo.API_KEY"
+       android:value="YOUR_API_KEY" /&gt;
+</code></pre>
+<p>Now we can run the application, follow these steps:</p>
+<ol>
+<li>Navigate to the project directory:
+<pre class="language-bash"><code class="language-bash">cd LG-Space-Visualizations
+</code></pre>
+</li>
+<li>Install the necessary dependencies:
+<pre class="language-bash"><code class="language-bash">flutter pub get
+</code></pre>
+</li>
+<li>Launch the app:
+<pre class="language-bash"><code class="language-bash">flutter run
+</code></pre>
+</li>
+</ol>
+<blockquote>
+<p>❗ <strong>Important:</strong> Ensure you have a tablet device connected or an Android tablet emulator running before executing the <code>flutter run</code> command.</p>
+</blockquote>
+<p><a name="-connecting-to-LG"></a></p>
+<h2 id="-connecting-to-liquid-galaxy">🌐 Connecting to Liquid Galaxy</h2>
+<ol>
+<li><strong>Open the Application</strong>: Launch the application on your device and go to the settings page.
+<img src="assets/readme_images/usage1.png" alt="usage1"></li>
+<li><strong>Enter Liquid Galaxy Details</strong>: Insert your Liquid Galaxy information into the form and click "Connect"
+<img src="assets/readme_images/usage2.png" alt="usage2"></li>
+<li><strong>Confirmation</strong>: If a confirmation message appears, your application is successfully connected!
+<img src="assets/readme_images/usage3.png" alt="usage3"></li>
+</ol>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="main">
+  <span class="name"><a href="main/main-library.html">main</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="cameras_filters_page">
+  <span class="name"><a href="pages_cameras_filters_page/pages_cameras_filters_page-library.html">pages/cameras_filters_page</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="cameras_images_page">
+  <span class="name"><a href="pages_cameras_images_page/pages_cameras_images_page-library.html">pages/cameras_images_page</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="cameras_page">
+  <span class="name"><a href="pages_cameras_page/pages_cameras_page-library.html">pages/cameras_page</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="drone_page">
+  <span class="name"><a href="pages_drone_page/pages_drone_page-library.html">pages/drone_page</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="home_page">
+  <span class="name"><a href="pages_home_page/pages_home_page-library.html">pages/home_page</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="info_page">
+  <span class="name"><a href="pages_info_page/pages_info_page-library.html">pages/info_page</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="mars_page">
+  <span class="name"><a href="pages_mars_page/pages_mars_page-library.html">pages/mars_page</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="orbit_page">
+  <span class="name"><a href="pages_orbit_page/pages_orbit_page-library.html">pages/orbit_page</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="orbits_page">
+  <span class="name"><a href="pages_orbits_page/pages_orbits_page-library.html">pages/orbits_page</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="rover_page">
+  <span class="name"><a href="pages_rover_page/pages_rover_page-library.html">pages/rover_page</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="services_page">
+  <span class="name"><a href="pages_services_page/pages_services_page-library.html">pages/services_page</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="settings_page">
+  <span class="name"><a href="pages_settings_page/pages_settings_page-library.html">pages/settings_page</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="splash_screen">
+  <span class="name"><a href="pages_splash_screen/pages_splash_screen-library.html">pages/splash_screen</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="template_page">
+  <span class="name"><a href="pages_template_page/pages_template_page-library.html">pages/template_page</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="web_page">
+  <span class="name"><a href="pages_web_page/pages_web_page-library.html">pages/web_page</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="constants">
+  <span class="name"><a href="utils_constants/utils_constants-library.html">utils/constants</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="filter">
+  <span class="name"><a href="utils_filter/utils_filter-library.html">utils/filter</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="ballon_maker">
+  <span class="name"><a href="utils_kml_ballon_maker/utils_kml_ballon_maker-library.html">utils/kml/ballon_maker</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="kml_makers">
+  <span class="name"><a href="utils_kml_kml_makers/utils_kml_kml_makers-library.html">utils/kml/kml_makers</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="orbit_kml">
+  <span class="name"><a href="utils_kml_orbit_kml/utils_kml_orbit_kml-library.html">utils/kml/orbit_kml</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="lg_connection">
+  <span class="name"><a href="utils_lg_connection/utils_lg_connection-library.html">utils/lg_connection</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="nasa_api">
+  <span class="name"><a href="utils_nasa_api/utils_nasa_api-library.html">utils/nasa_api</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="orbit">
+  <span class="name"><a href="utils_orbit/utils_orbit-library.html">utils/orbit</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="routes">
+  <span class="name"><a href="utils_routes/utils_routes-library.html">utils/routes</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="rover_photo">
+  <span class="name"><a href="utils_rover_photo/utils_rover_photo-library.html">utils/rover_photo</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="sol_day">
+  <span class="name"><a href="utils_sol_day/utils_sol_day-library.html">utils/sol_day</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="ssh_connection">
+  <span class="name"><a href="utils_ssh_connection/utils_ssh_connection-library.html">utils/ssh_connection</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="styles">
+  <span class="name"><a href="utils_styles/utils_styles-library.html">utils/styles</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="text_constants">
+  <span class="name"><a href="utils_text_constants/utils_text_constants-library.html">utils/text_constants</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="bottom_bar">
+  <span class="name"><a href="widget_bottom_bar/widget_bottom_bar-library.html">widget/bottom_bar</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="button">
+  <span class="name"><a href="widget_button/widget_button-library.html">widget/button</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="custom_dialog">
+  <span class="name"><a href="widget_custom_dialog/widget_custom_dialog-library.html">widget/custom_dialog</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="custom_icon">
+  <span class="name"><a href="widget_custom_icon/widget_custom_icon-library.html">widget/custom_icon</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="custom_scrollbar">
+  <span class="name"><a href="widget_custom_scrollbar/widget_custom_scrollbar-library.html">widget/custom_scrollbar</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="days_list">
+  <span class="name"><a href="widget_days_list/widget_days_list-library.html">widget/days_list</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="image_button">
+  <span class="name"><a href="widget_image_button/widget_image_button-library.html">widget/image_button</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="info_box">
+  <span class="name"><a href="widget_info_box/widget_info_box-library.html">widget/info_box</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="input">
+  <span class="name"><a href="widget_input/widget_input-library.html">widget/input</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="led_status">
+  <span class="name"><a href="widget_led_status/widget_led_status-library.html">widget/led_status</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="loading_indicator">
+  <span class="name"><a href="widget_loading_indicator/widget_loading_indicator-library.html">widget/loading_indicator</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="logo">
+  <span class="name"><a href="widget_logo/widget_logo-library.html">widget/logo</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="map">
+  <span class="name"><a href="widget_map/widget_map-library.html">widget/map</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="orbit_box">
+  <span class="name"><a href="widget_orbit_box/widget_orbit_box-library.html">widget/orbit_box</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="pop_up">
+  <span class="name"><a href="widget_pop_up/widget_pop_up-library.html">widget/pop_up</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="top_bar">
+  <span class="name"><a href="widget_top_bar/widget_top_bar-library.html">widget/top_bar</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="view_model">
+  <span class="name"><a href="widget_view_model/widget_view_model-library.html">widget/view_model</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+        </dl>
+      </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li class="self-crumb">lg_space_visualizations package</li>
+</ol>
+
+
+    <h5 class="hidden-xs"><span class="package-name">lg_space_visualizations</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="main/main-library.html">main</a></li>
+      <li><a href="pages_cameras_filters_page/pages_cameras_filters_page-library.html">pages/cameras_filters_page</a></li>
+      <li><a href="pages_cameras_images_page/pages_cameras_images_page-library.html">pages/cameras_images_page</a></li>
+      <li><a href="pages_cameras_page/pages_cameras_page-library.html">pages/cameras_page</a></li>
+      <li><a href="pages_drone_page/pages_drone_page-library.html">pages/drone_page</a></li>
+      <li><a href="pages_home_page/pages_home_page-library.html">pages/home_page</a></li>
+      <li><a href="pages_info_page/pages_info_page-library.html">pages/info_page</a></li>
+      <li><a href="pages_mars_page/pages_mars_page-library.html">pages/mars_page</a></li>
+      <li><a href="pages_orbit_page/pages_orbit_page-library.html">pages/orbit_page</a></li>
+      <li><a href="pages_orbits_page/pages_orbits_page-library.html">pages/orbits_page</a></li>
+      <li><a href="pages_rover_page/pages_rover_page-library.html">pages/rover_page</a></li>
+      <li><a href="pages_services_page/pages_services_page-library.html">pages/services_page</a></li>
+      <li><a href="pages_settings_page/pages_settings_page-library.html">pages/settings_page</a></li>
+      <li><a href="pages_splash_screen/pages_splash_screen-library.html">pages/splash_screen</a></li>
+      <li><a href="pages_template_page/pages_template_page-library.html">pages/template_page</a></li>
+      <li><a href="pages_web_page/pages_web_page-library.html">pages/web_page</a></li>
+      <li><a href="utils_constants/utils_constants-library.html">utils/constants</a></li>
+      <li><a href="utils_filter/utils_filter-library.html">utils/filter</a></li>
+      <li><a href="utils_kml_ballon_maker/utils_kml_ballon_maker-library.html">utils/kml/ballon_maker</a></li>
+      <li><a href="utils_kml_kml_makers/utils_kml_kml_makers-library.html">utils/kml/kml_makers</a></li>
+      <li><a href="utils_kml_orbit_kml/utils_kml_orbit_kml-library.html">utils/kml/orbit_kml</a></li>
+      <li><a href="utils_lg_connection/utils_lg_connection-library.html">utils/lg_connection</a></li>
+      <li><a href="utils_nasa_api/utils_nasa_api-library.html">utils/nasa_api</a></li>
+      <li><a href="utils_orbit/utils_orbit-library.html">utils/orbit</a></li>
+      <li><a href="utils_routes/utils_routes-library.html">utils/routes</a></li>
+      <li><a href="utils_rover_photo/utils_rover_photo-library.html">utils/rover_photo</a></li>
+      <li><a href="utils_sol_day/utils_sol_day-library.html">utils/sol_day</a></li>
+      <li><a href="utils_ssh_connection/utils_ssh_connection-library.html">utils/ssh_connection</a></li>
+      <li><a href="utils_styles/utils_styles-library.html">utils/styles</a></li>
+      <li><a href="utils_text_constants/utils_text_constants-library.html">utils/text_constants</a></li>
+      <li><a href="widget_bottom_bar/widget_bottom_bar-library.html">widget/bottom_bar</a></li>
+      <li><a href="widget_button/widget_button-library.html">widget/button</a></li>
+      <li><a href="widget_custom_dialog/widget_custom_dialog-library.html">widget/custom_dialog</a></li>
+      <li><a href="widget_custom_icon/widget_custom_icon-library.html">widget/custom_icon</a></li>
+      <li><a href="widget_custom_scrollbar/widget_custom_scrollbar-library.html">widget/custom_scrollbar</a></li>
+      <li><a href="widget_days_list/widget_days_list-library.html">widget/days_list</a></li>
+      <li><a href="widget_image_button/widget_image_button-library.html">widget/image_button</a></li>
+      <li><a href="widget_info_box/widget_info_box-library.html">widget/info_box</a></li>
+      <li><a href="widget_input/widget_input-library.html">widget/input</a></li>
+      <li><a href="widget_led_status/widget_led_status-library.html">widget/led_status</a></li>
+      <li><a href="widget_loading_indicator/widget_loading_indicator-library.html">widget/loading_indicator</a></li>
+      <li><a href="widget_logo/widget_logo-library.html">widget/logo</a></li>
+      <li><a href="widget_map/widget_map-library.html">widget/map</a></li>
+      <li><a href="widget_orbit_box/widget_orbit_box-library.html">widget/orbit_box</a></li>
+      <li><a href="widget_pop_up/widget_pop_up-library.html">widget/pop_up</a></li>
+      <li><a href="widget_top_bar/widget_top_bar-library.html">widget/top_bar</a></li>
+      <li><a href="widget_view_model/widget_view_model-library.html">widget/view_model</a></li>
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+
+</main>
+
+<footer>
+  <span class="no-break">
+    lg_space_visualizations
+      1.0.0+1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+
