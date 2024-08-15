@@ -147,7 +147,6 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   /// Handles camera movement events.
   /// This method ensures the camera's target stays within predefined bounds.
   Future<void> _onCameraMove(CameraPosition position) async {
-    print('Camera moved to: ${position.target}');
     if (widget.bounds == null) {
       // Update the widget's state to reflect the new or adjusted camera position
       widget.longitude = position.target.longitude;
