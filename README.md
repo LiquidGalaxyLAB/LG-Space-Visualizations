@@ -73,8 +73,8 @@ Now we can run the application, follow these steps:
 ## 🌐 Connecting to Liquid Galaxy
 
 1. **Open the Application**: Launch the application on your device and go to the settings page.
-![usage1](assets/readme_images/usage1.png)
+![usage1](https://github.com/LiquidGalaxyLAB/LG-Space-Visualizations/blob/development/assets/readme_images/usage1.png?raw=true)
 2. **Enter Liquid Galaxy Details**: Insert your Liquid Galaxy information into the form and click "Connect"
-![usage2](assets/readme_images/usage2.png)
+![usage2](https://github.com/LiquidGalaxyLAB/LG-Space-Visualizations/blob/development/assets/readme_images/usage2.png?raw=true)
 3. **Confirmation**: If a confirmation message appears, your application is successfully connected!
-![usage3](assets/readme_images/usage3.png)
+![usage3](https://github.com/LiquidGalaxyLAB/LG-Space-Visualizations/blob/development/assets/readme_images/usage3.png?raw=true)
