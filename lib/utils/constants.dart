@@ -5,9 +5,9 @@ import 'package:lg_space_visualizations/utils/orbit.dart';
 String lgUrl = 'lg1:81';
 
 /// Images url
-String logosUrl = 'https://i.imghippo.com/files/UUb3O1722252489.png';
-String droneImageUrl = 'https://i.imghippo.com/files/aFyNQ1722252440.jpg';
-String roverImageUrl = 'https://i.imghippo.com/files/repop1722252628.png';
+String logosUrl = 'https://github.com/LiquidGalaxyLAB/LG-Space-Visualizations/blob/900f21b5406e6cc23772d91825216a2805f7289c/assets/images/lg_logos.png?raw=true';
+String droneImageUrl = 'https://github.com/LiquidGalaxyLAB/LG-Space-Visualizations/blob/900f21b5406e6cc23772d91825216a2805f7289c/assets/images/drone_wallpaper.png?raw=true';
+String roverImageUrl = 'https://github.com/LiquidGalaxyLAB/LG-Space-Visualizations/blob/900f21b5406e6cc23772d91825216a2805f7289c/assets/images/rover_wallpaper.png?raw=true';
 
 /// Web url
 String missionOverviewUrl = 'https://mars.nasa.gov/mars2020/';
