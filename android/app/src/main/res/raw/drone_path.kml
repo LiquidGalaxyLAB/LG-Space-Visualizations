@@ -56,7 +56,7 @@
 		<IconStyle>
 			<scale>2.4</scale>
 			<Icon>
-				<href>https://i.imghippo.com/files/qS8kB1719649598.png</href>
+				<href>https://github.com/LiquidGalaxyLAB/LG-Space-Visualizations/blob/development/assets/images/drone_icon.png?raw=true</href>
 			</Icon>
 			<hotSpot x="0.5" y="0.5" xunits="fraction" yunits="fraction"/>
 		</IconStyle>
@@ -75,7 +75,7 @@
 		<IconStyle>
 			<scale>2.4</scale>
 			<Icon>
-				<href>https://i.imghippo.com/files/qS8kB1719649598.png</href>
+				<href>https://github.com/LiquidGalaxyLAB/LG-Space-Visualizations/blob/development/assets/images/drone_icon.png?raw=true</href>
 			</Icon>
 			<hotSpot x="0.5" y="0.5" xunits="fraction" yunits="fraction"/>
 		</IconStyle>
@@ -112,7 +112,7 @@
 		<name>background</name>
 		<drawOrder>-1</drawOrder>
 		<Icon>
-			<href>https://i.imghippo.com/files/aPDHh1719476035.png</href>
+			<href>https://github.com/LiquidGalaxyLAB/LG-Space-Visualizations/blob/development/assets/images/jezero_crater.png?raw=true</href>
 			<viewBoundScale>0.75</viewBoundScale>
 		</Icon>
 		<LatLonBox>
