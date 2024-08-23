@@ -200,27 +200,45 @@ class _OrbitPageState extends State<OrbitPage> {
 ///
 /// Returns a list of [LatLng] points representing the path.
 Future<List<LatLng>> parseKmlFromAssets(String assetPath) async {
+  // Load the KML file as a string from the asset path provided
   final xmlString = await rootBundle.loadString(assetPath);
+
+  // Initialize an empty list to store the parsed coordinates as LatLng objects
   List<LatLng> path = [];
 
-  // Update the regular expression to handle namespaces
+  // Regular expression to find all <coordinates> tags and capture the content between them
   RegExp exp = RegExp(r'<coordinates[^>]*>(.*?)<\/coordinates>', dotAll: true);
+
+  // Find all matches of the regular expression in the XML string
   var matches = exp.allMatches(xmlString);
 
+  // Loop through all matches (each match represents a set of coordinates)
   for (var match in matches) {
+    // Extract the coordinate string from the match (group 1 captures the contents of the <coordinates> tag)
     String coordinateString = match.group(1) ?? "";
+
+    // Split the coordinate string into individual coordinate pairs (separated by whitespace)
     List<String> coordinatePairs = coordinateString.split(RegExp(r'\s+'));
 
+    // Loop through each coordinate pair
     for (String pair in coordinatePairs) {
+      // Split the coordinate pair into individual components (longitude, latitude, and possibly altitude)
       List<String> coords = pair.split(',');
+
+      // Check if the pair contains at least a longitude and latitude
       if (coords.length >= 2) {
+        // Try to parse the longitude and latitude as double values
         double? longitude = double.tryParse(coords[0].trim());
         double? latitude = double.tryParse(coords[1].trim());
+
+        // If both latitude and longitude are valid numbers, add them as a LatLng object to the path list
         if (latitude != null && longitude != null) {
           path.add(LatLng(latitude, longitude));
         }
       }
     }
   }
+
+  // Return the list of parsed LatLng objects
   return path;
 }

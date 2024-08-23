@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the storeFilter method from the Filter class, for the Dart programming language.">
+  <title>storeFilter method - Filter class - filter library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">lg_space_visualizations</a></li>
+    <li><a href="../utils_filter-library.html">utils&#47;filter.dart</a></li>
+    <li><a href="../Filter-class.html">Filter</a></li>
+    <li class="self-crumb">storeFilter static method</li>
+  </ol>
+  <div class="self-name">storeFilter</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button" title="Toggle brightness">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        dark_mode
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        light_mode
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="utils_filter&#47;Filter-class-sidebar.html"
+    data-below-sidebar="">
+    <div>
+<h1><span class="kind-method">storeFilter</span> static method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+<span class="name ">storeFilter</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="storeFilter-param-rangePhotosValuesStart"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">rangePhotosValuesStart</span>, </span></li>
+<li><span class="parameter" id="storeFilter-param-rangePhotosValuesEnd"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">rangePhotosValuesEnd</span>, </span></li>
+<li><span class="parameter" id="storeFilter-param-startDate"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/DateTime-class.html">DateTime</a></span> <span class="parameter-name">startDate</span>, </span></li>
+<li><span class="parameter" id="storeFilter-param-endDate"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/DateTime-class.html">DateTime</a></span> <span class="parameter-name">endDate</span>, </span></li>
+<li><span class="parameter" id="storeFilter-param-cameras"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">cameras</span>, </span></li>
+</ol>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Stores the filter settings in shared preferences</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">static Future&lt;void&gt; storeFilter(
+    int rangePhotosValuesStart,
+    int rangePhotosValuesEnd,
+    DateTime startDate,
+    DateTime endDate,
+    List&lt;String&gt; cameras) async {
+  &#47;&#47; Getting an instance of SharedPreferences
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  &#47;&#47; Storing the starting range of photo values
+  prefs.setInt(&#39;rangePhotosValuesStart&#39;, rangePhotosValuesStart);
+
+  &#47;&#47; Storing the ending range of photo values
+  prefs.setInt(&#39;rangePhotosValuesEnd&#39;, rangePhotosValuesEnd);
+
+  &#47;&#47; Storing the start date
+  prefs.setString(&#39;startDate&#39;, startDate.toIso8601String());
+
+  &#47;&#47; Storing the end date
+  prefs.setString(&#39;endDate&#39;, endDate.toIso8601String());
+
+  &#47;&#47; Storing the list of selected cameras
+  prefs.setStringList(&#39;cameras&#39;, cameras);
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">lg_space_visualizations</a></li>
+    <li><a href="../utils_filter-library.html">filter</a></li>
+    <li><a href="../Filter-class.html">Filter</a></li>
+    <li class="self-crumb">storeFilter static method</li>
+</ol>
+
+
+    <h5>Filter class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+</div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    lg_space_visualizations
+      1.0.0+1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

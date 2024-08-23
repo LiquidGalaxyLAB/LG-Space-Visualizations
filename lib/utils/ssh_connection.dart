@@ -205,7 +205,7 @@ class SSHConnection {
   /// [screenNumber] is the screen number.
   /// [kml] is the KML content to send.
   Future<void> sendKMLToSlave(int screenNumber, String kml) async {
-    if (isConnected() == false) {
+    if (await isConnected() == false) {
       return;
     }
 

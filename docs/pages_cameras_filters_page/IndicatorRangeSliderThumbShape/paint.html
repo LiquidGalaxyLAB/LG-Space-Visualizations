@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the paint method from the IndicatorRangeSliderThumbShape class, for the Dart programming language.">
+  <title>paint method - IndicatorRangeSliderThumbShape class - cameras_filters_page library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">lg_space_visualizations</a></li>
+    <li><a href="../pages_cameras_filters_page-library.html">pages&#47;cameras_filters_page.dart</a></li>
+    <li><a href="../IndicatorRangeSliderThumbShape-class.html">IndicatorRangeSliderThumbShape<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></a></li>
+    <li class="self-crumb">paint method</li>
+  </ol>
+  <div class="self-name">paint</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button" title="Toggle brightness">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        dark_mode
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        light_mode
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="pages_cameras_filters_page&#47;IndicatorRangeSliderThumbShape-class-sidebar.html"
+    data-below-sidebar="">
+    <div>
+<h1><span class="kind-method">paint</span> method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+  <div>
+    <ol class="annotation-list">
+        <li>@<a href="https://api.flutter.dev/flutter/dart-core/override-constant.html">override</a></li>
+    </ol>
+  </div>
+
+<span class="returntype">void</span>
+<span class="name ">paint</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="paint-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/rendering/PaintingContext-class.html">PaintingContext</a></span> <span class="parameter-name">context</span>, </span></li>
+<li><span class="parameter" id="paint-param-center"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-ui/Offset-class.html">Offset</a></span> <span class="parameter-name">center</span>, {</span></li>
+<li><span class="parameter" id="paint-param-activationAnimation"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/animation/Animation-class.html">Animation</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span> <span class="parameter-name">activationAnimation</span>, </span></li>
+<li><span class="parameter" id="paint-param-enableAnimation"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/animation/Animation-class.html">Animation</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span> <span class="parameter-name">enableAnimation</span>, </span></li>
+<li><span class="parameter" id="paint-param-isDiscrete"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a>?</span> <span class="parameter-name">isDiscrete</span>, </span></li>
+<li><span class="parameter" id="paint-param-isEnabled"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a>?</span> <span class="parameter-name">isEnabled</span>, </span></li>
+<li><span class="parameter" id="paint-param-isOnTop"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a>?</span> <span class="parameter-name">isOnTop</span>, </span></li>
+<li><span class="parameter" id="paint-param-textDirection"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-ui/TextDirection.html">TextDirection</a>?</span> <span class="parameter-name">textDirection</span>, </span></li>
+<li><span class="parameter" id="paint-param-sliderTheme"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/material/SliderThemeData-class.html">SliderThemeData</a></span> <span class="parameter-name">sliderTheme</span>, </span></li>
+<li><span class="parameter" id="paint-param-thumb"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/material/Thumb.html">Thumb</a>?</span> <span class="parameter-name">thumb</span>, </span></li>
+<li><span class="parameter" id="paint-param-isPressed"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a>?</span> <span class="parameter-name">isPressed</span>, </span></li>
+</ol>})
+
+      <div class="features"><span class="feature">override</span></div>
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Paints the thumb shape based on the state passed to it.</p>
+<p>The <code>context</code> argument represents the <a href="https://api.flutter.dev/flutter/material/RangeSlider-class.html">RangeSlider</a>'s render box.</p>
+<p>The <code>center</code> argument is the offset for where this shape's center should be
+painted. This offset is relative to the origin of the <code>context</code> canvas.</p>
+<p>The <code>activationAnimation</code> argument is an animation triggered when the user
+begins to interact with the <a href="https://api.flutter.dev/flutter/material/RangeSlider-class.html">RangeSlider</a>. It reverses when the user stops
+interacting with the slider.</p>
+<p>The <code>enableAnimation</code> argument is an animation triggered when the
+<a href="https://api.flutter.dev/flutter/material/RangeSlider-class.html">RangeSlider</a> is enabled, and it reverses when the slider is disabled. The
+<a href="https://api.flutter.dev/flutter/material/RangeSlider-class.html">RangeSlider</a> is enabled when <a href="https://api.flutter.dev/flutter/material/RangeSlider/onChanged.html">RangeSlider.onChanged</a> is not null. Use
+this to paint intermediate frames for this shape when the slider changes
+enabled state.</p>
+<p>The <code>isDiscrete</code> argument is true if <a href="https://api.flutter.dev/flutter/material/RangeSlider/divisions.html">RangeSlider.divisions</a> is non-null.
+When true, the slider will render tick marks on top of the track.</p>
+<p>The <code>isEnabled</code> argument is false when <a href="https://api.flutter.dev/flutter/material/RangeSlider/onChanged.html">RangeSlider.onChanged</a> is null and
+true otherwise. When true, the slider will respond to input.</p>
+<p>If the <code>isOnTop</code> argument is true, this thumb is painted on top of the
+other slider thumb because this thumb is the one that was most recently
+selected.</p>
+<p>The <code>sliderTheme</code> argument is the theme assigned to the <a href="https://api.flutter.dev/flutter/material/RangeSlider-class.html">RangeSlider</a> that
+this shape belongs to.</p>
+<p>The <code>textDirection</code> argument can be used to determine how the orientation
+of either slider thumb should be changed, such as drawing different
+shapes for the left and right thumb.</p>
+<p>The <code>thumb</code> argument is the specifier for which of the two thumbs this
+method should paint (start or end).</p>
+<p>The <code>isPressed</code> argument can be used to give the selected thumb
+additional selected or pressed state visual feedback, such as a larger
+shadow.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">@override
+void paint(
+  PaintingContext context,
+  Offset center, {
+  required Animation&lt;double&gt; activationAnimation,
+  required Animation&lt;double&gt; enableAnimation,
+  bool? isDiscrete,
+  bool? isEnabled,
+  bool? isOnTop,
+  TextDirection? textDirection,
+  required SliderThemeData sliderTheme,
+  Thumb? thumb,
+  bool? isPressed,
+}) {
+  final Canvas canvas = context.canvas;
+  final Paint strokePaint = Paint()
+    ..color = secondaryColor
+    ..strokeWidth = 4.5
+    ..style = PaintingStyle.stroke;
+  canvas.drawCircle(center, 10, Paint()..color = backgroundColor);
+  canvas.drawCircle(center, 10, strokePaint);
+  if (thumb == null) {
+    return;
+  }
+  final value = thumb == Thumb.start ? start : end;
+  labelTextPainter.text = TextSpan(
+      text: value.toString(),
+      style: TextStyle(fontSize: 15, color: primaryColor));
+  labelTextPainter.layout();
+  labelTextPainter.paint(
+      canvas,
+      center.translate(
+          -labelTextPainter.width &#47; 2, labelTextPainter.height * -2));
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">lg_space_visualizations</a></li>
+    <li><a href="../pages_cameras_filters_page-library.html">cameras_filters_page</a></li>
+    <li><a href="../IndicatorRangeSliderThumbShape-class.html">IndicatorRangeSliderThumbShape<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></a></li>
+    <li class="self-crumb">paint method</li>
+</ol>
+
+
+    <h5>IndicatorRangeSliderThumbShape class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+</div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    lg_space_visualizations
+      1.0.0+1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

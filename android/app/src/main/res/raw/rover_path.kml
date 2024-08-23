@@ -17,7 +17,7 @@
 		<IconStyle>
 			<scale>2.88</scale>
 			<Icon>
-				<href>https://i.imghippo.com/files/GZF4q1719472671.png</href>
+				<href>https://github.com/LiquidGalaxyLAB/LG-Space-Visualizations/blob/development/assets/images/rover_icon.png?raw=true</href>
 			</Icon>
 		</IconStyle>
 	</Style>
@@ -25,7 +25,7 @@
 		<IconStyle>
 			<scale>2.4</scale>
 			<Icon>
-				<href>https://i.imghippo.com/files/GZF4q1719472671.png</href>
+				<href>https://github.com/LiquidGalaxyLAB/LG-Space-Visualizations/blob/development/assets/images/rover_icon.png?raw=true</href>
 			</Icon>
 		</IconStyle>
 	</Style>
@@ -61,7 +61,7 @@
 		<name>background</name>
 		<drawOrder>-1</drawOrder>
 		<Icon>
-			<href>https://i.imghippo.com/files/aPDHh1719476035.png</href>
+			<href>https://github.com/LiquidGalaxyLAB/LG-Space-Visualizations/blob/development/assets/images/jezero_crater.png?raw=true</href>
 			<viewBoundScale>0.75</viewBoundScale>
 		</Icon>
 		<LatLonBox>
